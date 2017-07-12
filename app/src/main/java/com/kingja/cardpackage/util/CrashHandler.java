@@ -27,7 +27,7 @@ import java.util.Date;
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static CrashHandler mCrashHandler;
     public static final String LOG_DIR = "WLogs";
-    public static final String LOG_FILENAME = "CrashLogs.txt";
+    public static final String LOG_FILENAME = "WisdomE.txt";
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     private Context context;
     private File mLogDir;

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 
+import com.kingja.cardpackage.util.CrashHandler;
+
 import org.xutils.BuildConfig;
 import org.xutils.x;
 
@@ -25,6 +27,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashHandler.getInstance().init(this);
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.
 //            // You should not init your app in this process.
