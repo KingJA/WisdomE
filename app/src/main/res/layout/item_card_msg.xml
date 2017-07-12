@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <RelativeLayout
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:id="@+id/iv_alarmType"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/circle_blue" />
+
+        <TextView
+            android:id="@+id/tv_alarmType"
+            android:layout_centerInParent="true"
+            style="@style/font_f_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="类型" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_alarmType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_alarm">
+
+            <TextView
+
+                android:id="@+id/tv_card_type"
+                style="@style/font_3_15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="类型" />
+
+            <TextView
+                android:id="@+id/tv_alarm_time"
+                style="@style/font_9_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="" />
+        </RelativeLayout>
+
+        <TextView
+            android:maxLines="2"
+            android:id="@+id/tv_alarm_msg"
+            style="@style/font_6_15_multi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_alarmType"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/iv_alarm"
+            android:text="具体内容" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_readed"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/shape_cycler_tip" />
+
+</LinearLayout>

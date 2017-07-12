@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kingja.recyclerviewhelper.DrawHelperLayout
+    android:id="@+id/drawHelperLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_state"
+            style="@style/font_blue_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="有效"
+            />
+
+        <TextView
+            android:id="@+id/tv_plateNumber"
+            style="@style/font_3_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="www"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="64dp"
+        android:layout_height="match_parent"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/tv_delete"
+            style="@style/font_f_15"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/bg_red"
+            android:gravity="center"
+            android:text="删除"/>
+    </LinearLayout>
+</com.kingja.recyclerviewhelper.DrawHelperLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@color/bg_white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:background="@color/gray"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <com.kingja.ui.wheelview.WheelView
+            android:id="@+id/wv_carSelector"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+    </LinearLayout>
+</LinearLayout>

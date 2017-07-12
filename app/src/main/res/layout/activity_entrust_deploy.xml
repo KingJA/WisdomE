@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <ProgressBar
+        android:id="@+id/pb"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:progressDrawable="@drawable/progressbar_color" />
+    <WebView
+        android:id="@+id/wb_entrust_deploy"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+    </WebView>
+
+    <View style="@style/divider_nomal_horizontal"/>
+
+    <RelativeLayout
+        android:paddingLeft="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <android.support.v7.widget.AppCompatCheckBox
+
+            android:id="@+id/cb_entrust_deploy"
+            style="@style/font_3_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="同意委托布防协议内容"/>
+
+
+        <TextView
+            android:id="@+id/tv_entrust_deploy"
+            style="@style/font_f_15"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="end"
+            android:background="@color/bg_blue"
+            android:gravity="center"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:text="开启"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

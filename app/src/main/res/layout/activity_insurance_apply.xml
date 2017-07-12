@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <com.kingja.ui.RequiredTextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="车牌号码" />
+
+        <EditText
+            android:id="@+id/et_carNum"
+            style="@style/edit_cursor_blue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7"
+            android:background="@null"
+            android:hint="请输入车牌号码" />
+
+
+    </LinearLayout>
+
+    <View style="@style/divider_nomal_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <com.kingja.ui.RequiredTextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="车主姓名" />
+
+        <EditText
+            android:id="@+id/et_ownerName"
+            style="@style/edit_cursor_blue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7"
+            android:background="@null"
+            android:hint="请输入车主姓名" />
+
+
+    </LinearLayout>
+
+    <View style="@style/divider_nomal_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <com.kingja.ui.RequiredTextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="证件号码" />
+
+        <EditText
+            android:id="@+id/et_ownerCardId"
+            style="@style/edit_cursor_blue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7"
+            android:background="@null"
+            android:hint="请输入车主证件号码" />
+
+
+    </LinearLayout>
+
+    <View style="@style/divider_nomal_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <com.kingja.ui.RequiredTextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="手机号码" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7">
+
+            <EditText
+                android:id="@+id/et_ownerPhone"
+                style="@style/edit_cursor_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入手机号码" />
+
+            <TextView
+                android:id="@+id/tv_getCheckCode"
+                style="@style/font_blue_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="获取验证码" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View style="@style/divider_nomal_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <com.kingja.ui.RequiredTextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="验证码" />
+
+        <EditText
+            android:id="@+id/et_checkCode"
+            style="@style/edit_cursor_blue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7"
+            android:background="@null"
+            android:hint="请输入验证码" />
+
+
+    </LinearLayout>
+
+    <View style="@style/divider_nomal_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <com.kingja.ui.RequiredTextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="银行卡账号" />
+
+        <EditText
+            android:id="@+id/et_bankNum"
+            style="@style/edit_cursor_blue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7"
+            android:background="@null"
+            android:hint="请输入银行卡账号" />
+
+
+    </LinearLayout>
+ <View style="@style/divider_nomal_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <com.kingja.ui.RequiredTextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="银行卡户主" />
+
+        <EditText
+            android:id="@+id/et_bankOwnerName"
+            style="@style/edit_cursor_blue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7"
+            android:background="@null"
+            android:hint="请输入银行卡户主" />
+
+
+    </LinearLayout>
+
+    <View style="@style/divider_nomal_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="12dp">
+
+        <com.kingja.ui.RequiredTextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="证件照片" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7">
+
+            <ImageView
+                android:id="@+id/iv_click_idCard"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_add_pic"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/iv_idCard"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:scaleType="centerCrop" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View style="@style/divider_nomal_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="12dp">
+
+        <com.kingja.ui.RequiredTextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="银行卡照片" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7">
+
+            <ImageView
+                android:id="@+id/iv_click_bankCard"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_add_pic"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/iv_bankCard"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:scaleType="centerCrop" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <View style="@style/divider_nomal_horizontal" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <TextView
+            style="@style/font_3_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="备注" />
+
+        <EditText
+            android:id="@+id/et_remark"
+            style="@style/edit_cursor_blue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="7"
+            android:background="@null"
+            android:hint="(可选填)" />
+
+
+    </LinearLayout>
+
+    <View style="@style/divider_nomal_horizontal" />
+</LinearLayout>
+</ScrollView>

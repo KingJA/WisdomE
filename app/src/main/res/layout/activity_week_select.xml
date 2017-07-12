@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_gray_kj"
+              android:orientation="vertical">
+
+    <com.kingja.cardpackage.ui.FixedListView
+        android:id="@+id/lv_selector"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:divider="@color/gray_divider"
+        android:dividerHeight="1px"
+        tools:listitem="@layout/item_weekday"/>
+
+
+
+</LinearLayout>

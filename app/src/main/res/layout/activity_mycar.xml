@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/ll_root">
+
+    <LinearLayout
+        android:paddingBottom="24dp"
+        android:paddingTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_bufang"
+            style="@style/font_f_15"
+            android:layout_width="118dp"
+            android:layout_height="118dp"
+            android:background="@drawable/btn_open_bufang"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="布防设置" />
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_changeCar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_plateNumber"
+                style="@style/font_3_15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <ImageView
+                style="@style/font_9_12"
+                android:layout_width="16dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/btn_arrow_down"
+                android:enabled="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginTop="6dp"
+            android:id="@+id/ll_insuranceInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/font_9_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="保险理赔" />
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/btn_arrow_right" />
+        </LinearLayout>
+    </LinearLayout>
+    <View style="@style/divider_nomal_horizontal"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_carBind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="8dp"
+                android:text="车辆信息(点击车辆查看车辆详情)" />
+
+            <com.kingja.cardpackage.ui.FixedListView
+                android:id="@+id/lv_carBind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:divider="@color/bg_divider"
+                android:dividerHeight="1px" />
+
+            <TextView
+                android:id="@+id/tv_preRecord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="8dp"
+                android:text="预登记信息" />
+
+            <com.kingja.cardpackage.ui.FixedListView
+                android:id="@+id/lv_preRecord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:divider="@color/bg_divider"
+                android:dividerHeight="1px" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

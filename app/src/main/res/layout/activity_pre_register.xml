@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_carBrand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <com.kingja.ui.RequiredTextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="车辆品牌" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3">
+
+                <TextView
+                    android:hint="请选择车辆品牌"
+                    android:id="@+id/tv_carBrand"
+                    style="@style/font_9_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/arrow_right" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal" />
+
+        <LinearLayout
+            android:id="@+id/ll_carColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <com.kingja.ui.RequiredTextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="车辆主颜色" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3">
+
+                <TextView
+                    android:hint="请选择车辆主颜色"
+                    android:id="@+id/tv_carColor"
+                    style="@style/font_9_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/arrow_right" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <TextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="电机号" />
+
+            <EditText
+                android:enabled="false"
+                android:hint="请输入电机号"
+                android:id="@+id/et_machineNo"
+                style="@style/edit_cursor_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3" />
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <TextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="车架号" />
+
+            <EditText
+                android:enabled="false"
+                android:hint="请输入车架号"
+                android:id="@+id/et_cheJiaNo"
+                style="@style/edit_cursor_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3" />
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <com.kingja.ui.RequiredTextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="购买者姓名" />
+
+            <EditText
+                android:enabled="false"
+                android:hint="请输入购买者姓名"
+                android:id="@+id/et_buyerName"
+                style="@style/edit_cursor_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3" />
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal" />
+
+        <LinearLayout
+            android:id="@+id/ll_idCardType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <com.kingja.ui.RequiredTextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="证件类型" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3">
+
+                <TextView
+                    android:hint="请选择证件类型"
+                    android:id="@+id/tv_idCardType"
+                    style="@style/font_9_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/arrow_right" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <com.kingja.ui.RequiredTextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="证件号码" />
+
+            <EditText
+                android:enabled="false"
+                android:hint="请输入证件号码"
+                android:id="@+id/et_cardNo"
+                style="@style/edit_cursor_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3" />
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <com.kingja.ui.RequiredTextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="联系号码" />
+
+            <EditText
+                android:enabled="false"
+                android:hint="请输入联系号码"
+                android:id="@+id/et_phone"
+                style="@style/edit_cursor_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3" />
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <TextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="备用电话" />
+
+            <EditText
+                android:enabled="false"
+                android:hint="请输入备用电话"
+                android:id="@+id/et_readyPhone"
+                style="@style/edit_cursor_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3" />
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="1、提示车辆安装防盗产品时应提交身份证原件，车辆购买发票(如发票有假，一律不予理赔)。\n2、理赔时无发票，按旧车理赔。" />
+    </LinearLayout>
+
+</ScrollView>

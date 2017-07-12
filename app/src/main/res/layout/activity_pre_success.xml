@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray_kj"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="45dp">
+
+        <ImageView
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="@drawable/success_blue" />
+
+        <TextView
+            style="@style/font_blue_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="预登记成功" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_tj_site"
+            style="@style/font_9_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:background="@drawable/btn_blue_match"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="确定"
+        android:textColor="@color/bg_white" />
+
+</LinearLayout>

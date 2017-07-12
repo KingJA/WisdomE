@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.kingja.recyclerviewhelper.DrawHelperLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@id/tv_bufang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_lblue_bwhite_r2"
+                android:paddingBottom="4dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="4dp"
+                android:text="布防"
+                android:textColor="@color/bg_blue"
+                android:textSize="12sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_bufang"
+                android:gravity="center_vertical">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp">
+
+                    <TextView
+                        style="@style/font_f_15"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circle_blue"
+                        android:gravity="center"
+                        android:text="车辆"/>
+
+                    <ImageView
+                        android:id="@+id/iv_isRead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@mipmap/red_point"/>
+
+                </FrameLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_plateNumber"
+                    style="@style/font_3_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1253645"/>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_isAuto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/tv_auto_bufang"
+                    style="@style/font_blue_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="开启"/>
+
+                <TextView
+                    android:id="@+id/tv_auto_msg"
+                    style="@style/font_9_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@id/tv_auto_bufang"
+                    android:text="开启自动撤布防"/>
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/bg_gray_kj"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="64dp"
+        android:layout_height="match_parent"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/tv_delete"
+            style="@style/font_f_15"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/bg_red"
+            android:gravity="center"
+            android:text="删除"/>
+    </LinearLayout>
+</com.kingja.recyclerviewhelper.DrawHelperLayout>

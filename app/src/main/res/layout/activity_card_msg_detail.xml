@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="12dp">
+
+    <TextView
+        android:id="@+id/tv_alarmType"
+        style="@style/font_3_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="我的车"/>
+
+    <TextView
+        android:id="@+id/tv_alarmDate"
+        style="@style/font_9_12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="2017-11-12 10:22:33"/>
+
+    <TextView
+        android:id="@+id/tv_alarmContent"
+        style="@style/font_6_15_multi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="2017-11-12 10:22:33"/>
+
+
+</LinearLayout>

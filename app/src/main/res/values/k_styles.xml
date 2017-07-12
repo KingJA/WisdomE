@@ -1,0 +1,176 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:listDivider">@drawable/shape_divider</item>
+
+    </style>
+
+    <style name="font_3_15">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_3</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_6_15">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_6</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+
+    <style name="font_3_15_multi">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_3</item>
+    </style>
+
+    <style name="font_3_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/font_3</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_3_14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/font_3</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_9_15">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_9</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLength">32</item>
+
+    </style>
+
+    <style name="font_9_15_multi">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_9</item>
+
+    </style>
+
+    <style name="font_6_15_multi">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_6</item>
+    </style>
+
+    <style name="font_9_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/font_9</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_9_14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/font_9</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_0_20">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/font_0</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_0_18">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/font_0</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_0_15">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_0</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_f_20">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/font_f</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_f_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/font_f</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_f_10">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/font_f</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_6_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/font_6</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_f_15">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_f</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_n_15">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_c</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="font_red_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/bg_red</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+
+    <!--普通水平分割线-->
+    <style name="divider_nomal_horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/bg_divider</item>
+    </style>
+
+    <!--蓝色光标输入框-->
+    <style name="edit_cursor_blue">
+        <item name="android:textCursorDrawable">@drawable/et_cursor</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_9</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <!--搜索地址背景框-->
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/shape_lnull_bwhite_r8</item>
+        <item name="android:windowNoTitle">true</item>
+
+    </style>
+    <!--普通水平分割线-->
+    <style name="met_nomal">
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="com.tdr.wisdome:met_baseColor">@color/font_6</item>
+        <item name="com.tdr.wisdome:met_clearButton">true</item>
+        <item name="com.tdr.wisdome:met_floatingLabel">normal</item>
+        <item name="com.tdr.wisdome:met_primaryColor">@color/bg_blue</item>
+    </style>
+
+    <style name="normal_switch">
+        <!-- Active thumb color & Active track color(30% transparency) switch 打开时的拇指按钮的颜色 轨迹颜色默认为30%这个颜色 -->
+        <item name="colorControlActivated">@color/bg_blue</item>
+        <!-- Inactive thumb color switch关闭时的拇指按钮的颜色 -->
+        <item name="colorSwitchThumbNormal">@color/colorAccent</item>
+        <!-- Inactive track color(30% transparency) switch关闭时的轨迹的颜色  30%这个颜色 -->
+        <item name="android:colorForeground">@color/colorPrimaryDark</item>
+
+    </style>
+
+</resources>

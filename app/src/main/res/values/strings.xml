@@ -1,0 +1,110 @@
+<resources>
+    <string name="app_name">智慧e点通</string>
+    <string name="select_city">选择城市</string>
+    <string name="hot_city">热门城市</string>
+    <string name="located_city">定位城市</string>
+    <string name="hint_search_box">请输入城市名或拼音</string>
+    <string name="nothing_found">没有搜索结果~</string>
+    <string name="locating">正在定位…</string>
+    <string name="located_failed">定位失败</string>
+
+    <!-- camera -->
+    <string name="camera_open_error">相机权限未获取，请开启相机权限</string>
+    <string name="camera_indicator">请将身份证放入框内后拍照！</string>
+    <string name="camera_take_picture_error">拍照失败</string>
+
+    <!-- recognize -->
+    <string name="reco_dialog_title">提示</string>
+    <string name="reco_dialog_blur">图像无法识别，请将身份证水平放于框内进行拍摄</string>
+    <string name="reco_dialog_imei">该设备未授权！！！</string>
+    <string name="reco_dialog_cdma">请使用CDMA制式设备</string>
+    <string name="reco_dialog_time_out">引擎已过期！！</string>
+    <string name="reco_dialog_engine_init">引擎初始化失败！！</string>
+    <string name="reco_dialog_fail_copy">请勿使用复印件</string>
+    <string name="reco_dialog_licens">授权失败！</string>
+
+    <string name="setting">设置</string>
+    <string name="perm_tip">
+        当前应用缺少必要权限。\n请点击"设置"-"权限"-打开所需权限。\n最后点击两次后退按钮，即可返回。
+    </string>
+    <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
+    <string name="cancel">取消</string>
+    <string name="camera">请给予相机权限，才能正常使用扫一扫</string>
+    <string name="has_read_phone_permission">是否有读取设备信息权限</string>
+
+
+    <string name="fenju">分局</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact based on your message
+        history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value"/>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+</resources>

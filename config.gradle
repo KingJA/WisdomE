@@ -1,0 +1,9 @@
+ext {
+    android = [compileSdkVersion: 23,
+               appName          : "e卡通"
+
+    ]
+    dependencies = [
+                    "supportVersion"          : '24.2.0',
+                 ]
+}

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:background="@color/bg_gray_kj"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车辆车牌号" />
+
+                <TextView
+                    android:id="@+id/tv_carNo"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车辆品牌" />
+
+                <TextView
+                    android:id="@+id/tv_carBrand"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车辆主颜色" />
+
+                <TextView
+                    android:id="@+id/tv_carColor"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="电机号" />
+
+                <TextView
+                    android:id="@+id/tv_machineNo"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车架号" />
+
+                <TextView
+                    android:id="@+id/tv_cheJiaNo"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="证件类型" />
+
+                <TextView
+                    android:id="@+id/tv_idCarType"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="证件号码" />
+
+                <TextView
+                    android:id="@+id/et_cardNo"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系号码" />
+
+                <TextView
+                    android:id="@+id/et_phone"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="购买者姓名" />
+
+                <TextView
+                    android:id="@+id/tv_buyerName"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="购买时间" />
+
+                <TextView
+                    android:id="@+id/tv_buyerTime"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="购买价格" />
+
+                <TextView
+                    android:id="@+id/tv_buyerPrice"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保险购买时间" />
+
+                <TextView
+                    android:id="@+id/tv_insuranceBuyTime"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保险到期时间" />
+
+                <TextView
+                    android:id="@+id/tv_insuranceEndTime"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="理赔状态" />
+
+                <TextView
+                    android:id="@+id/tv_payStatus"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="WZ2154025" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/shape_lnull_bwhite_r8"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_carBinding"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="19dp"
+                android:src="@mipmap/image_carbinding"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="12.7dp"
+                android:gravity="center_vertical"
+                android:text="车辆绑定"
+                android:textColor="@color/colorInput"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal"/>
+
+        <LinearLayout
+            android:id="@+id/ll_preRegistration"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="19dp"
+                android:background="@mipmap/image_preregistration"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="12.7dp"
+                android:gravity="center_vertical"
+                android:text="  预登记"
+                android:textColor="@color/colorInput"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal"/>
+
+        <LinearLayout
+            android:id="@+id/ll_insurance"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="19dp"
+                android:background="@drawable/pop_insurance"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="12.7dp"
+                android:gravity="center_vertical"
+                android:text="  保险理赔"
+                android:textColor="@color/colorInput"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_invoice_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <LinearLayout
+                android:id="@+id/ll_invoice"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="19dp"
+                    android:background="@drawable/bg_invoice"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="12.7dp"
+                    android:gravity="center_vertical"
+                    android:text="  电子发票"
+                    android:textColor="@color/colorInput"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

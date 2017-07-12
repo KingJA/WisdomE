@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp">
+
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/head" />
+
+    <com.tdr.wisdome.view.material.MaterialEditText
+        style="@style/met_nomal"
+        android:layout_marginTop="70dp"
+        app:met_floatingLabelText="用户名"
+        android:id="@+id/met_name"
+        android:hint="用户名"/>
+
+    <com.tdr.wisdome.view.material.MaterialEditText
+        style="@style/met_nomal"
+        android:inputType="textPassword"
+        app:met_floatingLabelText="密码"
+        android:id="@+id/met_password"
+        android:hint="密码"/>
+
+    <TextView
+        android:id="@+id/tv_forgetPassword"
+        style="@style/font_9_12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="忘记密码?" />
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/btn_blue_match"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="登录"
+        android:textColor="@color/bg_white" />
+
+</LinearLayout>
