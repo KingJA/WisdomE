@@ -9,7 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.entiy.ErrorResult;
+import com.kingja.cardpackage.entiy.GetClaim;
 import com.kingja.cardpackage.entiy.GetClaimInfo;
+import com.kingja.cardpackage.entiy.GetClaimInfoList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.DataManager;
@@ -34,8 +36,7 @@ public class InsuranceStatusActivity extends BackTitleActivity {
     private TextView mTvOwnerPhone;
     private TextView mTvBankName;
     private TextView mTvBankNum;
-    private ImageView mIvCardId;
-    private ImageView mIvBankCard;
+    private ImageView mIvPhotoCert;
     private TextView mTvCompanyName;
     private TextView mTvClaimType;
     private TextView mTvClaimCost;
@@ -48,18 +49,18 @@ public class InsuranceStatusActivity extends BackTitleActivity {
     private TextView mTvStatus;
     private TextView mTvRemark;
     private String ecId;
-    private RelativeLayout mRlCardId;
-    private RelativeLayout mRlBankNum;
-    private String photoCard;
-    private String photoBankCard;
+    private RelativeLayout mRlPhotoCert;
     private String photoCert;
-    private RelativeLayout mRlCert;
-    private ImageView mIvCert;
+    private String pcsPhotoCERT;
+    private RelativeLayout mRlPCSPhotoCERT;
+    private ImageView mIvPCSPhotoCERT;
     private TextView mTvBankOwnerName;
+    private ImageView mIvBigImg;
 
 
     @Override
     protected void initVariables() {
+//        claimInfo = (GetClaimInfoList.ContentBean) getIntent().getSerializableExtra("GetClaimInfo");
         ecId = getIntent().getStringExtra("ecId");
     }
 
@@ -84,13 +85,11 @@ public class InsuranceStatusActivity extends BackTitleActivity {
         mTvRemark = (TextView) findViewById(R.id.tv_remark);
         mTvBankOwnerName = (TextView) findViewById(R.id.tv_bankOwnerName);
 
-        mIvCardId = (ImageView) findViewById(R.id.iv_cardId);
-        mIvBankCard = (ImageView) findViewById(R.id.iv_bankCard);
-        mIvCert = (ImageView) findViewById(R.id.iv_cert);
-
-        mRlCardId = (RelativeLayout) findViewById(R.id.rl_cardId);
-        mRlBankNum = (RelativeLayout) findViewById(R.id.rl_bankNum);
-        mRlCert = (RelativeLayout) findViewById(R.id.rl_cert);
+        mIvPhotoCert = (ImageView) findViewById(R.id.iv_PhotoCert);
+        mIvPCSPhotoCERT = (ImageView) findViewById(R.id.iv_PCSPhotoCERT);
+        mRlPhotoCert = (RelativeLayout) findViewById(R.id.rl_PhotoCert);
+        mRlPCSPhotoCERT = (RelativeLayout) findViewById(R.id.rl_PCSPhotoCERT);
+        mIvBigImg = (ImageView) findViewById(R.id.iv_bigImg);
     }
 
 
@@ -124,17 +123,18 @@ public class InsuranceStatusActivity extends BackTitleActivity {
 
     @Override
     protected void initData() {
-        mRlCardId.setOnClickListener(this);
-        mRlBankNum.setOnClickListener(this);
-        mRlCert.setOnClickListener(this);
+        mRlPhotoCert.setOnClickListener(this);
+        mRlPCSPhotoCERT.setOnClickListener(this);
+        mIvBigImg.setOnClickListener(this);
     }
 
     @Override
     protected void setData() {
         setTitle("理赔状态");
+//        setClaimInfo(claimInfo);
     }
 
-    private void setClaimInfo(GetClaimInfo.ContentBean claimInfo) {
+    private void setClaimInfo(GetClaim claimInfo) {
         mTvCarNum.setText(claimInfo.getPlateNumber());
         mTvOwnerName.setText(claimInfo.getOwnerName());
         mTvOwnerCardId.setText(claimInfo.getCardId());
@@ -153,31 +153,36 @@ public class InsuranceStatusActivity extends BackTitleActivity {
         mTvPayTime.setText(claimInfo.getClaimTime());
         mTvStatus.setText(getClaimStatus(claimInfo.getClaimState()));
         mTvRemark.setText(claimInfo.getDeclareRemark());
-        photoCard = claimInfo.getPhotoCert();
-        photoBankCard = claimInfo.getPhotoBankCard();
-        photoCert = claimInfo.getPCSPhotoCERT();
-        mIvCardId.setImageBitmap(ImageUtil.base64ToBitmap(photoCard));
-        mIvBankCard.setImageBitmap(ImageUtil.base64ToBitmap(photoBankCard));
-        mIvCert.setImageBitmap(ImageUtil.base64ToBitmap(photoCert));
+        photoCert = claimInfo.getPhotoCert();
+        pcsPhotoCERT = claimInfo.getPCSPhotoCERT();
+        mIvPhotoCert.setImageBitmap(ImageUtil.base64ToBitmap(photoCert));
+        mIvPCSPhotoCERT.setImageBitmap(ImageUtil.base64ToBitmap(pcsPhotoCERT));
     }
 
-    public static void goActivity(Context context, String ECID) {
+//    public static void goActivity(Context context, GetClaimInfoList.ContentBean bean) {
+//        Intent intent = new Intent(context, InsuranceStatusActivity.class);
+//        intent.putExtra("GetClaimInfo", bean);
+//        context.startActivity(intent);
+//
+//    }
+
+    public static void goActivity(Context context, String ecId) {
         Intent intent = new Intent(context, InsuranceStatusActivity.class);
-        intent.putExtra("ecId", ECID);
+        intent.putExtra("ecId", ecId);
         context.startActivity(intent);
 
     }
 
     public String getClaimStatus(int statusCode) {
         String claimStatus = "进行中";
-        Log.e(TAG, "statusCode: "+statusCode );
-        if (statusCode==1) {
+        Log.e(TAG, "statusCode: " + statusCode);
+        if (statusCode == 1) {
             claimStatus = "已上传证明";
-        } else if (statusCode==2) {
+        } else if (statusCode == 2) {
             claimStatus = "已申报理赔";
-        } else if (statusCode==3) {
+        } else if (statusCode == 3) {
             claimStatus = "超期未理赔";
-        } else if (statusCode==4) {
+        } else if (statusCode == 4) {
             claimStatus = "已理赔";
         }
         return claimStatus;
@@ -200,14 +205,16 @@ public class InsuranceStatusActivity extends BackTitleActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.rl_cardId:
-                BigImageActivity.goActivity(this, photoCard);
+            case R.id.rl_PhotoCert:
+                mIvBigImg.setVisibility(View.VISIBLE);
+                mIvBigImg.setImageBitmap(ImageUtil.base64ToBitmap(photoCert));
                 break;
-            case R.id.rl_bankNum:
-                BigImageActivity.goActivity(this, photoBankCard);
+            case R.id.rl_PCSPhotoCERT:
+                mIvBigImg.setVisibility(View.VISIBLE);
+                mIvBigImg.setImageBitmap(ImageUtil.base64ToBitmap(pcsPhotoCERT));
                 break;
-            case R.id.rl_cert:
-                BigImageActivity.goActivity(this, photoCert);
+            case R.id.iv_bigImg:
+                mIvBigImg.setVisibility(View.GONE);
                 break;
 
         }

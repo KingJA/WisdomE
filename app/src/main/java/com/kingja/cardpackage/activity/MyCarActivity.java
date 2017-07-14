@@ -344,7 +344,7 @@ public class MyCarActivity extends BackTitleActivity implements CarPop.OnCarPopC
                 break;
             case R.id.ll_insuranceInfo:
                 if (CheckUtil.checkEmpty(ecID, "暂时没有保险信息")) {
-                    InsuranceStatusActivity.goActivity(this, ecID);
+//                    InsuranceStatusActivity.goActivity(this, ecID);
                 }
 
                 break;

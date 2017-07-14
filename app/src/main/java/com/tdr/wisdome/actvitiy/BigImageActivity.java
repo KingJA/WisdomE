@@ -1,13 +1,12 @@
 package com.tdr.wisdome.actvitiy;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.view.View;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.kingja.cardpackage.activity.BackTitleActivity;
-import com.kingja.cardpackage.activity.InsuranceStatusActivity;
-import com.pizidea.imagepicker.ImageUtil;
 import com.tdr.wisdome.R;
 
 /**
@@ -18,12 +17,16 @@ import com.tdr.wisdome.R;
  */
 public class BigImageActivity extends BackTitleActivity {
 
+    private static String TAG = "BigImageActivity";
     private ImageView iv_big_image;
-    private String image;
+    private Bitmap image;
+    private Bitmap bitmap;
 
     @Override
     protected void initVariables() {
-        image = getIntent().getStringExtra("image");
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        bitmap = (Bitmap) b.getParcelable("bitmap");
     }
 
     @Override
@@ -43,17 +46,19 @@ public class BigImageActivity extends BackTitleActivity {
 
     @Override
     protected void initData() {
-        iv_big_image.setImageBitmap(ImageUtil.base64ToBitmap(image));
+        iv_big_image.setImageBitmap(bitmap);
     }
 
     @Override
     protected void setData() {
         setTitle("浏览大图");
     }
-    public static void goActivity(Activity activity, String image) {
-        Intent intent = new Intent(activity, BigImageActivity.class);
-        intent.putExtra("image", image);
-        activity.startActivity(intent);
 
+    public static void goActivity(Context context, Bitmap bitmap) {
+        Intent intent = new Intent(context, BigImageActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("bitmap", bitmap);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }

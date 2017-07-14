@@ -1,524 +1,563 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_gray_kj"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车牌号码"/>
+
+                <TextView
+                    android:id="@+id/tv_carNum"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车主姓名"/>
+
+                <TextView
+                    android:id="@+id/tv_ownerName"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车主证件号码"/>
+
+                <TextView
+                    android:id="@+id/tv_ownerCardId"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车主联系电话"/>
+
+                <TextView
+                    android:id="@+id/tv_ownerPhone"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <View
+                style="@style/divider_nomal_horizontal"
+                android:layout_marginTop="12dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="开户银行"/>
+
+                <TextView
+                    android:id="@+id/tv_bankName"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="银行卡户主"/>
+
+                <TextView
+                    android:id="@+id/tv_bankOwnerName"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="银行卡号"/>
+
+                <TextView
+                    android:id="@+id/tv_bankNum"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <View
+                style="@style/divider_nomal_horizontal"
+                android:layout_marginTop="12dp"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_PhotoCert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="理赔登记表"/>
+
+                <ImageView
+                    android:id="@+id/iv_arrow_cardId"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/arrow_right"/>
+
+                <ImageView
+                    android:id="@+id/iv_PhotoCert"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@id/iv_arrow_cardId"
+                    android:scaleType="centerCrop"/>
+
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_bankNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="银行卡照片"/>
+
+                <ImageView
+                    android:id="@+id/iv_arrow_bank"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/arrow_right"/>
+
+                <ImageView
+                    android:id="@+id/iv_bankCard"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@id/iv_arrow_bank"
+                    android:scaleType="centerCrop"/>
+
+
+            </RelativeLayout>
+            <!--        <View style="@style/divider_nomal_horizontal" />-->
+
+            <RelativeLayout
+                android:id="@+id/rl_PCSPhotoCERT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="未找回车辆证明照片"/>
+
+                <ImageView
+                    android:id="@+id/iv_arrow_cert"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/arrow_right"/>
+
+                <ImageView
+                    android:id="@+id/iv_PCSPhotoCERT"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@id/iv_arrow_cert"
+                    android:scaleType="centerCrop"/>
+
+
+            </RelativeLayout>
+
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <View
+                style="@style/divider_nomal_horizontal"
+                android:layout_marginTop="12dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保险公司"/>
+
+                <TextView
+                    android:id="@+id/tv_companyName"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保险险种"/>
+
+                <TextView
+                    android:id="@+id/tv_claimType"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保险金额"/>
+
+                <TextView
+                    android:id="@+id/tv_claimCost"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="开始时间"/>
+
+                <TextView
+                    android:id="@+id/tv_startTime"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="结束时间"/>
+
+                <TextView
+                    android:id="@+id/tv_endTime"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="被盗时间"/>
+
+                <TextView
+                    android:id="@+id/tv_stolenTime"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上传证明时间"/>
+
+                <TextView
+                    android:id="@+id/tv_uploadTime"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="申报时间"/>
+
+                <TextView
+                    android:id="@+id/tv_applyTime"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="理赔时间"/>
+
+                <TextView
+                    android:id="@+id/tv_payTime"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="理赔处理状态"/>
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp">
+
+                <TextView
+                    style="@style/font_3_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="申报理赔备注信息"/>
+
+                <TextView
+                    android:id="@+id/tv_remark"
+                    style="@style/font_9_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""/>
+            </RelativeLayout>
+
+            <View style="@style/divider_nomal_horizontal"/>
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+    <ImageView
+        android:id="@+id/iv_bigImg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/bg_gray_kj"
-        android:paddingBottom="20dp">
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="车牌号码" />
-
-            <TextView
-                android:id="@+id/tv_carNum"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="车主姓名" />
-
-            <TextView
-                android:id="@+id/tv_ownerName"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="车主证件号码" />
-
-            <TextView
-                android:id="@+id/tv_ownerCardId"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="车主联系电话" />
-
-            <TextView
-                android:id="@+id/tv_ownerPhone"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-        <View style="@style/divider_nomal_horizontal"
-            android:layout_marginTop="12dp"/>
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="开户银行" />
-
-            <TextView
-                android:id="@+id/tv_bankName"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>  <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="银行卡户主" />
-
-            <TextView
-                android:id="@+id/tv_bankOwnerName"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="银行卡号" />
-
-            <TextView
-                android:id="@+id/tv_bankNum"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-        <View style="@style/divider_nomal_horizontal"
-            android:layout_marginTop="12dp"/>
-        <RelativeLayout
-            android:background="@color/white"
-            android:id="@+id/rl_cardId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="理赔登记表" />
-            <ImageView
-                android:id="@+id/iv_arrow_cardId"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/arrow_right"
-                android:layout_width="15dp"
-                android:layout_height="15dp" />
-            <ImageView
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/iv_arrow_cardId"
-                android:id="@+id/iv_cardId"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop" />
-
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:visibility="gone"
-            android:background="@color/white"
-            android:id="@+id/rl_bankNum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="银行卡照片" />
-            <ImageView
-                android:id="@+id/iv_arrow_bank"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/arrow_right"
-                android:layout_width="15dp"
-                android:layout_height="15dp" />
-            <ImageView
-                android:id="@+id/iv_bankCard"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/iv_arrow_bank"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop" />
-
-
-        </RelativeLayout>
-<!--        <View style="@style/divider_nomal_horizontal" />-->
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:id="@+id/rl_cert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="未找回车辆证明照片" />
-            <ImageView
-                android:id="@+id/iv_arrow_cert"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/arrow_right"
-                android:layout_width="15dp"
-                android:layout_height="15dp" />
-            <ImageView
-                android:id="@+id/iv_cert"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/iv_arrow_cert"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop" />
-
-
-        </RelativeLayout>
-
-
-        <View style="@style/divider_nomal_horizontal" />
-        <View style="@style/divider_nomal_horizontal"
-            android:layout_marginTop="12dp"/>
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="保险公司" />
-
-            <TextView
-                android:id="@+id/tv_companyName"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>  <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="保险险种" />
-
-            <TextView
-                android:id="@+id/tv_claimType"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>  <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="保险金额" />
-
-            <TextView
-                android:id="@+id/tv_claimCost"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>  <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="开始时间" />
-
-            <TextView
-                android:id="@+id/tv_startTime"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>  <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="结束时间" />
-
-            <TextView
-                android:id="@+id/tv_endTime"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="被盗时间" />
-
-            <TextView
-                android:id="@+id/tv_stolenTime"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="上传证明时间" />
-
-            <TextView
-                android:id="@+id/tv_uploadTime"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="申报时间" />
-
-            <TextView
-                android:id="@+id/tv_applyTime"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="理赔时间" />
-
-            <TextView
-                android:id="@+id/tv_payTime"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="理赔处理状态" />
-
-            <TextView
-                android:id="@+id/tv_status"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-        <RelativeLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <TextView
-                style="@style/font_3_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="申报理赔备注信息" />
-
-            <TextView
-                android:id="@+id/tv_remark"
-                style="@style/font_9_15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="" />
-        </RelativeLayout>
-
-        <View style="@style/divider_nomal_horizontal" />
-
-    </LinearLayout>
-</ScrollView>
+        android:scaleType="centerCrop"
+        android:visibility="gone"/>
+</RelativeLayout>

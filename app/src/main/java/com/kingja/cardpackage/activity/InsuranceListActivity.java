@@ -6,6 +6,8 @@ import android.widget.LinearLayout;
 
 import com.kingja.cardpackage.adapter.InsuranceAdapter;
 import com.kingja.cardpackage.entiy.ErrorResult;
+import com.kingja.cardpackage.entiy.GetClaim;
+import com.kingja.cardpackage.entiy.GetClaimInfo;
 import com.kingja.cardpackage.entiy.GetClaimInfoList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
@@ -33,7 +35,7 @@ public class InsuranceListActivity extends BackTitleActivity {
     private LinearLayout mLlEmpty;
     private SwipeRefreshLayout mSrl;
     private PullToBottomRecyclerView mRv;
-    private List<GetClaimInfoList.ContentBean> mClaimInfos=new ArrayList<>();
+    private List<GetClaim> mClaimInfos=new ArrayList<>();
     private InsuranceAdapter mInsuranceAdapter;
 
 

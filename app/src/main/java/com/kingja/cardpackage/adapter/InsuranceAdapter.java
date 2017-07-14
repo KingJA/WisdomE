@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.activity.InsuranceStatusActivity;
+import com.kingja.cardpackage.entiy.GetClaim;
 import com.kingja.cardpackage.entiy.GetClaimInfoList;
 import com.kingja.recyclerviewhelper.BaseRvAdaper;
 import com.tdr.wisdome.R;
@@ -18,10 +19,10 @@ import java.util.List;
  * Author:KingJA
  * Email:kingjavip@gmail.com
  */
-public class InsuranceAdapter extends BaseRvAdaper<GetClaimInfoList.ContentBean> {
+public class InsuranceAdapter extends BaseRvAdaper<GetClaim> {
 
 
-    public InsuranceAdapter(Context context, List<GetClaimInfoList.ContentBean> list) {
+    public InsuranceAdapter(Context context, List<GetClaim> list) {
         super(context, list);
     }
 
@@ -36,7 +37,7 @@ public class InsuranceAdapter extends BaseRvAdaper<GetClaimInfoList.ContentBean>
     }
 
     @Override
-    protected void bindHolder(final ViewHolder baseHolder, final GetClaimInfoList.ContentBean bean, final int position) {
+    protected void bindHolder(final ViewHolder baseHolder, final GetClaim bean, final int position) {
         final ClaimInfoViewHolder holder = (ClaimInfoViewHolder) baseHolder;
                 holder.tv_plateNumber.setText(bean.getPlateNumber());
                 holder.tv_date.setText("申报时间: "+bean.getDeclareTime());

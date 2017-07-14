@@ -30,8 +30,8 @@ public class NewCarAlarmActivity extends BackTitleActivity {
     private LinearLayout mLlEmpty;
     private SwipeRefreshLayout mSrl;
     private PullToBottomRecyclerView mRv;
-    private List<GetClaimInfoList.ContentBean> mClaimInfos = new ArrayList<>();
-    private InsuranceAdapter mInsuranceAdapter;
+//    private List<GetClaimInfoList.ContentBean> mClaimInfos = new ArrayList<>();
+//    private InsuranceAdapter mInsuranceAdapter;
 
 
     @Override
