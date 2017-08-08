@@ -49,7 +49,7 @@ public class InvoiceAdapter extends BaseRvAdaper<GetInvoiceInfoList.ContentBean>
             @Override
             public void onClick(View v) {
 
-                DetailInvoiceActivity.goActivity(context, StringUtil.getWholeUrl(bean.getJPG_URL()));
+                DetailInvoiceActivity.goActivity(context,StringUtil.getWholeUrl( bean.getJPG_URL()));
             }
         });
     }

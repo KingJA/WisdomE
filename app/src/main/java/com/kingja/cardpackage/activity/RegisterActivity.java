@@ -324,7 +324,6 @@ public class RegisterActivity extends BackTitleActivity implements TextWatcher {
         if (timer != null) {
             timer.cancel();
         }
-
     }
 
     private void doLogin(String name, String password) {
