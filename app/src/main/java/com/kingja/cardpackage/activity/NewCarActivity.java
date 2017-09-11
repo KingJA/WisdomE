@@ -79,12 +79,9 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
     protected void initVariables() {
         Log.e(TAG, "initVariables: " );
         mZeusManager.checkPermissions(permissionArr, true);
-        Log.e(TAG, "1: " );
         autoDeployalbe = FunctionUtil.autoDeployalbe();
         showInvoicealbe = FunctionUtil.showInvoicealbe();
-        Log.e(TAG, "2: " );
         EventBus.getDefault().register(this);
-        Log.e(TAG, "3: " );
     }
 
     private void checkEntrustDeployAble() {
@@ -104,7 +101,6 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
 
     @Override
     protected void initContentView() {
-        Log.e(TAG, "initContentView: " );
         carPop = new CarPop(mRlTopMenu, this);
         carPop.setOnCarPopClickListener(this);
         carPop.setInvoiceVisibility(showInvoicealbe);
@@ -130,13 +126,11 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
 
     @Override
     protected int getBackContentView() {
-        Log.e(TAG, "getBackContentView: " );
         return R.layout.activity_new_car;
     }
 
     @Override
     protected void initNet() {
-        Log.e(TAG, "initNet: " );
         setProgressDialog(true, "检测品牌数据更新");
         String updateTime = "1990-01-01 00:00:01";
         if (TextUtils.isEmpty(DataManager.getLastCity()) || !(DataManager.getCityName().equals(DataManager
@@ -210,7 +204,6 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
 
     @Override
     protected void initData() {
-        Log.e(TAG, "initData: " );
         unbindDialog = DialogUtil.getDoubleDialog(NewCarActivity.this, "是否确定要解绑该车辆?",
                 "取消", "确定");
         setOnMenuClickListener(new OnMenuClickListener() {

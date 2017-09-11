@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+
+    <TextView
+        android:id="@+id/tv_nfcdevice"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/circle_blue"
+        android:gravity="center"
+        android:text="门"
+        android:textColor="#ffffff"/>
+
+    <TextView
+        android:id="@+id/tv_nfcDevice_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/tv_nfcdevice"
+        android:text="地址"/>
+
+    <ImageView
+        android:id="@+id/iv_flashlight"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@mipmap/flashlight"/>
+
+
+</RelativeLayout>

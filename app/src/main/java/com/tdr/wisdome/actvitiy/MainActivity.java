@@ -25,6 +25,7 @@ import com.kingja.cardpackage.activity.IntermediaryActivity;
 import com.kingja.cardpackage.activity.LoginActivity;
 import com.kingja.cardpackage.activity.MyMsgActivity;
 import com.kingja.cardpackage.activity.NewCarActivity;
+import com.kingja.cardpackage.activity.NfcRoomActivity;
 import com.kingja.cardpackage.activity.RentActivity;
 import com.kingja.cardpackage.activity.ShopActivity;
 import com.kingja.cardpackage.adapter.MainCardAdapter;
@@ -90,7 +91,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private String cityCode = "";//城市代码
     private final static int LOCKEY = 2003;
     public static List<String> mCardList = Arrays.asList("1001", "1002", "1003", "1004", "1005", "1006", "1007",
-            "1008");
+            "1008", "1009");
     private LocationTask mLocationTask;
     private String cityName = "";
     private RelativeLayout rl_msg;
@@ -113,7 +114,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 .setUpdateContent("智慧e点通新版上线啦~")
                 .build()
                 .checkUpdate();
-        Log.e(TAG, "getToken "+TextUtils.isEmpty(DataManager.getToken()));
+        Log.e(TAG, "getToken " + TextUtils.isEmpty(DataManager.getToken()));
         if (!TextUtils.isEmpty(DataManager.getToken())) {
 
             downFunctionDb();
@@ -132,7 +133,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private void downFunctionDb() {
         Log.e(TAG, "downFunctionDb ");
         Map<String, Object> param = new HashMap<>();
-        param.put("LastUpdateTime",DataManager.getLastUpdateFunction());
+        param.put("LastUpdateTime", DataManager.getLastUpdateFunction());
         new ThreadPoolTask.Builder()
                 .setGeneralParam(DataManager.getToken(), "", KConstants.UpdateFunctionList, param)
                 .setBeanType(UpdateFunctionList_Result.class)
@@ -151,7 +152,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
                     @Override
                     public void onErrorResult(ErrorResult errorResult) {
-                        Log.e(TAG, "功能列表 onErrorResult: "+errorResult.getResultText() );
+                        Log.e(TAG, "功能列表 onErrorResult: " + errorResult.getResultText());
                     }
                 }).build().execute();
     }
@@ -235,6 +236,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         break;
                     case "1008"://出租房中介
                         GoUtil.goActivity(MainActivity.this, IntermediaryActivity.class);
+                        break;
+                    case "1009"://NFC门禁
+                        GoUtil.goActivity(MainActivity.this, NfcRoomActivity.class);
                         break;
                 }
             }
@@ -431,11 +435,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     private void getMsgCount() {
         if (TextUtils.isEmpty(Constants.getToken())) {
-            Log.e(TAG, "Constants.getToken(): "+Constants.getToken() );
+            Log.e(TAG, "Constants.getToken(): " + Constants.getToken());
             return;
         }
         if (TextUtils.isEmpty(Constants.getCityCode())) {
-            Log.e(TAG, "Constants.getCityCode(): "+Constants.getCityCode());
+            Log.e(TAG, "Constants.getCityCode(): " + Constants.getCityCode());
             return;
         }
         Map<String, Object> param = new HashMap<>();
@@ -459,7 +463,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
                     @Override
                     public void onErrorResult(ErrorResult errorResult) {
-                        Log.e(TAG, "卡列表 onErrorResult: "+errorResult.getResultText() );
+                        Log.e(TAG, "卡列表 onErrorResult: " + errorResult.getResultText());
                     }
                 }).build().execute();
     }

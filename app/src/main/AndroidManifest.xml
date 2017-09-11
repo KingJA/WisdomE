@@ -546,6 +546,9 @@
         <activity
             android:name="com.kingja.cardpackage.activity.UnregisteredApplyActivity"
             android:screenOrientation="portrait"/> <!-- 未登记地址申报 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.NfcRoomActivity"
+            android:screenOrientation="portrait"/> <!-- NFC门禁 -->
 
         <service android:name="com.kingja.cardpackage.service.JPushDispathService"/> <!-- 推送分发服务 -->
     </application>

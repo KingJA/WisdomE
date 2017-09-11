@@ -207,5 +207,7 @@ public class KConstants {
     public static final String ChuZuWu_AgencySelfReportingOut = "ChuZuWu_AgencySelfReportingOut";
     /*获取城市支持的卡列表*/
     public static final String GetCityCardList = "GetCityCardList";
+    /*NFC门禁*/
+    public static final String NFCDevice_List = "NFCDevice_List";
 
 }

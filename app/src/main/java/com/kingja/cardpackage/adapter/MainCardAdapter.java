@@ -92,9 +92,9 @@ public class MainCardAdapter extends BaseRvAdaper<String> implements RecyclerVie
             case "1008":
                 cardName = "出租房中介";
                 break;
-            //default:
-            //cardName = "未知卡";
-            //  break;
+            case "1009":
+                cardName = "NFC门禁卡";
+                break;
         }
         return cardName;
     }
@@ -125,6 +125,9 @@ public class MainCardAdapter extends BaseRvAdaper<String> implements RecyclerVie
                 break;
             case "1008":
                 cardImage = R.mipmap.image_myintermediary;
+                break;
+            case "1009":
+                cardImage = R.mipmap.image_nfcdevice;
                 break;
         }
         return cardImage;
