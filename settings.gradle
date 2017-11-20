@@ -1,1 +1,1 @@
-include ':app', ':imagepickerModule', ':libk-ui', ':libk-kupdate', ':recyclerviewhelper'
+include ':app', ':imagepickerModule', ':libk-ui', ':libk-kupdate', ':recyclerviewhelper', ':flashlighthelper'

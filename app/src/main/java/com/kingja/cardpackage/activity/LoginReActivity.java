@@ -161,6 +161,20 @@ public class LoginReActivity extends BackTitleActivity implements BackTitleActiv
         com.tdr.wisdome.util.Constants.setCertification(Utils.initNullStr(content.getCertification() + ""));
         com.tdr.wisdome.util.Constants.setRealName(Utils.initNullStr(content.getRealname()));
         com.tdr.wisdome.util.Constants.setPermanentAddr(Utils.initNullStr(content.getAddress()));
+
+
+        DataManager.putToken(content.getToken());
+        DataManager.putIdCard(content.getIDCard());
+        DataManager.putRealName(content.getRealname());
+        DataManager.putSex(content.getSex());
+        DataManager.putBirthday(content.getBirthday());
+        DataManager.putPhone(content.getPhone());
+        DataManager.putUserId(content.getUserID());
+        DataManager.putAddresse(content.getAddress());
+        DataManager.putCertification(content.getCertification()+"");
+
+
+
         if (content.getCity() != null) {
             com.tdr.wisdome.util.Constants.setCityName(Utils.initNullStr(content.getCity().getCityName()));
             com.tdr.wisdome.util.Constants.setCityCode(Utils.initNullStr(content.getCity().getCityCode()));

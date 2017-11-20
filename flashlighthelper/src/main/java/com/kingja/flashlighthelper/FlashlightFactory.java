@@ -1,4 +1,4 @@
-package com.kingja.flashlighttest;
+package com.kingja.flashlighthelper;
 
 import android.content.Context;
 import android.os.Build;
@@ -12,9 +12,9 @@ import android.util.Log;
  */
 public class FlashlightFactory {
     public static FlashlightService getFlashlight(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Log.e("FlashlightFactory", "Build.VERSION.SDK_INT"+ Build.VERSION.SDK_INT+"，创建Camera2Flashlight" );
-            return new Camera2Flashlight(context);
+            return new CameraFlashlight(context);
         } else {
             Log.e("FlashlightFactory", "Build.VERSION.SDK_INT"+ Build.VERSION.SDK_INT+"，创建CameraFlashlight" );
             return new CameraFlashlight(context);

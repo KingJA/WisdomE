@@ -1,11 +1,13 @@
 package com.kingja.cardpackage.activity;
 
+import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
@@ -22,6 +24,7 @@ import com.kingja.cardpackage.util.AppInfoUtil;
 import com.kingja.cardpackage.util.AppUtil;
 import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.DialogUtil;
+import com.kingja.cardpackage.util.FlashSir;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.PhoneUtil;
 import com.kingja.cardpackage.util.ToastUtil;
@@ -29,12 +32,13 @@ import com.kingja.recyclerviewhelper.BaseRvAdaper;
 import com.kingja.recyclerviewhelper.LayoutHelper;
 import com.kingja.recyclerviewhelper.RecyclerViewHelper;
 import com.tdr.wisdome.R;
-import com.tdr.wisdome.actvitiy.MainActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.kingja.cardpackage.util.FlashSir.MORSE_CHAR;
 
 /**
  * Description:TODO
@@ -53,13 +57,20 @@ public class NfcRoomActivity extends BackTitleActivity implements SwipeRefreshLa
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            mProgressDialog.dismiss();
             nfcSendDialog.show();
         }
     };
+    private String morseCode;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void initVariables() {
-
+        if (!hasFlash()) {
+            ToastUtil.showToast("该设备不支持闪光灯");
+            finish();
+        }
+        FlashSir.getInstance().createCamera(this, handler);
     }
 
     @Override
@@ -70,6 +81,7 @@ public class NfcRoomActivity extends BackTitleActivity implements SwipeRefreshLa
 
         mSrl.setColorSchemeResources(R.color.bg_black);
         mSrl.setProgressViewOffset(false, 0, AppUtil.dp2px(24));
+        mSrl.setOnRefreshListener(this);
         mNfcDeviceAdapter = new NfcDeviceAdapter(this, nfcDevices);
         new RecyclerViewHelper.Builder(this)
                 .setCallbackAdapter(mNfcDeviceAdapter)
@@ -85,6 +97,11 @@ public class NfcRoomActivity extends BackTitleActivity implements SwipeRefreshLa
         });
         mNfcDeviceAdapter.setOnOpenFlashlight(this);
         nfcSendDialog = DialogUtil.getDoubleDialog(this, "指定发送完毕", "重试", "关闭");
+
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setMessage("正在发送门禁指令，请稍等");
     }
 
     @Override
@@ -102,12 +119,14 @@ public class NfcRoomActivity extends BackTitleActivity implements SwipeRefreshLa
         nfcSendDialog.setOnBtnClickL(new OnBtnClickL() {
             @Override
             public void onBtnClick() {
-
+                if (!TextUtils.isEmpty(morseCode)) {
+                    sendMorse(morseCode);
+                }
             }
         }, new OnBtnClickL() {
             @Override
             public void onBtnClick() {
-
+                nfcSendDialog.dismiss();
             }
         });
     }
@@ -127,12 +146,12 @@ public class NfcRoomActivity extends BackTitleActivity implements SwipeRefreshLa
         mInfo.setPHONENUM(DataManager.getUserPhone());
         mInfo.setSOFTVERSION(AppInfoUtil.getVersionName());
         mInfo.setSOFTTYPE(4);
-        mInfo.setCARDTYPE(KConstants.CARD_TYPE_SHOP);
+        mInfo.setCARDTYPE(KConstants.CARD_TYPE_NFC);
         mInfo.setPHONEINFO(phoneInfo);
         mInfo.setSOFTVERSION(AppInfoUtil.getVersionName());
         mInfo.setTaskID("1");
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_SHOP, KConstants.User_LogInForKaBao,
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_NFC, KConstants.User_LogInForKaBao,
                         mInfo)
                 .setBeanType(User_LogInForKaBao.class)
                 .setCallBack(new WebServiceCallBack<User_LogInForKaBao>() {
@@ -158,7 +177,7 @@ public class NfcRoomActivity extends BackTitleActivity implements SwipeRefreshLa
         param.put("PageSize", 50);
         param.put("PageIndex", index);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_SHOP, KConstants.NFCDevice_List, param)
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_NFC, KConstants.NFCDevice_List, param)
                 .setBeanType(NFCDevice_List.class)
                 .setCallBack(new WebServiceCallBack<NFCDevice_List>() {
                     @Override
@@ -178,7 +197,7 @@ public class NfcRoomActivity extends BackTitleActivity implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
-        mSrl.setOnRefreshListener(this);
+        mSrl.setRefreshing(false);
     }
 
     private int getChatInt(String subCardIdHex, String devcieCodeHex) {
@@ -197,17 +216,27 @@ public class NfcRoomActivity extends BackTitleActivity implements SwipeRefreshLa
         return firstLetter + secondLetter + thirdLetter;
     }
 
-    public static final String[] MORSE_CHAR = {"0", "1", "2", "3", "4", "5",
-            "6", "7", "8", "9", "A", "B",
-            "C", "D", "E", "F", "G", "H",
-            "I", "J", "K", "L", "M", "N",
-            "O", "P", "Q", "R", "S", "T",
-            "U", "V", "W", "X", "Y", "Z"};
 
     @Override
     public void onOpenFlashlight(String cardId, String deviceCode) {
-        String morseCode = getMorseCode(cardId, deviceCode);
-        //TODO send morse code
-        setProgressDialog(true, "正在发送门禁指令，请稍等");
+        morseCode = getMorseCode(cardId, deviceCode);
+        Log.e(TAG, "待发送字符: " + morseCode);
+        morseCode = "{" + morseCode + "}";
+        sendMorse(morseCode);
+    }
+
+    private void sendMorse(String morseCode) {
+        mProgressDialog.show();
+        FlashSir.getInstance().sendWordTimes(morseCode, 3, 600);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FlashSir.getInstance().closeCamera();
+    }
+
+    private boolean hasFlash() {
+        return getApplicationContext().getPackageManager().hasSystemFeature("android.hardware.camera.flash");
     }
 }

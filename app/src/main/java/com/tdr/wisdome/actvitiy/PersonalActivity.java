@@ -11,6 +11,7 @@ import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.kingja.cardpackage.activity.BackTitleActivity;
 import com.kingja.cardpackage.activity.LoginReActivity;
+import com.kingja.cardpackage.activity.PerfectInfoActivity;
 import com.kingja.cardpackage.util.ActivityManager;
 import com.kingja.cardpackage.util.AppInfoUtil;
 import com.kingja.cardpackage.util.DataManager;
@@ -129,7 +130,7 @@ public class PersonalActivity extends BackTitleActivity {
             case R.id.rl_coinStore:
                 break;
             case R.id.rl_perfectInfo:
-                GoUtil.goActivity(this, PerfectActivity.class);
+                GoUtil.goActivity(this, PerfectInfoActivity.class);
                 break;
             case R.id.rl_realName:
                 GoUtil.goActivity(this, RealNameActivity.class);
@@ -157,7 +158,7 @@ public class PersonalActivity extends BackTitleActivity {
             @Override
             public void onBtnClick() {
                 perfectDialog.dismiss();
-                GoUtil.goActivity(PersonalActivity.this, PerfectActivity.class);
+                GoUtil.goActivity(PersonalActivity.this, PerfectInfoActivity.class);
 
             }
         });

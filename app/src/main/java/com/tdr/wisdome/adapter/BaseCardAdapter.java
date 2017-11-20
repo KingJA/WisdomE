@@ -71,6 +71,9 @@ public abstract class BaseCardAdapter extends BaseAdapter {
             case "1008":
                 cardName = "出租房中介";
                 break;
+            case "1009":
+                cardName = "NFC门禁卡";
+                break;
             //default:
             //cardName = "未知卡";
             //  break;
@@ -105,6 +108,9 @@ public abstract class BaseCardAdapter extends BaseAdapter {
             case "1008":
                 cardImage = R.mipmap.image_intermediary;
                 break;
+            case "1009":
+                cardImage = R.mipmap.image_nfc;
+                break;
         }
         return cardImage;
     }
@@ -120,7 +126,7 @@ public abstract class BaseCardAdapter extends BaseAdapter {
     }
 
     public void setData(List<String> list) {
-        this.list=list;
+        this.list = list;
         notifyDataSetChanged();
     }
 }

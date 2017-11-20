@@ -20,6 +20,11 @@ public class DataManager {
     private static final String CARD_CODE = "CARD_CODE";
     private static final String EMPTY = "";
     private static final String LAST_UPDATE_FUNCTION = "LAST_UPDATE_FUNCTION";
+    private static final String BIRTHDAY = "birthday";
+    private static final String ADDRESS = "address";
+    private static final String SEX = "sex";
+    private static final String CERTIFICATION = "CERTIFICATION";
+    private static final String PHONE = "Phone";
 
     /*================================GET================================*/
     public static String getToken() {
@@ -70,6 +75,24 @@ public class DataManager {
         return (String) SpUtils.get(LAST_UPDATE_CAR_BRAND, "1990-01-01 00:00:01");
     }
 
+    public static String getAddress() {
+        return (String) SpUtils.get(ADDRESS, EMPTY);
+    }
+
+    public static String getSex() {
+        return (String) SpUtils.get(SEX, EMPTY);
+    }
+
+    public static String getBirthday() {
+        return (String) SpUtils.get(BIRTHDAY, EMPTY);
+    }
+
+    public static String getCertification() {
+        return (String) SpUtils.get(CERTIFICATION, EMPTY);
+    }
+    public static String getPhone() {
+        return (String) SpUtils.get(PHONE, EMPTY);
+    }
     /*================================PUT================================*/
 
     public static void putToken(String token) {
@@ -115,6 +138,27 @@ public class DataManager {
     public static void putLastUpdateFunction(String lastUpdateFunction) {
         SpUtils.put(LAST_UPDATE_FUNCTION, lastUpdateFunction);
     }
+    public static void putAddresse(String address) {
+        SpUtils.put(ADDRESS, address);
+    }
 
+    public static void putBirthday(String birthday) {
+        SpUtils.put(BIRTHDAY, birthday);
+    }
+    public static void putPhone(String userPhone) {
+        SpUtils.put(PHONE, userPhone);
+    }
+
+    public static void putSex(String sex) {
+        SpUtils.put(SEX, sex);
+    }
+
+    public static void putRealName(String realName) {
+        SpUtils.put(REAL_NAME, realName);
+    }
+
+    public static void putCertification(String certification) {
+        SpUtils.put(CERTIFICATION, certification);
+    }
 
 }

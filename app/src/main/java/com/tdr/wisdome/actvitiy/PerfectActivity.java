@@ -283,5 +283,8 @@ public class PerfectActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
+    private boolean editable() {
+        return "0".equals(DataManager.getCertification()) || "3".equals(DataManager.getCertification()) || "".equals
+                (DataManager.getCertification());
+    }
 }

@@ -149,11 +149,12 @@ public class KCamera extends Activity implements SurfaceHolder.Callback, View.On
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        if (width > height) {
-            mCameraManager.setPreviewSize(width, height);
-        } else {
-            mCameraManager.setPreviewSize(height, width);
-        }
+        //TODO 小米5s 报错，去掉如下语句
+//        if (width > height) {
+//            mCameraManager.setPreviewSize(width, height);
+//        } else {
+//            mCameraManager.setPreviewSize(height, width);
+//        }
         mCameraManager.initDisplay();
     }
 

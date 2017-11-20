@@ -1,25 +1,22 @@
 package com.kingja.cardpackage.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.ListPopupWindow;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
+import com.kingja.cardpackage.entiy.AddUserDetails;
 import com.kingja.cardpackage.entiy.ErrorResult;
-import com.kingja.cardpackage.entiy.User_AddDetailForShiMing;
-import com.kingja.cardpackage.entiy.User_DetailForShiMing;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.CheckUtil;
-import com.kingja.cardpackage.util.Constants;
 import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.NoDoubleClickListener;
 import com.kingja.cardpackage.util.TempConstants;
@@ -33,9 +30,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.RuntimePermissions;
-
 
 /**
  * Description:TODO
@@ -43,7 +37,6 @@ import permissions.dispatcher.RuntimePermissions;
  * Author:KingJA
  * Email:kingjavip@gmail.com
  */
-@RuntimePermissions
 public class PerfectInfoActivity extends BackTitleActivity {
     private MaterialEditText mMetUserinfoIdcard;
     private MaterialEditText mMetUserinfoBirthday;
@@ -85,29 +78,13 @@ public class PerfectInfoActivity extends BackTitleActivity {
 
     @Override
     protected void initNet() {
-        setProgressDialog(true);
-        Map<String, Object> param = new HashMap<>();
-        param.put(TempConstants.TaskID, TempConstants.DEFAULT_TASK_ID);
-        new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), Constants.CARD_TYPE_EMPTY, Constants.User_DetailForShiMing,
-                        param)
-                .setBeanType(User_DetailForShiMing.class)
-                .setCallBack(new WebServiceCallBack<User_DetailForShiMing>() {
-                    @Override
-                    public void onSuccess(User_DetailForShiMing bean) {
-                        setProgressDialog(false);
-                        mMetUserinfoIdcard.setText(bean.getContent().getIDENTITYCARD());
-                        mMetUserinfoBirthday.setText(bean.getContent().getBIRTHER());
-                        mMetUserinfoRealname.setText(bean.getContent().getRENALNAME());
-                        mMetUserinfoSex.setText(bean.getContent().getSEX());
-                        mMetUserinfoAddress.setText(bean.getContent().getHJADDRESS());
-                    }
-
-                    @Override
-                    public void onErrorResult(ErrorResult errorResult) {
-                        setProgressDialog(false);
-                    }
-                }).build().execute();
+        if (!TextUtils.isEmpty(DataManager.getIdCard())) {
+            mMetUserinfoIdcard.setText(DataManager.getIdCard());
+            mMetUserinfoSex.setText(DataManager.getSex());
+            mMetUserinfoRealname.setText(DataManager.getRealName());
+            mMetUserinfoAddress.setText(DataManager.getAddress());
+            mMetUserinfoBirthday.setText(DataManager.getBirthday());
+        }
     }
 
     @Override
@@ -133,7 +110,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
         mIvOcr.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                PerfectInfoActivityPermissionsDispatcher.showCameraWithCheck(PerfectInfoActivity.this);
+                KCamera.GoCamera(PerfectInfoActivity.this);
             }
         });
         mMetUserinfoIdcard.addTextChangedListener(new TextWatcher() {
@@ -201,19 +178,24 @@ public class PerfectInfoActivity extends BackTitleActivity {
         setProgressDialog(true);
         Map<String, Object> param = new HashMap<>();
         param.put(TempConstants.TaskID, TempConstants.DEFAULT_TASK_ID);
-        param.put("IDENTITYCARD", idCard);
-        param.put("RENALNAME", realName);
-        param.put("PHONE", DataManager.getPhone());
-        param.put("SEX", sex);
-        param.put("BIRTHDAY", birthday);
-        param.put("HJADDRESS", address);
+        param.put("Realname", realName);
+        param.put("idcard", idCard);
+        param.put("sex", sex);
+        param.put("birthday", birthday);
+        param.put("nationality", "");
+        param.put("address", address);
+        param.put("phone2", "");
+        param.put("Remark", "");
+        param.put("UserName", "");
+        param.put("FaceBase", "");
+
+
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), Constants.CARD_TYPE_EMPTY, Constants
-                        .User_AddDetailForShiMing, param)
-                .setBeanType(User_AddDetailForShiMing.class)
-                .setCallBack(new WebServiceCallBack<User_AddDetailForShiMing>() {
+                .setGeneralParam(DataManager.getToken(), "", "AddUserDetails", param)
+                .setBeanType(AddUserDetails.class)
+                .setCallBack(new WebServiceCallBack<AddUserDetails>() {
                     @Override
-                    public void onSuccess(User_AddDetailForShiMing bean) {
+                    public void onSuccess(AddUserDetails bean) {
                         setProgressDialog(false);
                         ToastUtil.showToast("完善用户资料成功");
                         save2Local();
@@ -232,6 +214,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
         DataManager.putRealName(realName);
         DataManager.putSex(sex);
         DataManager.putBirthday(birthday);
+        DataManager.putAddresse(address);
     }
 
     @Override
@@ -242,15 +225,12 @@ public class PerfectInfoActivity extends BackTitleActivity {
             mMetUserinfoRealname.setEnabled(false);
             mMetUserinfoAddress.setEnabled(false);
             mIvUserinfoSexArrow.setVisibility(View.GONE);
+            mIvOcr.setVisibility(View.GONE);
         } else {
             mStvUserinfoConfirm.setVisibility(View.VISIBLE);
         }
     }
 
-    @NeedsPermission(Manifest.permission.CAMERA)
-    void showCamera() {
-        KCamera.GoCamera(PerfectInfoActivity.this);
-    }
 
     private boolean editable() {
         return "0".equals(DataManager.getCertification()) || "3".equals(DataManager.getCertification()) || "".equals

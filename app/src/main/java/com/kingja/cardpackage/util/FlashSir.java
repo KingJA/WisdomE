@@ -1,10 +1,11 @@
-package sample.kingja.morsehelper;
+package com.kingja.cardpackage.util;
 
 import android.content.Context;
-import android.hardware.Camera;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.widget.Toast;
+
+import com.kingja.flashlighthelper.FlashlightFactory;
+import com.kingja.flashlighthelper.FlashlightService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +20,6 @@ public class FlashSir {
     private Map<String, Boolean[]> morses;
     private static final boolean DOT = true;
     private static final boolean DASH = false;
-    private Camera camera;
-    private Camera.Parameters parameter;
     private static volatile FlashSir flashSir;
     private Handler handler;
     private static final long T = 40;
@@ -35,6 +34,7 @@ public class FlashSir {
             "I", "J", "K", "L", "M", "N",
             "O", "P", "Q", "R", "S", "T",
             "U", "V", "W", "X", "Y", "Z", "{", "}"};
+    private FlashlightService flashlightService;
 
     private FlashSir() {
         initMorse();
@@ -84,14 +84,8 @@ public class FlashSir {
 
     public void createCamera(Context context, Handler handler) {
         this.handler = handler;
-        try {
-            if (camera == null) {
-                camera = Camera.open();
-                parameter = camera.getParameters();
-            }
-        } catch (Exception e) {
-            Toast.makeText(context.getApplicationContext(), "Camera被占用，请先关闭", Toast.LENGTH_SHORT).show();
-        }
+        flashlightService = FlashlightFactory.getFlashlight(context);
+
     }
 
     public static FlashSir getInstance() {
@@ -106,28 +100,15 @@ public class FlashSir {
     }
 
     private void openFlashLight() {
-        if (camera != null) {
-            parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-            camera.setParameters(parameter);
-            camera.startPreview();
-        }
+        flashlightService.openFlashlight();
     }
 
     private void closeFlashLight() {
-        if (camera != null) {
-            parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-            camera.setParameters(parameter);
-            camera.stopPreview();
-        }
+        flashlightService.closeFlashlight();
     }
 
     public void closeCamera() {
-        if (camera != null) {
-            camera.setPreviewCallback(null);
-            camera.stopPreview();
-            camera.release();
-            camera = null;
-        }
+        flashlightService.releaseFlashlight();
     }
 
     private void sleep(long millions) {
@@ -211,7 +192,7 @@ public class FlashSir {
     }
 
     public void sendWordTimes(final String moreStr, final int times, final long delayTime) {
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < times; i++) {
@@ -224,7 +205,11 @@ public class FlashSir {
                     handler.sendEmptyMessage(0);
                 }
             }
-        }).start();
+        });
+        thread.setPriority(10);
+        thread.start();
 
     }
+
+
 }

@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.kingja.cardpackage.activity.PerfectInfoActivity;
 import com.tdr.wisdome.R;
 import com.tdr.wisdome.util.Constants;
 import com.tdr.wisdome.util.Utils;
@@ -543,7 +544,7 @@ public class OlderShareActivity extends Activity implements View.OnClickListener
                 public void onClick(View v) {
                     dialogBuilder.dismiss();
                     Intent intent = new Intent();
-                    intent.setClass(mContext, PerfectActivity.class);
+                    intent.setClass(mContext, PerfectInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("activity", TAG);
                     intent.putExtras(bundle);

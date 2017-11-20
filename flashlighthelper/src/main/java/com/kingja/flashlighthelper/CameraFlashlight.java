@@ -1,4 +1,4 @@
-package com.kingja.flashlighttest;
+package com.kingja.flashlighthelper;
 
 import android.content.Context;
 import android.hardware.Camera;

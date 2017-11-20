@@ -26,7 +26,19 @@ public class CheckUtil {
         }
         return true;
     }
+    public static boolean checkGender(String gender) {
+        if (TextUtils.isEmpty(gender)) {
+            ToastUtil.showToast("请输入性别");
+            return false;
+        }
+        if (!("男".equals(gender) || "女".equals(gender))) {
+            ToastUtil.showToast("性别格式错误");
+            return false;
+        }
 
+        return true;
+
+    }
     public static boolean checkEquals(String s1,String s2, String tip) {
         if (!s1.equals(s2)) {
             ToastUtil.showToast(tip);

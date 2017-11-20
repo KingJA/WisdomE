@@ -1,4 +1,4 @@
-package com.kingja.flashlighttest;
+package com.kingja.flashlighthelper;
 
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
@@ -43,10 +43,7 @@ public class Camera2Flashlight implements FlashlightService {
 
     @Override
     public void releaseFlashlight() {
-
+        closeFlashlight();
     }
 
-    private boolean isLOLLIPOP() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
 }

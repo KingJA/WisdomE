@@ -32,6 +32,8 @@ public class KConstants {
     public static final String CARD_TYPE_AGENT = "1007";
     /*出租房中介*/
     public static final String CARD_TYPE_INTERMEDIARY = "1008";
+    /*NFC*/
+    public static final String CARD_TYPE_NFC = "1009";
     /*我的车*/
     public static final String CARD_TYPE_CAR = "1003";
 

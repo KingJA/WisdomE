@@ -26,6 +26,7 @@ import com.kingja.cardpackage.activity.LoginActivity;
 import com.kingja.cardpackage.activity.MyMsgActivity;
 import com.kingja.cardpackage.activity.NewCarActivity;
 import com.kingja.cardpackage.activity.NfcRoomActivity;
+import com.kingja.cardpackage.activity.PerfectInfoActivity;
 import com.kingja.cardpackage.activity.RentActivity;
 import com.kingja.cardpackage.activity.ShopActivity;
 import com.kingja.cardpackage.adapter.MainCardAdapter;
@@ -209,7 +210,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     return;
                 }
                 if (TextUtils.isEmpty(DataManager.getIdCard())) {
-                    GoUtil.goActivity(MainActivity.this, PerfectActivity.class);
+                    GoUtil.goActivity(MainActivity.this, PerfectInfoActivity.class);
                     return;
                 }
                 switch (cardCode) {

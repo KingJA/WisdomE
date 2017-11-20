@@ -46,7 +46,7 @@ public abstract class BaseActivity extends FragmentActivity implements ZeusManag
 
     private void initConmonView() {
         mProgressDialog = new ProgressDialog(this);
-
+        mProgressDialog.setCanceledOnTouchOutside(false);
         mZeusManager = new ZeusManager(this);
         mZeusManager.setOnPermissionCallback(this);
     }

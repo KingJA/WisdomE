@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.activity.LoginActivity;
+import com.kingja.cardpackage.activity.PerfectInfoActivity;
 import com.tdr.wisdome.R;
 import com.tdr.wisdome.util.CloseActivityUtil;
 import com.tdr.wisdome.util.Constants;
@@ -288,7 +289,7 @@ public class SetPwdActivity extends Activity implements View.OnClickListener {
                 public void onClick(View v) {
                     dialogBuilder.dismiss();
                     Intent intent = new Intent();
-                    intent.setClass(mContext, PerfectActivity.class);
+                    intent.setClass(mContext, PerfectInfoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("activity", TAG);
                     intent.putExtras(bundle);

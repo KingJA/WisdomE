@@ -549,6 +549,9 @@
         <activity
             android:name="com.kingja.cardpackage.activity.NfcRoomActivity"
             android:screenOrientation="portrait"/> <!-- NFC门禁 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.PerfectInfoActivity"
+            android:screenOrientation="portrait"/> <!-- 新完善资料 -->
 
         <service android:name="com.kingja.cardpackage.service.JPushDispathService"/> <!-- 推送分发服务 -->
     </application>
