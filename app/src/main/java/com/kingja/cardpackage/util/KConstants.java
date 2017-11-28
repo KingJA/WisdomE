@@ -36,6 +36,7 @@ public class KConstants {
     public static final String CARD_TYPE_NFC = "1009";
     /*我的车*/
     public static final String CARD_TYPE_CAR = "1003";
+    public static final String CARD_TYPE_EMPTY = "";
 
 
     public static final int ROLE_INTERMEDIARY = 4;
@@ -211,5 +212,29 @@ public class KConstants {
     public static final String GetCityCardList = "GetCityCardList";
     /*NFC门禁*/
     public static final String NFCDevice_List = "NFCDevice_List";
+    /*获取绑定充电器*/
+    public static final String GetBindChargerList = "GetBindChargerList";
+    /*绑定充电器*/
+    public static final String BindCharger = "BindCharger";
+    /*解绑充电器*/
+    public static final String DelBindCharger = "DelBindCharger";
+    /*充电预警*/
+    public static final String GetChargerWarningInfoList = "GetChargerWarningInfoList";
+    /*添加充电预警*/
+    public static final String AddChargerWarningInfo = "AddChargerWarningInfo";
+    /*添加充电*/
+    public static final String AddChargerRecord = "AddChargerRecord";
+    /*获取充电记录*/
+    public static final String GetChargerRecordList = "GetChargerRecordList";
+    /*添加充电记录*/
+    public static final String AddChargerSetting = "AddChargerSetting";
+    /*获取充电设置记录*/
+    public static final String GetChargerSettingList = "GetChargerSettingList";
+    /*获取充电统计*/
+    public static final String GetChargerStatistics = "GetChargerStatistics";
+    /*删除充电设置*/
+    public static final String DelChargerSetting = "DelChargerSetting";
+    /*编辑充电设置*/
+    public static final String EditChargerSetting = "EditChargerSetting";
 
 }

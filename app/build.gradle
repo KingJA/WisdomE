@@ -89,6 +89,9 @@ dependencies {
     /*   debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'*/
     compile 'com.kingja.supershapeview:supershapeview:1.1.1'
     compile project(':flashlighthelper')
+    compile 'lib.kingja.progress:kprogress:1.2.7'
+    compile 'com.kingja.loadsir:loadsir:1.3.2'
+    compile 'com.clj.fastble:FastBleLib:2.1.1'
 }
 
 def releaseTime() {

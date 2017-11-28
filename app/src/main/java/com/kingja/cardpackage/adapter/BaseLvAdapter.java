@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import java.util.List;
 
@@ -30,13 +31,19 @@ public abstract class BaseLvAdapter<T> extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+    public List<T> getData() {
+        return list;
+    }
+
     public void addData(List<T> list) {
         this.list.addAll(list);
         this.notifyDataSetChanged();
     }
+
     public void reset() {
         this.list.clear();
     }
+
     @Override
     public int getCount() {
         return list.size();

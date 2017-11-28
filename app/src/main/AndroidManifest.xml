@@ -24,6 +24,9 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
 
+    <!--蓝牙ble-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <!-- 二维码扫描相关权限 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -55,7 +58,7 @@
 
         <!-- 主界面 -->
         <activity
-            android:name=".actvitiy.MainActivity"
+            android:name="com.kingja.cardpackage.activity.ChargeListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
@@ -553,6 +556,37 @@
             android:name="com.kingja.cardpackage.activity.PerfectInfoActivity"
             android:screenOrientation="portrait"/> <!-- 新完善资料 -->
 
+        <activity
+            android:name="com.kingja.cardpackage.activity.BluetoothSearchActivity"
+            android:screenOrientation="portrait"/> <!-- 蓝牙连接 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.ChargeRecordActivity"
+            android:screenOrientation="portrait"/> <!-- 充电记录 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.AutoChargeActivity"
+            android:screenOrientation="portrait"/> <!-- 自动充电 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.TopChargeActivity"
+            android:screenOrientation="portrait"/> <!-- 峰谷充电 -->
+
+        <activity
+            android:name="com.kingja.cardpackage.activity.ChargerActivity"
+            android:screenOrientation="portrait"/> <!-- 充电器 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.ChargeAlarmActivity"
+            android:screenOrientation="portrait"/> <!-- 充电预警 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.ConfigAutoChargeActivity"
+            android:screenOrientation="portrait"/> <!-- 自动充电配置 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.ConfigTopChargeActivity"
+            android:screenOrientation="portrait"/> <!-- 峰谷充电配置 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.AddTopChargeActivity"
+            android:screenOrientation="portrait"/> <!-- 添加峰谷充电配置 -->
+        <!-- <activity
+             android:name="com.kingja.cardpackage.activity.ChargeListActivity"
+             android:screenOrientation="portrait"/> &lt;!&ndash; 充电器列表 &ndash;&gt;-->
         <service android:name="com.kingja.cardpackage.service.JPushDispathService"/> <!-- 推送分发服务 -->
     </application>
 

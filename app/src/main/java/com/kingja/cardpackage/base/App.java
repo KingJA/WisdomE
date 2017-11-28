@@ -6,7 +6,12 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 
+import com.kingja.cardpackage.callback.EmptyCallback;
+import com.kingja.cardpackage.callback.ErrorCallback;
+import com.kingja.cardpackage.callback.LoadingAboveCallback;
+import com.kingja.cardpackage.callback.LoadingCallback;
 import com.kingja.cardpackage.util.CrashHandler;
+import com.kingja.loadsir.core.LoadSir;
 
 import org.xutils.BuildConfig;
 import org.xutils.x;
@@ -39,6 +44,13 @@ public class App extends Application {
         mAppContext = getApplicationContext();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mAppContext);
         initXutils3();
+
+        LoadSir.beginBuilder()
+                .addCallback(new ErrorCallback())
+                .addCallback(new EmptyCallback())
+                .addCallback(new LoadingAboveCallback())
+                .addCallback(new LoadingCallback())
+                .commit();
     }
 
 

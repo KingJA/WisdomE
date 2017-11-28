@@ -68,6 +68,11 @@
         <item name="android:windowEnterAnimation">@anim/menu_up</item>
         <item name="android:windowExitAnimation">@anim/menu_down</item>
     </style>
+    <style name="PopupRightTopAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/righttop_enter</item>
+        <item name="android:windowExitAnimation">@anim/righttop_exit</item>
+    </style>
+
 
     <style name="PopupTop2BottomAnimation" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/spaner_enter</item>

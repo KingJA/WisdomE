@@ -129,7 +129,8 @@ public class LoginActivity extends BackTitleActivity implements BackTitleActivit
                     public void onSuccess(Login bean) {
                         setProgressDialog(false);
                         save2Local(bean.getContent());
-                        GoUtil.goActivityAndFinish(LoginActivity.this, MainActivity.class);
+//                        GoUtil.goActivityAndFinish(LoginActivity.this, MainActivity.class);
+                        GoUtil.goActivityAndFinish(LoginActivity.this, ChargeListActivity.class);
                     }
 
                     @Override

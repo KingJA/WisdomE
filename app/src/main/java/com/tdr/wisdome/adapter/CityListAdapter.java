@@ -147,7 +147,7 @@ public class CityListAdapter extends BaseAdapter {
                 gridView.setAdapter(hotCityGridAdapter);
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onPopItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (onCityClickListener != null) {
                             onCityClickListener.onCityClick(hotCityGridAdapter.getItem(position));
                         }

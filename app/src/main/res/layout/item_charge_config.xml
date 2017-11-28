@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kingja.recyclerviewhelper.DrawHelperLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawHelperLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_configTime"
+                style="@style/font_3_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20:20"/>
+
+            <TextView
+                android:id="@+id/tv_configContent"
+                style="@style/font_9_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="自动开始，1次"/>
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/sw_swich"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_cconfig_edit"
+            style="@style/font_f_15"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/font_blue"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="编辑"/>
+
+        <TextView
+            android:id="@+id/tv_cconfig_delete"
+            style="@style/font_f_15"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/bg_red"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="删除"/>
+
+    </LinearLayout>
+
+
+</com.kingja.recyclerviewhelper.DrawHelperLayout>

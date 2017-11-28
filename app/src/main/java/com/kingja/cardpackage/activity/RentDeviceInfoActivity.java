@@ -96,7 +96,7 @@ public class RentDeviceInfoActivity extends BackTitleActivity implements Adapter
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Log.e(TAG, "onItemClick: ");
+        Log.e(TAG, "onPopItemClick: ");
         ListView lv_device = (ListView) view.findViewById(R.id.lv_device);
         Log.e(TAG, "lv_device: "+lv_device.getVisibility());
         ImageView ivdevicearrow = (ImageView) view.findViewById(R.id.iv_device_arrow);

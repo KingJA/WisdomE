@@ -8,10 +8,11 @@ package com.kingja.cardpackage.util;
  */
 public class TempConstants {
 
+    public static final int[] CHARGER_CONFIG_AUTO = {0, 1, 2, 3, 4, 5, 6};
+    public static final int[] CHARGER_CONFIG_TOP = {7, 8, 9};
+
 
     public static final String ROOT_DIR = "ECARD";
-
-
     public static final String SHOPID = "SHOPID";
     public static final String HOUSEID = "HOUSEID";
     public static final String ROOMID = "ROOMID";

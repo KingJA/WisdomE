@@ -1094,7 +1094,7 @@ public class DraggableGridViewPager extends ViewGroup {
     }
 
     private void onItemClick(int position) {
-        DEBUG_LOG("onItemClick position=" + position);
+        DEBUG_LOG("onPopItemClick position=" + position);
         if (mOnItemClickListener != null) {
             mOnItemClickListener.onItemClick(null, getChildAt(position), position, position / mColCount);
         }
