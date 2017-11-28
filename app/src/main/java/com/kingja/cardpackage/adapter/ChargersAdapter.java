@@ -54,7 +54,11 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
         viewHolder.drawHelperLayout.setOnRootClickListener(new DrawHelperLayout.OnRootClickListener() {
             @Override
             public void onRootClick() {
-                ChargerActivity.goActivity(context,list.get(position).getBinding_objectid());
+//                ChargerActivity.goActivity(context,list.get(position).getBinding_objectid());
+                if (onChargeOperListener != null) {
+                    onChargeOperListener.onConnectDevice(list.get(position)
+                            .getBinding_objectid());
+                }
             }
         });
         return convertView;
@@ -77,6 +81,7 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
 
     public interface OnChargeOperListener {
         void onUnbindDevice(String userId, String deviceId);
+        void onConnectDevice(String deviceId);
     }
 
     public void setOnChargeOperListener(OnChargeOperListener onChargeOperListener) {

@@ -1,14 +1,31 @@
 package com.kingja.cardpackage.activity;
 
+import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.clj.fastble.BleManager;
+import com.clj.fastble.callback.BleWriteCallback;
+import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.exception.BleException;
+import com.clj.fastble.scan.BleScanRuleConfig;
+import com.clj.fastble.utils.HexUtil;
 import com.kingja.cardpackage.adapter.ChargerAlarmAdapter;
+import com.kingja.cardpackage.ble.BleResult;
+import com.kingja.cardpackage.ble.BleResult03;
+import com.kingja.cardpackage.ble.BleResult04;
+import com.kingja.cardpackage.ble.BleResult05;
+import com.kingja.cardpackage.ble.BleResultFactory;
+import com.kingja.cardpackage.ble.BleUtil;
+import com.kingja.cardpackage.ble.SimpleBleIndicateCallback;
+import com.kingja.cardpackage.ble.SimpleBleScanAndConnectCallback;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
@@ -16,14 +33,15 @@ import com.kingja.cardpackage.entiy.AddChargerRecord;
 import com.kingja.cardpackage.entiy.AddChargerWarningInfo;
 import com.kingja.cardpackage.entiy.ChargerAlarm;
 import com.kingja.cardpackage.entiy.ChargerRecord;
-import com.kingja.cardpackage.entiy.DelBindCharger;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetChargerStatistics;
 import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
+import com.kingja.cardpackage.util.BleConstants;
 import com.kingja.cardpackage.util.GoUtil;
 import com.kingja.cardpackage.util.KConstants;
+import com.kingja.cardpackage.util.TempConstants;
 import com.kingja.cardpackage.util.ToastUtil;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
@@ -57,17 +75,127 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     private TextView mTvChargeTotleCount;
     private LinearLayout mLlCharge_statistics;
     private LoadService statisticsLoadService;
+    private BleDevice bleDevice;
+    private ImageView mIvBleStatus;
 
     @Override
     protected void initVariables() {
         chargerId = getIntent().getStringExtra("chargerId");
+        if (!(bleDevice != null && BleManager.getInstance().isConnected(bleDevice))) {
+            connectBle(chargerId);
+        }
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (!(bleDevice != null && BleManager.getInstance().isConnected(bleDevice))) {
+            ToastUtil.showToast("蓝牙已断开，请重新连接");
+            mIvBleStatus.setBackgroundResource(R.mipmap.ble_disable);
+            mIvBleStatus.setEnabled(true);
+            mIvBleStatus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    connectBle(chargerId);
+                }
+            });
+            Log.e(TAG, "检测蓝牙: 已经断开");
+        } else {
+            mIvBleStatus.setBackgroundResource(R.mipmap.ble_enable);
+            mIvBleStatus.setEnabled(false);
+            Log.e(TAG, "检测蓝牙: 连接");
+        }
+    }
+
+    private void initBleListener() {
+        BleManager.getInstance().indicate(
+                bleDevice,
+                TempConstants.BLE_SERVICE_UUID,
+                TempConstants.BLE_OPERATE_UUID, new SimpleBleIndicateCallback() {
+                    @Override
+                    public void onCharacteristicChanged(byte[] data) {
+                        String result = HexUtil.encodeHexStr(data);
+                        Log.e(TAG, "onCharacteristicChanged:" + result);
+
+                        BleResult bleResult = BleResultFactory.getBleResult(result);
+                        switch (bleResult.getOrderCode()) {
+                            case BleConstants.ORDER_02:
+                                break;
+                            case BleConstants.ORDER_03:
+                                BleResult03 bleResult03 = (BleResult03) bleResult;
+                                sendBle(bleResult03.getResponse());
+                                Log.e(TAG, "发送03: "+bleResult03.getResponse() );
+                                break;
+                            case BleConstants.ORDER_04:
+                                BleResult04 bleResult04 = (BleResult04) bleResult;
+                                sendBle(bleResult04.getResponse());
+                                break;
+                            case BleConstants.ORDER_05:
+                                BleResult05 bleResult05 = (BleResult05) bleResult;
+                                Log.e(TAG, "getErrorTime: "+bleResult05.getErrorTime() );
+                                Log.e(TAG, "getErrorMsg: "+bleResult05.getErrorMsg() );
+                                sendBle(bleResult05.getResponse());
+                                Log.e(TAG, "发送05: "+bleResult05.getResponse());
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void connectBle(final String deviceId) {
+        setProgressDialog(true, "蓝牙连接中");
+        BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
+                .setDeviceName(true, BleUtil.getBleName(deviceId))
+                .setAutoConnect(true)
+                .build();
+        BleManager.getInstance().initScanRule(scanRuleConfig);
+        BleManager.getInstance().scanAndConnect(new SimpleBleScanAndConnectCallback() {
+            @Override
+            public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
+                Log.e(TAG, "onConnectSuccess: ");
+                setProgressDialog(false);
+                mIvBleStatus.setVisibility(View.VISIBLE);
+                ChargerActivity.this.bleDevice = bleDevice;
+                initBleListener();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sendBle("aa112233441122334455112233445566778856f9");
+                    }
+                }, 2000);
+            }
+        });
+    }
+
+
+    private void sendBle(String hexStr) {
+        BleManager.getInstance().write(
+                bleDevice,
+                TempConstants.BLE_SERVICE_UUID,
+                TempConstants.BLE_OPERATE_UUID,
+                HexUtil.hexStringToBytes(hexStr),
+                new BleWriteCallback() {
+                    @Override
+                    public void onWriteSuccess() {
+                        Log.e(TAG, "onWriteSuccess: ");
+                        // 发送数据到设备成功（UI线程）
+                    }
+
+                    @Override
+                    public void onWriteFailure(BleException exception) {
+                        Log.e(TAG, "onWriteFailure: " + exception.toString());
+                        // 发送数据到设备失败（UI线程）
+                    }
+                });
     }
 
     @Override
     protected void initContentView() {
         mChargePop = new ChargePop(mRlTopMenu, this);
         mLvArarm = (ListView) findViewById(R.id.lv_ararm);
+        mIvBleStatus = (ImageView) findViewById(R.id.iv_ble_status);
         mTvMoreAlarms = (TextView) findViewById(R.id.tv_moreAlarms);
         mTvChargeTotleCount = (TextView) findViewById(R.id.tv_chargeTotleCount);
         mTvChargeTotleCost = (TextView) findViewById(R.id.tv_chargeTotleCost);
@@ -109,6 +237,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                             mTvChargeTotleElectricity.setText(chargeInfo.getELECTRICITY_TOTAL() + "A");
                         }
 
+
                     }
 
                     @Override
@@ -125,7 +254,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
 
     @Override
     protected void initNet() {
-        loadAlarms();
+//        loadAlarms();
         loadStatistics();
     }
 
@@ -169,6 +298,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 ChargeAlarmActivity.goActivity(ChargerActivity.this, chargerId);
             }
         });
+
     }
 
     @Override
@@ -268,5 +398,11 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                     public void onErrorResult(ErrorResult errorResult) {
                     }
                 }).build().execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BleManager.getInstance().disconnectAllDevice();
     }
 }

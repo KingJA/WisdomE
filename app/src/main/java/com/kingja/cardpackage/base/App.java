@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 
+import com.clj.fastble.BleManager;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingAboveCallback;
@@ -32,7 +33,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashHandler.getInstance().init(this);
+//        CrashHandler.getInstance().init(this);
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            // This process is dedicated to LeakCanary for heap analysis.
 //            // You should not init your app in this process.
@@ -51,6 +52,8 @@ public class App extends Application {
                 .addCallback(new LoadingAboveCallback())
                 .addCallback(new LoadingCallback())
                 .commit();
+
+        BleManager.getInstance().init(this);
     }
 
 

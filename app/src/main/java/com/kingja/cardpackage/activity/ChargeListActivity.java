@@ -1,14 +1,21 @@
 package com.kingja.cardpackage.activity;
 
+import android.bluetooth.BluetoothGatt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.clj.fastble.BleManager;
+import com.clj.fastble.callback.BleScanAndConnectCallback;
+import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.exception.BleException;
+import com.clj.fastble.scan.BleScanRuleConfig;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.kingja.cardpackage.adapter.ChargersAdapter;
+import com.kingja.cardpackage.ble.BleUtil;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
@@ -35,6 +42,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.R.id.list;
+import static com.tdr.wisdome.R.drawable.success;
 
 /**
  * Description:TODO
@@ -105,8 +115,14 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
             public void onUnbindDevice(String userId, String deviceId) {
                 showUnbindDialog(userId, deviceId);
             }
+
+            @Override
+            public void onConnectDevice(final String deviceId) {
+                ChargerActivity.goActivity(ChargeListActivity.this, deviceId);
+            }
         });
     }
+
 
     @Override
     protected int getBackContentView() {
@@ -185,6 +201,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                         ToastUtil.showToast("绑定成功");
                         initNet();
                     }
+
                     @Override
                     public void onErrorResult(ErrorResult errorResult) {
                         setProgressDialog(false);
