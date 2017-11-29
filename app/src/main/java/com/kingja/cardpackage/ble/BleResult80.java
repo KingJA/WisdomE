@@ -9,16 +9,16 @@ import com.kingja.cardpackage.util.Crc16Util;
  * Author:KingJA
  * Email:kingjavip@gmail.com
  */
-public class BleResult05 extends BleResult {
+public class BleResult80 extends BleResult {
     private final String[] errorMsgs = {"过压", "过流", "电池过温", "充电器过温", "短路", "反接"};
 
-    public BleResult05(String result) {
+    public BleResult80(String result) {
         super(result);
     }
 
     @Override
     public String getResponse() {
-        String responseContent = getOrderCode() + getSn() + BleConstants.ZERO_15;
+        String responseContent = getOrderCode() + BleConstants.ZERO_16;
         String crc16Code = Crc16Util.getCrc16Code(responseContent);
         return BleConstants.FLAG + responseContent + crc16Code;
     }
@@ -27,7 +27,6 @@ public class BleResult05 extends BleResult {
 
 
     //SN(1,用于同步)
-
     public String getSn() {
         return result.substring(4, 6);
     }

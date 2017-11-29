@@ -1,7 +1,5 @@
 package com.kingja.cardpackage.ble;
 
-import android.util.Log;
-
 import com.kingja.cardpackage.util.BleConstants;
 import com.kingja.cardpackage.util.Crc16Util;
 
@@ -18,7 +16,7 @@ public class BleResult03 extends BleResult {
 
     @Override
     public String getResponse() {
-        String responseContent = getOrderCode() + BleConstants.ZERO_17;
+        String responseContent = getOrderCode() +getSn()+ BleConstants.ZERO_15;
         String crc16Code = Crc16Util.getCrc16Code(responseContent);
         return BleConstants.FLAG + responseContent + crc16Code;
     }
@@ -27,7 +25,7 @@ public class BleResult03 extends BleResult {
 
     //SN(1,用于同步)
     public String getSn() {
-        return null;
+        return result.substring(4, 6);
     }
 
     //起始时间(6)

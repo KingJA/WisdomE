@@ -19,9 +19,11 @@ import com.clj.fastble.scan.BleScanRuleConfig;
 import com.clj.fastble.utils.HexUtil;
 import com.kingja.cardpackage.adapter.ChargerAlarmAdapter;
 import com.kingja.cardpackage.ble.BleResult;
+import com.kingja.cardpackage.ble.BleResult02;
 import com.kingja.cardpackage.ble.BleResult03;
 import com.kingja.cardpackage.ble.BleResult04;
 import com.kingja.cardpackage.ble.BleResult05;
+import com.kingja.cardpackage.ble.BleResult81;
 import com.kingja.cardpackage.ble.BleResultFactory;
 import com.kingja.cardpackage.ble.BleUtil;
 import com.kingja.cardpackage.ble.SimpleBleIndicateCallback;
@@ -39,6 +41,7 @@ import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.BleConstants;
+import com.kingja.cardpackage.util.Crc16Util;
 import com.kingja.cardpackage.util.GoUtil;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.TempConstants;
@@ -53,6 +56,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.kingja.cardpackage.util.BleConstants.ORDER_81;
 
 /**
  * Description:TODO
@@ -120,22 +125,42 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                         BleResult bleResult = BleResultFactory.getBleResult(result);
                         switch (bleResult.getOrderCode()) {
                             case BleConstants.ORDER_02:
+                                BleResult02 bleResult02 = new BleResult02(data);
+                                sendBle(bleResult02.getResponse());
+                                Log.e(TAG, "发送02: " + bleResult02.getResponse());
+                                Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
+                                Log.e(TAG, "当前充电电压: " + bleResult02.getCurrentChargeVoltage());
+                                Log.e(TAG, "当前充电电流: " + bleResult02.getCurrentChargeelEctricity());
+                                Log.e(TAG, "累计充电电量: " + bleResult02.getTotlePower());
+                                Log.e(TAG, "电池温度: " + bleResult02.getBatteryTemperature());
+                                Log.e(TAG, "充电器温度: " + bleResult02.getChargerTemperature());
                                 break;
                             case BleConstants.ORDER_03:
                                 BleResult03 bleResult03 = (BleResult03) bleResult;
                                 sendBle(bleResult03.getResponse());
-                                Log.e(TAG, "发送03: "+bleResult03.getResponse() );
+                                Log.e(TAG, "发送03: " + bleResult03.getResponse());
                                 break;
                             case BleConstants.ORDER_04:
                                 BleResult04 bleResult04 = (BleResult04) bleResult;
                                 sendBle(bleResult04.getResponse());
+                                Log.e(TAG, "发送04: " + bleResult04.getResponse());
                                 break;
                             case BleConstants.ORDER_05:
                                 BleResult05 bleResult05 = (BleResult05) bleResult;
-                                Log.e(TAG, "getErrorTime: "+bleResult05.getErrorTime() );
-                                Log.e(TAG, "getErrorMsg: "+bleResult05.getErrorMsg() );
                                 sendBle(bleResult05.getResponse());
-                                Log.e(TAG, "发送05: "+bleResult05.getResponse());
+                                Log.e(TAG, "发送05: " + bleResult05.getResponse());
+                                break;
+                            case BleConstants.ORDER_81:
+                                Log.e(TAG, "接收到81: " + result);
+                                break;
+                            case BleConstants.ORDER_82:
+                                Log.e(TAG, "接收到82: " + result);
+                                break;
+                            case BleConstants.ORDER_83:
+                                Log.e(TAG, "接收到83: " + result);
+                                break;
+                            case BleConstants.ORDER_84:
+                                Log.e(TAG, "接收到84: " + result);
                                 break;
                             default:
                                 break;
@@ -146,6 +171,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
 
     private void connectBle(final String deviceId) {
         setProgressDialog(true, "蓝牙连接中");
+        Log.e(TAG, "getBleName: " + BleUtil.getBleName(deviceId));
         BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
                 .setDeviceName(true, BleUtil.getBleName(deviceId))
                 .setAutoConnect(true)
@@ -162,9 +188,41 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        sendBle("aa112233441122334455112233445566778856f9");
+                        sendBle(BleResult81.getContent());
                     }
-                }, 2000);
+                }, 1000);
+
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        String responseContent82 = BleConstants.ORDER_82 + "01" + "110b1d000000" + "110b1d000101" +
+//                                "01" + BleConstants.ZERO_2;
+//                        String crc16Code82 = Crc16Util.getCrc16Code(responseContent82);
+//                        Log.e(TAG, "82发送: " + (BleConstants.FLAG + responseContent82 + crc16Code82));
+//                        sendBle(BleConstants.FLAG + responseContent82 + crc16Code82);
+//                    }
+//                }, 1500);
+
+
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        84读取
+//                        String responseContent83 = BleConstants.ORDER_83 + "01" + BleConstants.ZERO_15;
+//                        String crc16Code84 = Crc16Util.getCrc16Code(responseContent83);
+//                        sendBle(BleConstants.FLAG + responseContent83 + crc16Code84);
+//                    }
+//                }, 1500);
+//
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        84读取
+//                        String responseContent84 = BleConstants.ORDER_84 + "01" + BleConstants.ZERO_15;
+//                        String crc16Code84 = Crc16Util.getCrc16Code(responseContent84);
+//                        sendBle(BleConstants.FLAG + responseContent84 + crc16Code84);
+//                    }
+//                }, 2000);
             }
         });
     }
@@ -255,7 +313,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     @Override
     protected void initNet() {
 //        loadAlarms();
-        loadStatistics();
+//        loadStatistics();
     }
 
     private void loadAlarms() {

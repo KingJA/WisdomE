@@ -12,5 +12,12 @@ public class BleConstants {
     public static final String ORDER_03 = "03";
     public static final String ORDER_04 = "04";
     public static final String ORDER_05 = "05";
-    public static final String ZERO_17 = "0000000000000000000000000000000000";
+    public static final String ORDER_81 = "81";
+    public static final String ORDER_82 = "82";
+    public static final String ORDER_83 = "83";
+    public static final String ORDER_84 = "84";
+    public static final String ZERO_15 = "000000000000000000000000000000";
+    public static final String ZERO_16 = "00000000000000000000000000000000";
+    public static final String ZERO_10 = "00000000000000000000";
+    public static final String ZERO_2 = "0000";
 }
