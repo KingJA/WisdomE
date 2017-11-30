@@ -1,5 +1,7 @@
 package com.kingja.cardpackage.ble;
 
+import android.util.Log;
+
 import com.kingja.cardpackage.util.BleConstants;
 import com.kingja.cardpackage.util.Crc16Util;
 
@@ -10,7 +12,7 @@ import com.kingja.cardpackage.util.Crc16Util;
  * Email:kingjavip@gmail.com
  */
 public class BleResult82 extends BleResult {
-    private final String[] errorMsgs = {"过压", "过流", "电池过温", "充电器过温", "短路", "反接"};
+
 
     public BleResult82(String result) {
         super(result);
@@ -22,59 +24,18 @@ public class BleResult82 extends BleResult {
         String crc16Code = Crc16Util.getCrc16Code(responseContent);
         return BleConstants.FLAG + responseContent + crc16Code;
     }
-//    SN(1,用于同步)+异常时间(6)+异常原因(1，1代表异常，0正常，
-//            bit0：过压，bit1:过流，bit2:电池过温，bit3:充电器过温,bit4:短路,bit5:反接)
 
-
-    //SN(1,用于同步)
-    public String getSn() {
-        return result.substring(4, 6);
-    }
-
-    //异常时间(6)
-    public String getErrorTime() {
-        int year = Integer.parseInt(result.substring(6, 8), 16);
-        int month = Integer.parseInt(result.substring(8, 10), 16);
-        int day = Integer.parseInt(result.substring(10, 12), 16);
-        int hour = Integer.parseInt(result.substring(12, 14), 16);
-        int min = Integer.parseInt(result.substring(14, 16), 16);
-        int sec = Integer.parseInt(result.substring(16, 18), 16);
-        return "20" + year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
-    }
-
-
-    //异常原因(1，1代表异常，0正常，bit0：过压，bit1:过流，bit2:电池过温，bit3:充电器过温,bit4:短路,bit5:反接)
-    public String getErrorMsg() {
-        String binStr = hexString2binaryString(result.substring(18, 20));
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < binStr.length(); i++) {
-            if ("1".equals(String.valueOf(binStr.charAt(i)))) {
-                if (i == binStr.length() - 1) {
-                    sb.append(errorMsgs[i]);
-                } else {
-                    sb.append(errorMsgs[i] + ",");
-                }
-            }
-        }
-        return sb.toString();
-    }
-
-    public int getErrorType() {
-        return Integer.parseInt(result.substring(18, 20), 16);
-    }
-
-    public static String hexString2binaryString(String hexString) {
-        if (hexString == null || hexString.length() % 2 != 0) {
-            return null;
-        }
-        String bString = "", tmp;
-        for (int i = 0; i < hexString.length(); i++) {
-            tmp = "0000"
-                    + Integer.toBinaryString(Integer.parseInt(hexString
-                    .substring(i, i + 1), 16));
-            bString += tmp.substring(tmp.length() - 4);
-        }
-        return bString;
+    //编号(1,0-9)+开时间(6)+关时间(6)(全0表示不设置)+有效性(1,1：一次有效，0：长期有效)
+    public static String getContent(int sep, String startTime, String endTime, int repeatMode) {
+        Log.e("峰谷设置", "sep: " + sep);
+        Log.e("峰谷设置", "startTime: " + startTime);
+        Log.e("峰谷设置", "endTime: " + endTime);
+        Log.e("峰谷设置", "repeatMode: " + repeatMode);
+        String responseContent = BleConstants.ORDER_82 + BleUtil.dex2Hex(String.valueOf(sep)) + BleUtil.getHexTimeStr
+                (startTime) + BleUtil.getHexTimeStr(endTime) + BleUtil.dex2Hex(String.valueOf(repeatMode)) +
+                BleConstants.ZERO_2;
+        String crc16Code = Crc16Util.getCrc16Code(responseContent);
+        return BleConstants.FLAG + responseContent + crc16Code;
     }
 
 }

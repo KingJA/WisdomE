@@ -57,7 +57,7 @@ public class TopChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingList
             @Override
             public void onNoDoubleClick(View v) {
                 if (onConfigOperListener != null) {
-                    onConfigOperListener.onConfigDelete(position,list.get(position).getAutoid());
+                    onConfigOperListener.onConfigDelete(position,list.get(position));
                 }
             }
         });
@@ -85,7 +85,7 @@ public class TopChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingList
 
     public interface OnConfigOperListener {
         void onConfigEdit(int position,GetChargerSettingList.ContentBean.DataBean config);
-        void onConfigDelete(int position,String configId);
+        void onConfigDelete(int position,GetChargerSettingList.ContentBean.DataBean config);
     }
 
     public void setOnConfigOperListener(OnConfigOperListener onConfigOperListener) {

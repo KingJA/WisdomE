@@ -82,6 +82,11 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     private LoadService statisticsLoadService;
     private BleDevice bleDevice;
     private ImageView mIvBleStatus;
+    private TextView mTvCurrentChargeelEctricity;
+    private TextView mTvCurrentChargeVoltage;
+    private TextView mTvChargerTemperature;
+    private TextView mTvBatteryTemperature;
+    private TextView mTvLeftCost;
 
     @Override
     protected void initVariables() {
@@ -95,6 +100,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     protected void onRestart() {
         super.onRestart();
         if (!(bleDevice != null && BleManager.getInstance().isConnected(bleDevice))) {
+            setTitle("充电器(未连接)");
             ToastUtil.showToast("蓝牙已断开，请重新连接");
             mIvBleStatus.setBackgroundResource(R.mipmap.ble_disable);
             mIvBleStatus.setEnabled(true);
@@ -106,6 +112,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
             });
             Log.e(TAG, "检测蓝牙: 已经断开");
         } else {
+            setTitle("充电器(已连接)");
             mIvBleStatus.setBackgroundResource(R.mipmap.ble_enable);
             mIvBleStatus.setEnabled(false);
             Log.e(TAG, "检测蓝牙: 连接");
@@ -121,19 +128,10 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                     public void onCharacteristicChanged(byte[] data) {
                         String result = HexUtil.encodeHexStr(data);
                         Log.e(TAG, "onCharacteristicChanged:" + result);
-
                         BleResult bleResult = BleResultFactory.getBleResult(result);
                         switch (bleResult.getOrderCode()) {
                             case BleConstants.ORDER_02:
-                                BleResult02 bleResult02 = new BleResult02(data);
-                                sendBle(bleResult02.getResponse());
-                                Log.e(TAG, "发送02: " + bleResult02.getResponse());
-                                Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
-                                Log.e(TAG, "当前充电电压: " + bleResult02.getCurrentChargeVoltage());
-                                Log.e(TAG, "当前充电电流: " + bleResult02.getCurrentChargeelEctricity());
-                                Log.e(TAG, "累计充电电量: " + bleResult02.getTotlePower());
-                                Log.e(TAG, "电池温度: " + bleResult02.getBatteryTemperature());
-                                Log.e(TAG, "充电器温度: " + bleResult02.getChargerTemperature());
+                                dispatchOrder02(data);
                                 break;
                             case BleConstants.ORDER_03:
                                 BleResult03 bleResult03 = (BleResult03) bleResult;
@@ -149,6 +147,9 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                                 BleResult05 bleResult05 = (BleResult05) bleResult;
                                 sendBle(bleResult05.getResponse());
                                 Log.e(TAG, "发送05: " + bleResult05.getResponse());
+                                Log.e(TAG, "异常时间: " + bleResult05.getErrorTime());
+                                Log.e(TAG, "异常信息: " + bleResult05.getErrorMsg());
+                                Log.e(TAG, "异常类型: " + bleResult05.getErrorType());
                                 break;
                             case BleConstants.ORDER_81:
                                 Log.e(TAG, "接收到81: " + result);
@@ -169,6 +170,27 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 });
     }
 
+    private void dispatchOrder02(byte[] data) {
+        BleResult02 bleResult02 = new BleResult02(data);
+        sendBle(bleResult02.getResponse());
+        Log.e(TAG, "发送02: " + bleResult02.getResponse());
+        Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
+        Log.e(TAG, "当前充电电压: " + bleResult02.getCurrentChargeVoltage());
+        Log.e(TAG, "当前充电电流: " + bleResult02.getCurrentChargeelEctricity());
+        Log.e(TAG, "累计充电电量: " + bleResult02.getTotlePower());
+        Log.e(TAG, "电池温度: " + bleResult02.getBatteryTemperature());
+        Log.e(TAG, "充电器温度: " + bleResult02.getChargerTemperature());
+        Log.e(TAG, "当前电量: " + bleResult02.getCurrentPower());
+        Log.e(TAG, "充电时间: " + bleResult02.getChargeCost());
+        Log.e(TAG, "剩余充电时间: " + bleResult02.getLeftChargeCost());
+
+        mTvCurrentChargeelEctricity.setText(bleResult02.getCurrentChargeelEctricity());
+        mTvCurrentChargeVoltage.setText(bleResult02.getCurrentChargeVoltage());
+        mTvChargerTemperature.setText(bleResult02.getChargerTemperature());
+        mTvBatteryTemperature.setText(bleResult02.getBatteryTemperature());
+        mTvLeftCost.setText("预计充满电还需" + bleResult02.getLeftChargeCost() + "小时");
+    }
+
     private void connectBle(final String deviceId) {
         setProgressDialog(true, "蓝牙连接中");
         Log.e(TAG, "getBleName: " + BleUtil.getBleName(deviceId));
@@ -183,6 +205,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 Log.e(TAG, "onConnectSuccess: ");
                 setProgressDialog(false);
                 mIvBleStatus.setVisibility(View.VISIBLE);
+                setTitle("充电器(已连接)");
                 ChargerActivity.this.bleDevice = bleDevice;
                 initBleListener();
                 new Handler().postDelayed(new Runnable() {
@@ -191,38 +214,6 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                         sendBle(BleResult81.getContent());
                     }
                 }, 1000);
-
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        String responseContent82 = BleConstants.ORDER_82 + "01" + "110b1d000000" + "110b1d000101" +
-//                                "01" + BleConstants.ZERO_2;
-//                        String crc16Code82 = Crc16Util.getCrc16Code(responseContent82);
-//                        Log.e(TAG, "82发送: " + (BleConstants.FLAG + responseContent82 + crc16Code82));
-//                        sendBle(BleConstants.FLAG + responseContent82 + crc16Code82);
-//                    }
-//                }, 1500);
-
-
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        84读取
-//                        String responseContent83 = BleConstants.ORDER_83 + "01" + BleConstants.ZERO_15;
-//                        String crc16Code84 = Crc16Util.getCrc16Code(responseContent83);
-//                        sendBle(BleConstants.FLAG + responseContent83 + crc16Code84);
-//                    }
-//                }, 1500);
-//
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        84读取
-//                        String responseContent84 = BleConstants.ORDER_84 + "01" + BleConstants.ZERO_15;
-//                        String crc16Code84 = Crc16Util.getCrc16Code(responseContent84);
-//                        sendBle(BleConstants.FLAG + responseContent84 + crc16Code84);
-//                    }
-//                }, 2000);
             }
         });
     }
@@ -258,6 +249,13 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         mTvChargeTotleCount = (TextView) findViewById(R.id.tv_chargeTotleCount);
         mTvChargeTotleCost = (TextView) findViewById(R.id.tv_chargeTotleCost);
         mTvChargeTotleElectricity = (TextView) findViewById(R.id.tv_chargeTotleElectricity);
+
+        mTvCurrentChargeelEctricity = (TextView) findViewById(R.id.tv_currentChargeelEctricity);
+        mTvCurrentChargeVoltage = (TextView) findViewById(R.id.tv_currentChargeVoltage);
+        mTvChargerTemperature = (TextView) findViewById(R.id.tv_chargerTemperature);
+        mTvBatteryTemperature = (TextView) findViewById(R.id.tv_batteryTemperature);
+        mTvLeftCost = (TextView) findViewById(R.id.tv_leftCost);
+
         mLlCharge_statistics = (LinearLayout) findViewById(R.id.ll_charge_statistics);
         mChargerAlarmAdapter = new ChargerAlarmAdapter(this, chargerAlarms);
         mLvArarm.setAdapter(mChargerAlarmAdapter);
@@ -294,10 +292,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                             mTvChargeTotleCost.setText(chargeInfo.getCHANGERTLONG() + "小时");
                             mTvChargeTotleElectricity.setText(chargeInfo.getELECTRICITY_TOTAL() + "A");
                         }
-
-
                     }
-
                     @Override
                     public void onErrorResult(ErrorResult errorResult) {
                         statisticsLoadService.showCallback(ErrorCallback.class);
@@ -312,8 +307,8 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
 
     @Override
     protected void initNet() {
-//        loadAlarms();
-//        loadStatistics();
+        loadAlarms();
+        loadStatistics();
     }
 
     private void loadAlarms() {
@@ -361,7 +356,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
 
     @Override
     protected void setData() {
-        setTitle("充电器");
+        setTitle("充电器(未连接)");
         setOnMenuClickListener(this, R.drawable.bg_add);
     }
 
@@ -374,7 +369,11 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     public void onPopItemClick(int position) {
         switch (position) {
             case 0:
-                GoUtil.goActivity(this, BluetoothSearchActivity.class);
+                if (!(bleDevice != null && BleManager.getInstance().isConnected(bleDevice))) {
+                    connectBle(chargerId);
+                } else {
+                    ToastUtil.showToast("蓝牙已连接");
+                }
                 break;
             case 1:
                 ChargeRecordActivity.goActivity(this, chargerId);
@@ -397,14 +396,14 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         context.startActivity(intent);
     }
 
-    private void sendAlarm() {
+    private void sendAlarm(String errorMsg, String errorTime, int errorType) {
         List<ChargerAlarm> chargerAlarms = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 1; i++) {
             ChargerAlarm chargerAlarm = new ChargerAlarm();
             chargerAlarm.setChargerid(chargerId);
-            chargerAlarm.setWarn_msg("电池过温度");
-            chargerAlarm.setWarn_time("2017-11-23 11:24:0" + i);
-            chargerAlarm.setWarn_type(i % 2);
+            chargerAlarm.setWarn_msg(errorMsg);
+            chargerAlarm.setWarn_time(errorTime);
+            chargerAlarm.setWarn_type(errorType);
             chargerAlarms.add(chargerAlarm);
         }
         new ThreadPoolTask.Builder()

@@ -6,22 +6,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.clj.fastble.callback.BleWriteCallback;
+import com.clj.fastble.exception.BleException;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.kingja.cardpackage.Event.RefreshTopChargers;
-import com.kingja.cardpackage.adapter.AutoChargerConfigAdapter;
 import com.kingja.cardpackage.adapter.TopChargerConfigAdapter;
+import com.kingja.cardpackage.ble.BleResult83;
+import com.kingja.cardpackage.ble.BleUtil;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingAboveCallback;
-import com.kingja.cardpackage.callback.LoadingCallback;
 import com.kingja.cardpackage.entiy.DelChargerSetting;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetChargerSettingList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.DialogUtil;
-import com.kingja.cardpackage.util.GoUtil;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.TempConstants;
 import com.kingja.cardpackage.util.ToastUtil;
@@ -38,8 +39,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.tdr.wisdome.R.id.main;
 
 /**
  * Description:TODO
@@ -132,20 +131,18 @@ public class TopChargeActivity extends BackTitleActivity implements BackTitleAct
     @Override
     public void onMenuClick() {
         if (mTopChargerConfigAdapter.getCount() < TempConstants.CHARGER_CONFIG_TOP.length) {
-
             Log.e(TAG, "Sep: " + getSep());
+            AddTopChargeActivity.goActivity(this, chargerId, getSep());
         } else {
             ToastUtil.showToast("配置数量超过上限，请修改或者删除");
-//            AddTopChargeActivity.goActivity(this, chargerId);
         }
-
     }
 
     public int getSep() {
         List<GetChargerSettingList.ContentBean.DataBean> configs = mTopChargerConfigAdapter.getData();
         List<Integer> chaergerSeps = new ArrayList<>();
         for (int i = 0; i < configs.size(); i++) {
-            chaergerSeps.add(chaergerSeps.get(i));
+            chaergerSeps.add(configs.get(i).getSeq());
         }
         for (int j = 0; j < TempConstants.CHARGER_CONFIG_TOP.length; j++) {
             if (!chaergerSeps.contains(TempConstants.CHARGER_CONFIG_TOP[j])) {
@@ -163,11 +160,11 @@ public class TopChargeActivity extends BackTitleActivity implements BackTitleAct
 
     @Override
     public void onConfigEdit(int position, GetChargerSettingList.ContentBean.DataBean config) {
-        ConfigTopChargeActivity.goActivity(this, config);
+        ModifyTopChargeActivity.goActivity(this, config);
     }
 
     @Override
-    public void onConfigDelete(final int position, final String configId) {
+    public void onConfigDelete(final int position, final GetChargerSettingList.ContentBean.DataBean config) {
         deleteConfigDialog.setOnBtnClickL(new OnBtnClickL() {
             @Override
             public void onBtnClick() {
@@ -177,16 +174,32 @@ public class TopChargeActivity extends BackTitleActivity implements BackTitleAct
             @Override
             public void onBtnClick() {
                 deleteConfigDialog.dismiss();
-                onDelete(position, configId);
+                onDeleteFromBle(position, config);
             }
         });
         deleteConfigDialog.show();
     }
 
-    private void onDelete(final int position, String configId) {
+    private void onDeleteFromBle(final int position, final GetChargerSettingList.ContentBean.DataBean config) {
+        String content = BleResult83.getContent(config.getSeq());
+        Log.e(TAG, "删除指定配置: " + content);
+        BleUtil.sendBle(content, new BleWriteCallback() {
+            @Override
+            public void onWriteSuccess() {
+                onDelete(position, config.getAutoid());
+            }
+
+            @Override
+            public void onWriteFailure(BleException exception) {
+                ToastUtil.showToast("蓝牙设置失败");
+            }
+        });
+    }
+
+    private void onDelete(final int position, String autoid) {
         setProgressDialog(true);
         Map<String, Object> param = new HashMap<>();
-        param.put("autoid", configId);
+        param.put("autoid", autoid);
         new ThreadPoolTask.Builder()
                 .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
                                 .DelChargerSetting,

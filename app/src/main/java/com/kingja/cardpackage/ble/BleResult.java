@@ -30,7 +30,7 @@ public abstract class BleResult {
         if (result != null) {
             return result.substring(2, 4);
         } else {
-            return HexUtil.encodeHexStr(Arrays.copyOfRange(data,2,3));
+            return HexUtil.encodeHexStr(Arrays.copyOfRange(data,1,2));
         }
 
     }

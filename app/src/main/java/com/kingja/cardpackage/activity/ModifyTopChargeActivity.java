@@ -3,16 +3,18 @@ package com.kingja.cardpackage.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatRadioButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.clj.fastble.callback.BleWriteCallback;
+import com.clj.fastble.exception.BleException;
 import com.kingja.cardpackage.Event.RefreshTopChargers;
-import com.kingja.cardpackage.callback.EmptyCallback;
-import com.kingja.cardpackage.callback.ErrorCallback;
+import com.kingja.cardpackage.ble.BleResult82;
+import com.kingja.cardpackage.ble.BleUtil;
 import com.kingja.cardpackage.entiy.EditChargerSetting;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetChargerSettingList;
-import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.KConstants;
@@ -32,7 +34,7 @@ import java.util.Map;
  * Author:KingJA
  * Email:kingjavip@gmail.com
  */
-public class ConfigTopChargeActivity extends BackTitleActivity implements BackTitleActivity.OnRightClickListener {
+public class ModifyTopChargeActivity extends BackTitleActivity implements BackTitleActivity.OnRightClickListener {
 
     private TextView mTvStartTime;
     private TextView mTvEndTime;
@@ -44,6 +46,7 @@ public class ConfigTopChargeActivity extends BackTitleActivity implements BackTi
     private int autoFrequency;
     private AppCompatRadioButton mRbOnce;
     private AppCompatRadioButton mRbRepeat;
+    private int bleAutoFrequency;
 
     @Override
     protected void initVariables() {
@@ -86,7 +89,7 @@ public class ConfigTopChargeActivity extends BackTitleActivity implements BackTi
         mTvStartTime.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                startTimeSelector = new TimeSelector(ConfigTopChargeActivity.this, startTime);
+                startTimeSelector = new TimeSelector(ModifyTopChargeActivity.this, startTime);
                 startTimeSelector.setOnTimeSelectListener(new TimeSelector.OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(String hour, String second) {
@@ -101,7 +104,7 @@ public class ConfigTopChargeActivity extends BackTitleActivity implements BackTi
         mTvEndTime.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                endTimeSelector = new TimeSelector(ConfigTopChargeActivity.this, endTime);
+                endTimeSelector = new TimeSelector(ModifyTopChargeActivity.this, endTime);
                 endTimeSelector.setOnTimeSelectListener(new TimeSelector.OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(String hour, String second) {
@@ -122,7 +125,7 @@ public class ConfigTopChargeActivity extends BackTitleActivity implements BackTi
     }
 
     public static void goActivity(Context context, GetChargerSettingList.ContentBean.DataBean config) {
-        Intent intent = new Intent(context, ConfigTopChargeActivity.class);
+        Intent intent = new Intent(context, ModifyTopChargeActivity.class);
         intent.putExtra("config", config);
         context.startActivity(intent);
     }
@@ -131,14 +134,30 @@ public class ConfigTopChargeActivity extends BackTitleActivity implements BackTi
     public void onRightClick() {
         if (mRbOnce.isChecked()) {
             autoFrequency = 1;
+            bleAutoFrequency = 1;
         } else if (mRbRepeat.isChecked()) {
             autoFrequency = 2;
+            bleAutoFrequency = 0;
         } else {
             ToastUtil.showToast("请选择充电频率");
             return;
         }
 
-        uploadConfig();
+        String currentDate = BleUtil.getCurrentDate();
+        String content = BleResult82.getContent(config.getSeq(), currentDate + (startTime.replace(":", "")) + "00", currentDate +
+                (endTime.replace(":", "")) + "00", bleAutoFrequency);
+        Log.e(TAG, "设置内容: " + content);
+        BleUtil.sendBle(content, new BleWriteCallback() {
+            @Override
+            public void onWriteSuccess() {
+                uploadConfig();
+            }
+
+            @Override
+            public void onWriteFailure(BleException exception) {
+                ToastUtil.showToast("蓝牙设置失败");
+            }
+        });
     }
 
     private void uploadConfig() {

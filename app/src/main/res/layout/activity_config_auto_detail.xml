@@ -69,7 +69,7 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/appCompatRadioButton"
+                android:id="@+id/rb_autoStart"
                 style="@style/font_9_12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -78,6 +78,7 @@
                 android:text="自动开始"/>
 
             <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/rb_autoEnd"
                 style="@style/font_9_12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -113,6 +114,7 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/rb_once"
                 style="@style/font_9_12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -121,6 +123,7 @@
                 android:text="一次"/>
 
             <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/rb_repeat"
                 style="@style/font_9_12"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

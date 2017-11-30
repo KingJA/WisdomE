@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.exception.BleException;
+import com.kingja.cardpackage.Event.RefreshAutoChargers;
 import com.kingja.cardpackage.Event.RefreshTopChargers;
 import com.kingja.cardpackage.ble.BleResult82;
 import com.kingja.cardpackage.ble.BleUtil;
@@ -33,39 +34,43 @@ import java.util.Map;
  * Author:KingJA
  * Email:kingjavip@gmail.com
  */
-public class AddTopChargeActivity extends BackTitleActivity implements BackTitleActivity.OnRightClickListener {
+public class AddAutoChargeActivity extends BackTitleActivity implements BackTitleActivity.OnRightClickListener {
 
-    private TextView mTvStartTime;
-    private TextView mTvEndTime;
-    private TimeSelector endTimeSelector;
-    private TimeSelector startTimeSelector;
-    private String startTime = "09:30";
-    private String endTime = "14:30";
+    private TextView mTvSelectTime;
+    private TimeSelector selectTimeSelector;
+    private String selectTime = "09:30";
     private int autoFrequency;
     private AppCompatRadioButton mRbOnce;
     private AppCompatRadioButton mRbRepeat;
+    private AppCompatRadioButton mRbAutoStart;
+    private AppCompatRadioButton mRbAutoEnd;
     private String chargerId;
     private int sep;
     private int bleAutoFrequency;
+    private int autoOperate;
+    private String autoStartTime;
+    private String autoEndTime;
 
     @Override
     protected void initVariables() {
         chargerId = getIntent().getStringExtra("chargerId");
-        sep = getIntent().getIntExtra("sep", 7);
+        sep = getIntent().getIntExtra("sep", 0);
     }
 
     @Override
     protected void initContentView() {
-        mTvStartTime = (TextView) findViewById(R.id.tv_startTime);
-        mTvEndTime = (TextView) findViewById(R.id.tv_endTime);
+        mTvSelectTime = (TextView) findViewById(R.id.tv_selectTime);
         mRbOnce = (AppCompatRadioButton) findViewById(R.id.rb_once);
         mRbRepeat = (AppCompatRadioButton) findViewById(R.id.rb_repeat);
+        mRbAutoStart = (AppCompatRadioButton) findViewById(R.id.rb_autoStart);
+        mRbAutoEnd = (AppCompatRadioButton) findViewById(R.id.rb_autoEnd);
+        mRbAutoStart.setChecked(true);
         mRbOnce.setChecked(true);
     }
 
     @Override
     protected int getBackContentView() {
-        return R.layout.activity_config_top_detail;
+        return R.layout.activity_config_auto_detail;
     }
 
     @Override
@@ -75,49 +80,31 @@ public class AddTopChargeActivity extends BackTitleActivity implements BackTitle
 
     @Override
     protected void initData() {
-        mTvStartTime.setText(startTime);
-        mTvEndTime.setText(endTime);
-
-        mTvStartTime.setOnClickListener(new NoDoubleClickListener() {
+        mTvSelectTime.setText(selectTime);
+        mTvSelectTime.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
-                startTimeSelector = new TimeSelector(AddTopChargeActivity.this, startTime);
-                startTimeSelector.setOnTimeSelectListener(new TimeSelector.OnTimeSelectListener() {
+                selectTimeSelector = new TimeSelector(AddAutoChargeActivity.this, selectTime);
+                selectTimeSelector.setOnTimeSelectListener(new TimeSelector.OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(String hour, String second) {
-                        startTime = hour + ":" + second;
-                        mTvStartTime.setText(startTime);
+                        selectTime = hour + ":" + second;
+                        mTvSelectTime.setText(selectTime);
                     }
                 });
-                startTimeSelector.show();
+                selectTimeSelector.show();
             }
         });
-
-        mTvEndTime.setOnClickListener(new NoDoubleClickListener() {
-            @Override
-            public void onNoDoubleClick(View v) {
-                endTimeSelector = new TimeSelector(AddTopChargeActivity.this, endTime);
-                endTimeSelector.setOnTimeSelectListener(new TimeSelector.OnTimeSelectListener() {
-                    @Override
-                    public void onTimeSelect(String hour, String second) {
-                        endTime = hour + ":" + second;
-                        mTvEndTime.setText(endTime);
-                    }
-                });
-                endTimeSelector.show();
-            }
-        });
-
     }
 
     @Override
     protected void setData() {
-        setTitle("峰谷充电设置");
+        setTitle("自动充电设置");
         setOnRightClickListener(this, "保存");
     }
 
     public static void goActivity(Context context, String chargerId, int sep) {
-        Intent intent = new Intent(context, AddTopChargeActivity.class);
+        Intent intent = new Intent(context, AddAutoChargeActivity.class);
         intent.putExtra("chargerId", chargerId);
         intent.putExtra("sep", sep);
         context.startActivity(intent);
@@ -125,6 +112,19 @@ public class AddTopChargeActivity extends BackTitleActivity implements BackTitle
 
     @Override
     public void onRightClick() {
+        if (mRbAutoStart.isChecked()) {
+            autoOperate = 1;
+            autoFrequency = 1;
+            bleAutoFrequency = 1;
+        } else if (mRbAutoEnd.isChecked()) {
+            autoOperate = 2;
+            autoFrequency = 2;
+            bleAutoFrequency = 0;
+        } else {
+            ToastUtil.showToast("请选择自动类型");
+            return;
+        }
+
         if (mRbOnce.isChecked()) {
             autoFrequency = 1;
             bleAutoFrequency = 1;
@@ -135,10 +135,19 @@ public class AddTopChargeActivity extends BackTitleActivity implements BackTitle
             ToastUtil.showToast("请选择充电频率");
             return;
         }
+
         String currentDate = BleUtil.getCurrentDate();
-        String content = BleResult82.getContent(sep, currentDate + (startTime.replace(":", "")) + "00", currentDate +
-                (endTime.replace(":", "")) + "00", bleAutoFrequency);
-        Log.e(TAG, "设置内容: " + content);
+        if (autoFrequency == 1) {
+            autoStartTime = currentDate + (selectTime.replace(":", "")) + "00";
+            autoEndTime = "00000000000000";
+        } else {
+            autoStartTime = "00000000000000";
+            autoEndTime = currentDate + (selectTime.replace(":", "")) + "00";
+        }
+
+
+        String content = BleResult82.getContent(sep, autoStartTime, autoEndTime, bleAutoFrequency);
+        Log.e(TAG, "设置自动充电: " + content);
         BleUtil.sendBle(content, new BleWriteCallback() {
             @Override
             public void onWriteSuccess() {
@@ -155,11 +164,11 @@ public class AddTopChargeActivity extends BackTitleActivity implements BackTitle
     private void uploadConfig() {
         setProgressDialog(true);
         Map<String, Object> param = new HashMap<>();
-        param.put("auto_start", startTime);
-        param.put("auto_end", endTime);
-        param.put("auto_operate", "1");
+        param.put("auto_start", autoOperate == 1 ? selectTime : "");
+        param.put("auto_end", autoOperate == 2 ? selectTime : "");
+        param.put("auto_operate", autoOperate);
         param.put("auto_frequency", autoFrequency);
-        param.put("auto_type", "2");
+        param.put("auto_type", "1");
         param.put("chargerid", chargerId);
         param.put("seq", sep);
         new ThreadPoolTask.Builder()
@@ -170,7 +179,7 @@ public class AddTopChargeActivity extends BackTitleActivity implements BackTitle
                 .setCallBack(new WebServiceCallBack<AddChargerSetting>() {
                     @Override
                     public void onSuccess(AddChargerSetting bean) {
-                        EventBus.getDefault().post(new RefreshTopChargers());
+                        EventBus.getDefault().post(new RefreshAutoChargers());
                         setProgressDialog(false);
                         ToastUtil.showToast("设置成功");
                         finish();

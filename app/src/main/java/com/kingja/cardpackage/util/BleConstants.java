@@ -20,4 +20,9 @@ public class BleConstants {
     public static final String ZERO_16 = "00000000000000000000000000000000";
     public static final String ZERO_10 = "00000000000000000000";
     public static final String ZERO_2 = "0000";
+    public static final String UNIT_ECTRICITY = "A";
+    public static final String UNIT_VOLTAGE = "V";
+    public static final String UNIT_POWER = "KWh";
+    public static final String UNIT_TEMPERATURE = "℃";
+    public static final String UNIT_HOUR = "小时";
 }

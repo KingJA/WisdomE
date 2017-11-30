@@ -36,52 +36,56 @@ public class BleResult02 extends BleResult {
     }
 
     //当前充电电压(2)
-    public double getCurrentChargeVoltage() {
+    public String getCurrentChargeVoltage() {
         String currentChargeVoltage = BleUtil.hex2Dec(HexUtil.encodeHexStr(BleUtil.reverseByteArr(Arrays.copyOfRange
                 (data, 3, 5))));
-        return BleUtil.div(Double.valueOf(currentChargeVoltage), 100, 3);
+        return BleUtil.div(Double.valueOf(currentChargeVoltage), 100, 2) + BleConstants.UNIT_VOLTAGE;
     }
 
     //当前充电电流(2)
-    public double getCurrentChargeelEctricity() {
+    public String getCurrentChargeelEctricity() {
         String currentChargeelEctricity = BleUtil.hex2Dec(HexUtil.encodeHexStr(BleUtil.reverseByteArr(Arrays.copyOfRange
                 (data, 5, 7))));
-        return BleUtil.div(Double.valueOf(currentChargeelEctricity), 100, 3);
+        return BleUtil.div(Double.valueOf(currentChargeelEctricity), 100, 2) + BleConstants.UNIT_ECTRICITY;
     }
 
     //累计充电电量(2)
-    public double getTotlePower() {
+    public String getTotlePower() {
         String totlePower = BleUtil.hex2Dec(HexUtil.encodeHexStr(BleUtil.reverseByteArr(Arrays.copyOfRange
                 (data, 7, 9))));
-        return BleUtil.div(Double.valueOf(totlePower), 1000, 4);
+        return BleUtil.div(Double.valueOf(totlePower), 1000, 4) + BleConstants.UNIT_POWER;
     }
 
     //电池温度(2)
-    public double getBatteryTemperature() {
+    public String getBatteryTemperature() {
         String batteryTemperature = BleUtil.hex2Dec(HexUtil.encodeHexStr(BleUtil.reverseByteArr(Arrays.copyOfRange
                 (data, 9, 11))));
-        return BleUtil.div(Double.valueOf(batteryTemperature), 100, 3);
+        return BleUtil.div(Double.valueOf(batteryTemperature), 100, 2) + BleConstants.UNIT_TEMPERATURE;
     }
 
     //充电器温度(2)
-    public double getChargerTemperature() {
+    public String getChargerTemperature() {
         String chargerTemperature = BleUtil.hex2Dec(HexUtil.encodeHexStr(BleUtil.reverseByteArr(Arrays.copyOfRange
                 (data, 11, 13))));
-        return BleUtil.div(Double.valueOf(chargerTemperature), 100, 3);
+        return BleUtil.div(Double.valueOf(chargerTemperature), 100, 2) + BleConstants.UNIT_TEMPERATURE;
     }
 
-    //    当前电池电量(1,0-100)
+    //当前电池电量(1,0-100)
     public String getCurrentPower() {
-        return result.substring(26, 28);
+        String chargerCurrentPower = BleUtil.hex2Dec(HexUtil.encodeHexStr(BleUtil.reverseByteArr(Arrays.copyOfRange
+                (data, 13, 14))));
+        return chargerCurrentPower + BleConstants.UNIT_POWER;
     }
 
-    //    充电时间(1,0.1小时)
+    //充电时间(1,0.1小时)
     public String getChargeCost() {
-        return result.substring(28, 30);
+        String chargerCost = BleUtil.hex2Dec(HexUtil.encodeHexStr(Arrays.copyOfRange(data, 14, 15)));
+        return BleUtil.div(Double.valueOf(chargerCost), 100, 1) + BleConstants.UNIT_HOUR;
     }
 
     //剩余充电时间(1,0.1小时)
     public String getLeftChargeCost() {
-        return result.substring(30, 32);
+        String leftChargeCost = BleUtil.hex2Dec(HexUtil.encodeHexStr(Arrays.copyOfRange(data, 15, 16)));
+        return BleUtil.div(Double.valueOf(leftChargeCost), 100, 1) + BleConstants.UNIT_HOUR;
     }
 }

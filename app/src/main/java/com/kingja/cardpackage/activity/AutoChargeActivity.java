@@ -6,21 +6,37 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.clj.fastble.callback.BleWriteCallback;
+import com.clj.fastble.exception.BleException;
+import com.flyco.dialog.listener.OnBtnClickL;
+import com.flyco.dialog.widget.NormalDialog;
+import com.kingja.cardpackage.Event.RefreshAutoChargers;
+import com.kingja.cardpackage.Event.RefreshTopChargers;
 import com.kingja.cardpackage.adapter.AutoChargerConfigAdapter;
+import com.kingja.cardpackage.ble.BleResult83;
+import com.kingja.cardpackage.ble.BleUtil;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
 import com.kingja.cardpackage.entiy.AddChargerSetting;
+import com.kingja.cardpackage.entiy.DelChargerSetting;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetChargerSettingList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
+import com.kingja.cardpackage.util.DialogUtil;
 import com.kingja.cardpackage.util.GoUtil;
 import com.kingja.cardpackage.util.KConstants;
+import com.kingja.cardpackage.util.TempConstants;
+import com.kingja.cardpackage.util.ToastUtil;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.tdr.wisdome.R;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,17 +49,20 @@ import java.util.Map;
  * Author:KingJA
  * Email:kingjavip@gmail.com
  */
-public class AutoChargeActivity extends BackTitleActivity implements BackTitleActivity.OnMenuClickListener {
+public class AutoChargeActivity extends BackTitleActivity implements BackTitleActivity.OnMenuClickListener,
+        AutoChargerConfigAdapter.OnConfigOperListener {
     private String chargerId;
-    private List<GetChargerSettingList.ContentBean.DataBean> chargeConfigs=new ArrayList<>();
+    private List<GetChargerSettingList.ContentBean.DataBean> chargeConfigs = new ArrayList<>();
     private ListView mLvChargeConfig;
     private AutoChargerConfigAdapter mAutoChargerConfigAdapter;
     private LoadService loadService;
+    private NormalDialog deleteConfigDialog;
 
     @Override
     protected void initVariables() {
+        EventBus.getDefault().register(this);
         chargerId = getIntent().getStringExtra("chargerId");
-        Log.e(TAG, "chargerId: " + chargerId);
+        deleteConfigDialog = DialogUtil.getDoubleDialog(this, "是否确定要删除该充电设置?", "取消", "确定");
     }
 
     @Override
@@ -66,6 +85,10 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     protected void initNet() {
+        getAutoConfigs();
+    }
+
+    private void getAutoConfigs() {
         loadService.showCallback(LoadingCallback.class);
         Map<String, Object> param = new HashMap<>();
         param.put("PageIndex", "1");
@@ -99,7 +122,7 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     protected void initData() {
-
+        mAutoChargerConfigAdapter.setOnConfigOperListener(this);
     }
 
     @Override
@@ -110,37 +133,99 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     public void onMenuClick() {
-        GoUtil.goActivity(this,ConfigAutoChargeActivity.class);
+        if (mAutoChargerConfigAdapter.getCount() < TempConstants.CHARGER_CONFIG_AUTO.length) {
+            Log.e(TAG, "Sep: " + getSep());
+            AddAutoChargeActivity.goActivity(this, chargerId, getSep());
+        } else {
+            ToastUtil.showToast("配置数量超过上限，请修改或者删除");
+        }
     }
 
-    private void addChargeConfig(int count) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("auto_type", count % 2 + 1);
-        param.put("auto_start", "13:18");
-        param.put("auto_end", "13:41");
-        param.put("auto_operate", count % 2 + 1);
-        param.put("chargerid", chargerId);
-        param.put("auto_frequency", count % 2 + 1);
-        param.put("seq", count);
-        new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
-                                .AddChargerSetting,
-                        param)
-                .setBeanType(AddChargerSetting.class)
-                .setCallBack(new WebServiceCallBack<AddChargerSetting>() {
-                    @Override
-                    public void onSuccess(AddChargerSetting bean) {
-                    }
-
-                    @Override
-                    public void onErrorResult(ErrorResult errorResult) {
-                    }
-                }).build().execute();
+    public int getSep() {
+        List<GetChargerSettingList.ContentBean.DataBean> configs = mAutoChargerConfigAdapter.getData();
+        List<Integer> chaergerSeps = new ArrayList<>();
+        for (int i = 0; i < configs.size(); i++) {
+            chaergerSeps.add(configs.get(i).getSeq());
+        }
+        for (int j = 0; j < TempConstants.CHARGER_CONFIG_AUTO.length; j++) {
+            if (!chaergerSeps.contains(TempConstants.CHARGER_CONFIG_AUTO[j])) {
+                return TempConstants.CHARGER_CONFIG_AUTO[j];
+            }
+        }
+        return TempConstants.CHARGER_CONFIG_AUTO[0];
     }
 
     public static void goActivity(Context context, String chargerId) {
         Intent intent = new Intent(context, AutoChargeActivity.class);
         intent.putExtra("chargerId", chargerId);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onConfigEdit(int position, GetChargerSettingList.ContentBean.DataBean config) {
+        ModifyAutoChargeActivity.goActivity(this, config);
+    }
+
+    @Override
+    public void onConfigDelete(final int position, final GetChargerSettingList.ContentBean.DataBean config) {
+        deleteConfigDialog.setOnBtnClickL(new OnBtnClickL() {
+            @Override
+            public void onBtnClick() {
+                deleteConfigDialog.dismiss();
+            }
+        }, new OnBtnClickL() {
+            @Override
+            public void onBtnClick() {
+                deleteConfigDialog.dismiss();
+                onDeleteFromBle(position, config);
+            }
+        });
+        deleteConfigDialog.show();
+    }
+
+    private void onDeleteFromBle(final int position, final GetChargerSettingList.ContentBean.DataBean config) {
+        String content = BleResult83.getContent(config.getSeq());
+        Log.e(TAG, "删除指定配置: " + content);
+        BleUtil.sendBle(content, new BleWriteCallback() {
+            @Override
+            public void onWriteSuccess() {
+                onDelete(position, config.getAutoid());
+            }
+
+            @Override
+            public void onWriteFailure(BleException exception) {
+                ToastUtil.showToast("蓝牙设置失败");
+            }
+        });
+    }
+
+
+    private void onDelete(final int position, String autoid) {
+        setProgressDialog(true);
+        Map<String, Object> param = new HashMap<>();
+        param.put("autoid", autoid);
+        new ThreadPoolTask.Builder()
+                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                                .DelChargerSetting,
+                        param)
+                .setBeanType(DelChargerSetting.class)
+                .setCallBack(new WebServiceCallBack<DelChargerSetting>() {
+                    @Override
+                    public void onSuccess(DelChargerSetting bean) {
+                        setProgressDialog(false);
+                        mAutoChargerConfigAdapter.removeItem(position);
+                        ToastUtil.showToast("删除成功");
+                    }
+
+                    @Override
+                    public void onErrorResult(ErrorResult errorResult) {
+                        setProgressDialog(false);
+                    }
+                }).build().execute();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshAutoChargers(RefreshAutoChargers refreshAutoChargers) {
+        getAutoConfigs();
     }
 }

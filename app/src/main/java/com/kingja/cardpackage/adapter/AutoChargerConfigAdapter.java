@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.entiy.GetChargerSettingList;
+import com.kingja.cardpackage.util.NoDoubleClickListener;
 import com.tdr.wisdome.R;
 
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingList.ContentBean.DataBean> {
 
-
+    private OnConfigOperListener onConfigOperListener;
     public AutoChargerConfigAdapter(Context context, List<GetChargerSettingList.ContentBean.DataBean> list) {
         super(context, list);
     }
@@ -42,6 +43,22 @@ public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingLis
         viewHolder.tv_configContent.setText((list.get(position).getAuto_operate() == 1 ? "自动开始，" : "自动结束，") + (list
                 .get(position).getAuto_frequency() == 1 ? "一次" : "重复"));
         viewHolder.sw_swich.setChecked(list.get(position).getIsdisable() == 0);
+        viewHolder.tv_cconfig_edit.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            public void onNoDoubleClick(View v) {
+                if (onConfigOperListener != null) {
+                    onConfigOperListener.onConfigEdit(position,list.get(position));
+                }
+            }
+        });
+        viewHolder.tv_cconfig_delete.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            public void onNoDoubleClick(View v) {
+                if (onConfigOperListener != null) {
+                    onConfigOperListener.onConfigDelete(position,list.get(position));
+                }
+            }
+        });
         return convertView;
     }
 
@@ -50,13 +67,25 @@ public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingLis
         final TextView tv_configTime;
         final TextView tv_configContent;
         final SwitchCompat sw_swich;
+        final TextView tv_cconfig_edit;
+        final TextView tv_cconfig_delete;
         public final View root;
 
         public ViewHolder(View root) {
             tv_configTime = (TextView) root.findViewById(R.id.tv_configTime);
             tv_configContent = (TextView) root.findViewById(R.id.tv_configContent);
             sw_swich = (SwitchCompat) root.findViewById(R.id.sw_swich);
+            tv_cconfig_edit = (TextView) root.findViewById(R.id.tv_cconfig_edit);
+            tv_cconfig_delete = (TextView) root.findViewById(R.id.tv_cconfig_delete);
             this.root = root;
         }
+    }
+    public interface OnConfigOperListener {
+        void onConfigEdit(int position,GetChargerSettingList.ContentBean.DataBean config);
+        void onConfigDelete(int position,GetChargerSettingList.ContentBean.DataBean config);
+    }
+
+    public void setOnConfigOperListener(OnConfigOperListener onConfigOperListener) {
+        this.onConfigOperListener = onConfigOperListener;
     }
 }

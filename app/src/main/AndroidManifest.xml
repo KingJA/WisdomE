@@ -25,7 +25,7 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
 
     <!--蓝牙ble-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <!-- 二维码扫描相关权限 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
@@ -575,15 +575,19 @@
         <activity
             android:name="com.kingja.cardpackage.activity.ChargeAlarmActivity"
             android:screenOrientation="portrait"/> <!-- 充电预警 -->
+        <!-- 自动充电配置 -->
         <activity
-            android:name="com.kingja.cardpackage.activity.ConfigAutoChargeActivity"
-            android:screenOrientation="portrait"/> <!-- 自动充电配置 -->
+            android:name="com.kingja.cardpackage.activity.ModifyTopChargeActivity"
+            android:screenOrientation="portrait"/> <!-- 峰谷充电配置修改-->
         <activity
-            android:name="com.kingja.cardpackage.activity.ConfigTopChargeActivity"
-            android:screenOrientation="portrait"/> <!-- 峰谷充电配置 -->
+            android:name="com.kingja.cardpackage.activity.ModifyAutoChargeActivity"
+            android:screenOrientation="portrait"/> <!-- 自动充电配置修改-->
         <activity
             android:name="com.kingja.cardpackage.activity.AddTopChargeActivity"
             android:screenOrientation="portrait"/> <!-- 添加峰谷充电配置 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.AddAutoChargeActivity"
+            android:screenOrientation="portrait"/> <!-- 添加自动充电配置 -->
         <!-- <activity
              android:name="com.kingja.cardpackage.activity.ChargeListActivity"
              android:screenOrientation="portrait"/> &lt;!&ndash; 充电器列表 &ndash;&gt;-->
