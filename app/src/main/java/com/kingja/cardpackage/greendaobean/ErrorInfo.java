@@ -14,13 +14,16 @@ import org.greenrobot.greendao.annotation.Id;
 @Entity
 public class ErrorInfo {
     @Id
-    private int sn;
+    private String sn;
+    private String orderNo;
     private String errorTime;
     private String errorMsg;
     private int errorType;
-    @Generated(hash = 1818524931)
-    public ErrorInfo(int sn, String errorTime, String errorMsg, int errorType) {
+    @Generated(hash = 843045187)
+    public ErrorInfo(String sn, String orderNo, String errorTime, String errorMsg,
+            int errorType) {
         this.sn = sn;
+        this.orderNo = orderNo;
         this.errorTime = errorTime;
         this.errorMsg = errorMsg;
         this.errorType = errorType;
@@ -28,11 +31,17 @@ public class ErrorInfo {
     @Generated(hash = 918440259)
     public ErrorInfo() {
     }
-    public int getSn() {
+    public String getSn() {
         return this.sn;
     }
-    public void setSn(int sn) {
+    public void setSn(String sn) {
         this.sn = sn;
+    }
+    public String getOrderNo() {
+        return this.orderNo;
+    }
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
     public String getErrorTime() {
         return this.errorTime;
@@ -52,6 +61,7 @@ public class ErrorInfo {
     public void setErrorType(int errorType) {
         this.errorType = errorType;
     }
+
 
 
 }

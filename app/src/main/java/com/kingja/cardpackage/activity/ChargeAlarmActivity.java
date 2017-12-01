@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.kingja.cardpackage.adapter.ChargerAlarmDetailAdapter;
@@ -12,6 +13,8 @@ import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
+import com.kingja.cardpackage.entiy.SetAllReadStatus;
+import com.kingja.cardpackage.entiy.SetReadStatus;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.KConstants;
@@ -32,7 +35,8 @@ import java.util.Map;
  * Author:KingJA
  * Email:kingjavip@gmail.com
  */
-public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleActivity.OnRightClickListener {
+public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleActivity.OnRightClickListener,
+        AdapterView.OnItemClickListener {
     private String chargerId;
     private ListView mLvChargeAlarm;
     private List<GetChargerWarningInfoList.ContentBean.DataBean> chargerAlarms = new ArrayList<>();
@@ -42,7 +46,6 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
     @Override
     protected void initVariables() {
         chargerId = getIntent().getStringExtra("chargerId");
-        Log.e(TAG, "chargerId: " + chargerId);
     }
 
     @Override
@@ -56,6 +59,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
                 initNet();
             }
         });
+
     }
 
     @Override
@@ -68,7 +72,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
         loadService.showCallback(LoadingCallback.class);
         Map<String, Object> param = new HashMap<>();
         param.put("PageIndex", "1");
-        param.put("PageSize", "50");
+        param.put("PageSize", "100");
         param.put("OnlyGetRecord", false);
         param.put("ChargerId", chargerId);
         new ThreadPoolTask.Builder()
@@ -97,7 +101,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
 
     @Override
     protected void initData() {
-
+        mLvChargeAlarm.setOnItemClickListener(this);
     }
 
     @Override
@@ -108,12 +112,62 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
 
     @Override
     public void onRightClick() {
-        ToastUtil.showToast("全部已读");
+        setProgressDialog(true);
+        Map<String, Object> param = new HashMap<>();
+        param.put("isread", 1);
+        new ThreadPoolTask.Builder()
+                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                                .SetAllReadStatus,
+                        param)
+                .setBeanType(SetAllReadStatus.class)
+                .setCallBack(new WebServiceCallBack<SetAllReadStatus>() {
+                    @Override
+                    public void onSuccess(SetAllReadStatus bean) {
+                        setProgressDialog(false);
+                        mChargerAlarmDetailAdapter.setAllReaded();
+                    }
+
+                    @Override
+                    public void onErrorResult(ErrorResult errorResult) {
+                        setProgressDialog(false);
+                    }
+                }).build().execute();
+
     }
 
     public static void goActivity(Context context, String chargerId) {
         Intent intent = new Intent(context, ChargeAlarmActivity.class);
         intent.putExtra("chargerId", chargerId);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        GetChargerWarningInfoList.ContentBean.DataBean error = (GetChargerWarningInfoList.ContentBean.DataBean) parent.getItemAtPosition(position);
+        if (error.getIsread() == 1) {
+            return;
+        }
+        final int warnid = error.getWarnid();
+        setProgressDialog(true);
+        Map<String, Object> param = new HashMap<>();
+        param.put("warnid", warnid);
+        param.put("isread", 1);
+        new ThreadPoolTask.Builder()
+                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                                .SetReadStatus,
+                        param)
+                .setBeanType(SetReadStatus.class)
+                .setCallBack(new WebServiceCallBack<SetReadStatus>() {
+                    @Override
+                    public void onSuccess(SetReadStatus bean) {
+                        mChargerAlarmDetailAdapter.setReaded(warnid);
+                        setProgressDialog(false);
+                    }
+
+                    @Override
+                    public void onErrorResult(ErrorResult errorResult) {
+                        setProgressDialog(false);
+                    }
+                }).build().execute();
     }
 }

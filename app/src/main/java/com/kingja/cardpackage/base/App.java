@@ -53,7 +53,7 @@ public class App extends Application {
                 .addCallback(new LoadingCallback())
                 .commit();
 
-        BleManager.getInstance().init(this);
+        BleManager.getInstance().enableLog(false).init(this);
     }
 
 

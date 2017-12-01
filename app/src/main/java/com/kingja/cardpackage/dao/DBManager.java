@@ -4,12 +4,13 @@ package com.kingja.cardpackage.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.kingja.cardpackage.greendaobean.ChargeRecord;
 import com.kingja.cardpackage.greendaobean.ErrorInfo;
 
 import java.util.List;
 
 public class DBManager {
-    private final static String dbName = "KingJA_Power";
+    private final static String dbName = "KingJA_Ble";
     private static DBManager mInstance;
     private DaoMaster.DevOpenHelper openHelper;
     private Context context;
@@ -63,21 +64,66 @@ public class DBManager {
         return daoSession.getErrorInfoDao();
     }
 
+    private ChargeRecordDao getChargeRecordDao() {
+        DaoMaster daoMaster = new DaoMaster(db);
+        DaoSession daoSession = daoMaster.newSession();
+        return daoSession.getChargeRecordDao();
+    }
+
     /**
-     * 插入蓝牙记录
+     * 插入充电记录
      */
-    public void insertBleInfo(ErrorInfo errorInfo) {
+    public void insertChargeRecord(ChargeRecord chargeRecord) {
+        ChargeRecordDao chargeRecordDao = getChargeRecordDao();
+        chargeRecordDao.insert(chargeRecord);
+    }
+
+    /**
+     * 插入异常记录
+     */
+    public void insertErrorInfo(ErrorInfo errorInfo) {
         ErrorInfoDao errorInfoDao = getErrorInfoDao();
         errorInfoDao.insert(errorInfo);
     }
 
 
     /**
-     * 删除所有蓝牙信息
+     * 删除所有异常记录
      */
-    public void deleteAllErrorInfo() {
+    public void deleteAllErrorInfos() {
         ErrorInfoDao errorInfoDao = getErrorInfoDao();
         errorInfoDao.deleteAll();
+    }
+
+    /**
+     * 删除所有充电记录
+     */
+    public void deleteAllChargeRecords() {
+        ChargeRecordDao chargeRecordDao = getChargeRecordDao();
+        chargeRecordDao.deleteAll();
+    }
+
+
+    /**
+     * 获取所有充电记录
+     */
+    public List<ChargeRecord> getChargeRecords() {
+        ChargeRecordDao chargeRecordDao = getChargeRecordDao();
+        List<ChargeRecord> list = chargeRecordDao.loadAll();
+        return list;
+    }
+
+    /**
+     * 获取指定充电记录
+     */
+    public ChargeRecord getChargeRecordById(String sn) {
+        ChargeRecord chargeRecord = null;
+        ChargeRecordDao chargeRecordDao = getChargeRecordDao();
+        List<ChargeRecord> results = chargeRecordDao.queryBuilder().where(ChargeRecordDao.Properties.Sn.eq(sn)).list();
+        if (results != null && results.size() > 0) {
+            chargeRecord = results.get(0);
+        }
+        return chargeRecord;
     }
 
     /**
@@ -88,5 +134,14 @@ public class DBManager {
         List<ErrorInfo> list = errorInfoDao.loadAll();
         return list;
     }
+
+    /**
+     * 修改充电记录
+     */
+    public void updateChargeRecords(ChargeRecord chargeRecord) {
+        ChargeRecordDao chargeRecordDao = getChargeRecordDao();
+        chargeRecordDao.update(chargeRecord);
+    }
+
 
 }

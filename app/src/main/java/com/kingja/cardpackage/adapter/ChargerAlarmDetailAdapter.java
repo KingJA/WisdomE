@@ -3,6 +3,8 @@ package com.kingja.cardpackage.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
@@ -35,10 +37,28 @@ public class ChargerAlarmDetailAdapter extends BaseLvAdapter<GetChargerWarningIn
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_alarmType.setText(list.get(position).getWarn_type() + "");
+        viewHolder.v_readTag.setVisibility(list.get(position).getIsread()==1?View.GONE:View.VISIBLE);
         viewHolder.tv_alarmTime.setText(list.get(position).getWarn_time());
-        viewHolder.tv_alarmMsg.setText(list.get(position).getWarn_msg());
+        viewHolder.tv_alarmType.setText(list.get(position).getWarn_msg() + "");
+        viewHolder.tv_alarmMsg.setText("充电器在" + list.get(position).getWarn_time() + list.get(position).getWarn_msg()
+                + "，已经断电，请尽快处理");
         return convertView;
+    }
+
+    public void setAllReaded() {
+        for (GetChargerWarningInfoList.ContentBean.DataBean dataBean : list) {
+            dataBean.setIsread(1);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setReaded(int warnId) {
+        for (GetChargerWarningInfoList.ContentBean.DataBean dataBean : list) {
+            if (dataBean.getWarnid() == warnId) {
+                dataBean.setIsread(1);
+            }
+        }
+        notifyDataSetChanged();
     }
 
 
@@ -46,9 +66,11 @@ public class ChargerAlarmDetailAdapter extends BaseLvAdapter<GetChargerWarningIn
         final TextView tv_alarmType;
         final TextView tv_alarmTime;
         final TextView tv_alarmMsg;
+        final View v_readTag;
         public final View root;
 
         public ViewHolder(View root) {
+            v_readTag = root.findViewById(R.id.v_readTag);
             tv_alarmType = (TextView) root.findViewById(R.id.tv_alarmType);
             tv_alarmTime = (TextView) root.findViewById(R.id.tv_alarmTime);
             tv_alarmMsg = (TextView) root.findViewById(R.id.tv_alarmMsg);

@@ -9,7 +9,9 @@ import com.clj.fastble.utils.HexUtil;
 import com.kingja.cardpackage.util.TempConstants;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -43,6 +45,16 @@ public class BleUtil {
         return year + month + day + hour + min + sec;
     }
 
+    public static String getDecTime(String hexTime) {
+        String year = String.format("%02d", Integer.parseInt(hexTime.substring(0, 2), 16));
+        String month = String.format("%02d", Integer.parseInt(hexTime.substring(2, 4), 16));
+        String day = String.format("%02d", Integer.parseInt(hexTime.substring(4, 6), 16));
+        String hour = String.format("%02d", Integer.parseInt(hexTime.substring(6, 8), 16));
+        String min = String.format("%02d", Integer.parseInt(hexTime.substring(8, 10), 16));
+        String sec = String.format("%02d", Integer.parseInt(hexTime.substring(10, 12), 16));
+        return "20" + year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+    }
+
     public static String hex2Dec(String hexStr) {
         return String.valueOf(Integer.parseInt(hexStr, 16));
     }
@@ -63,6 +75,12 @@ public class BleUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String currentTime = simpleDateFormat.format(new Date());
         System.out.println("yyyyMMddHHmmss " + currentTime);
+        return currentTime;
+    }
+
+    public static String getNowTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = simpleDateFormat.format(new Date());
         return currentTime;
     }
 
@@ -96,13 +114,41 @@ public class BleUtil {
         }
     }
 
-
     public static void sendBle(String hexStr, BleWriteCallback bleWriteCallback) {
         BleManager.getInstance().write(
                 BleManager.getInstance().getAllConnectedDevice().get(0),
                 TempConstants.BLE_SERVICE_UUID,
                 TempConstants.BLE_OPERATE_UUID,
                 HexUtil.hexStringToBytes(hexStr), bleWriteCallback);
+    }
+
+    public static Date str2Date(String str) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = format.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static String getCostTime(String startTime, String endTime) {
+        long startMil = str2Date(startTime).getTime();
+        long endMil = str2Date(endTime).getTime();
+        long costMills = endMil - startMil;
+
+        long hours = costMills / (1000 * 60 * 60);
+        long mins = costMills % (1000 * 60 * 60) / (1000 * 60);
+        return hours + "小时" + mins + "分钟";
+
+    }
+
+    public static boolean checkBle(byte[] bytes) {
+        if (bytes.length != 20 || !"aa".equals(HexUtil.encodeHexStr(Arrays.copyOfRange(bytes, 0, 1)))) {
+            return false;
+        }
+        return true;
     }
 
 }

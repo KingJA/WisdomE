@@ -588,6 +588,9 @@
         <activity
             android:name="com.kingja.cardpackage.activity.AddAutoChargeActivity"
             android:screenOrientation="portrait"/> <!-- 添加自动充电配置 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.ChargeRecordDetailActivity"
+            android:screenOrientation="portrait"/> <!-- 充电记录详情 -->
         <!-- <activity
              android:name="com.kingja.cardpackage.activity.ChargeListActivity"
              android:screenOrientation="portrait"/> &lt;!&ndash; 充电器列表 &ndash;&gt;-->

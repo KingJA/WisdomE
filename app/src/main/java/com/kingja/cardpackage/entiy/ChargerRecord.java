@@ -27,12 +27,12 @@ public class ChargerRecord {
     private int charger_end_reason;
     private String recordtime;
     private String chargerid;
-    private int voltage;
-    private int currents;
-    private int electricity_total;
-    private int ambient_temperature;
-    private int battery_temperature;
-    private int charger_temperature;
+    private double voltage;
+    private double currents;
+    private double electricity_total;
+    private double ambient_temperature;
+    private double battery_temperature;
+    private double charger_temperature;
 
     public String getCharger_starttime() {
         return charger_starttime;
@@ -74,51 +74,51 @@ public class ChargerRecord {
         this.chargerid = chargerid;
     }
 
-    public int getVoltage() {
+    public double getVoltage() {
         return voltage;
     }
 
-    public void setVoltage(int voltage) {
+    public void setVoltage(double voltage) {
         this.voltage = voltage;
     }
 
-    public int getCurrents() {
+    public double getCurrents() {
         return currents;
     }
 
-    public void setCurrents(int currents) {
+    public void setCurrents(double currents) {
         this.currents = currents;
     }
 
-    public int getElectricity_total() {
+    public double getElectricity_total() {
         return electricity_total;
     }
 
-    public void setElectricity_total(int electricity_total) {
+    public void setElectricity_total(double electricity_total) {
         this.electricity_total = electricity_total;
     }
 
-    public int getAmbient_temperature() {
+    public double getAmbient_temperature() {
         return ambient_temperature;
     }
 
-    public void setAmbient_temperature(int ambient_temperature) {
+    public void setAmbient_temperature(double ambient_temperature) {
         this.ambient_temperature = ambient_temperature;
     }
 
-    public int getBattery_temperature() {
+    public double getBattery_temperature() {
         return battery_temperature;
     }
 
-    public void setBattery_temperature(int battery_temperature) {
+    public void setBattery_temperature(double battery_temperature) {
         this.battery_temperature = battery_temperature;
     }
 
-    public int getCharger_temperature() {
+    public double getCharger_temperature() {
         return charger_temperature;
     }
 
-    public void setCharger_temperature(int charger_temperature) {
+    public void setCharger_temperature(double charger_temperature) {
         this.charger_temperature = charger_temperature;
     }
 }

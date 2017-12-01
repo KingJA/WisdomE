@@ -236,5 +236,9 @@ public class KConstants {
     public static final String DelChargerSetting = "DelChargerSetting";
     /*编辑充电设置*/
     public static final String EditChargerSetting = "EditChargerSetting";
+    /*充电预警全部已读*/
+    public static final String SetAllReadStatus = "SetAllReadStatus";
+    /*充电预警已读*/
+    public static final String SetReadStatus = "SetReadStatus";
 
 }

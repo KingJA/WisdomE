@@ -1,5 +1,6 @@
 package com.kingja.cardpackage.entiy;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -115,7 +116,7 @@ public class GetChargerRecordList {
             this.Data = Data;
         }
 
-        public static class DataBean {
+        public static class DataBean implements Serializable{
             /**
              * charger_starttime : 2017-11-23 13:00:50
              * charger_endtime : 2017-11-23 13:18:50

@@ -16,12 +16,11 @@ public class BleResult03 extends BleResult {
 
     @Override
     public String getResponse() {
-        String responseContent = getOrderCode() +getSn()+ BleConstants.ZERO_15;
+        String responseContent = getOrderCode() + getSn() + BleConstants.ZERO_15;
         String crc16Code = Crc16Util.getCrc16Code(responseContent);
         return BleConstants.FLAG + responseContent + crc16Code;
     }
-//    SN(1,用于同步) + 起始时间(6)+结束时间(6)+结束原因(1,0正常充电结束，1过压结束，
-//            2过流结束，3电池过温结束，4充电器过温结束，5断电结束)
+//    SN(1,用于同步) + 起始时间(6)+结束时间(6)+结束原因(1)
 
     //SN(1,用于同步)
     public String getSn() {
@@ -30,16 +29,16 @@ public class BleResult03 extends BleResult {
 
     //起始时间(6)
     public String getStartTime() {
-        return null;
+        return BleUtil.getDecTime(result.substring(6, 18));
     }
 
     //结束时间(6)
     public String getEndTime() {
-        return null;
+        return BleUtil.getDecTime(result.substring(18, 30));
     }
 
-    //结束原因(1,0正常充电结束，1过压结束，2过流结束，3电池过温结束，4充电器过温结束，5断电结束)
-    public String getEndReason() {
-        return null;
+    //结束原因(1)
+    public int getEndReason() {
+        return Integer.parseInt(result.substring(30, 32), 16);
     }
 }

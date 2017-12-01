@@ -16,7 +16,8 @@
         android:text="预警"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -36,10 +37,10 @@
                 style="@style/font_9_12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="刚刚"
-                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"/>
+                android:layout_alignParentTop="true"
+                android:text="刚刚"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -50,7 +51,7 @@
 
             <TextView
                 android:id="@+id/tv_alarmMsg"
-                style="@style/font_9_12"
+                style="@style/font_9_12_multi"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"

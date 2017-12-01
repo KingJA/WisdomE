@@ -44,21 +44,18 @@ public class ChargerAlarmAdapter extends BaseLvAdapter<GetChargerWarningInfoList
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_alarmType.setText(list.get(position).getWarn_type() + "");
         viewHolder.tv_alarmTime.setText(list.get(position).getWarn_time());
-        viewHolder.tv_alarmMsg.setText(list.get(position).getWarn_msg());
+        viewHolder.tv_alarmMsg.setText("("+list.get(position).getWarn_msg()+")");
         return convertView;
     }
 
 
     public class ViewHolder {
-        final TextView tv_alarmType;
         final TextView tv_alarmTime;
         final TextView tv_alarmMsg;
         public final View root;
 
         public ViewHolder(View root) {
-            tv_alarmType = (TextView) root.findViewById(R.id.tv_alarmType);
             tv_alarmTime = (TextView) root.findViewById(R.id.tv_alarmTime);
             tv_alarmMsg = (TextView) root.findViewById(R.id.tv_alarmMsg);
             this.root = root;

@@ -31,6 +31,7 @@ import com.kingja.cardpackage.ble.SimpleBleScanAndConnectCallback;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
+import com.kingja.cardpackage.dao.DBManager;
 import com.kingja.cardpackage.entiy.AddChargerRecord;
 import com.kingja.cardpackage.entiy.AddChargerWarningInfo;
 import com.kingja.cardpackage.entiy.ChargerAlarm;
@@ -38,11 +39,11 @@ import com.kingja.cardpackage.entiy.ChargerRecord;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetChargerStatistics;
 import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
+import com.kingja.cardpackage.greendaobean.ChargeRecord;
+import com.kingja.cardpackage.greendaobean.ErrorInfo;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.BleConstants;
-import com.kingja.cardpackage.util.Crc16Util;
-import com.kingja.cardpackage.util.GoUtil;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.TempConstants;
 import com.kingja.cardpackage.util.ToastUtil;
@@ -56,8 +57,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.kingja.cardpackage.util.BleConstants.ORDER_81;
 
 /**
  * Description:TODO
@@ -126,6 +125,9 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 TempConstants.BLE_OPERATE_UUID, new SimpleBleIndicateCallback() {
                     @Override
                     public void onCharacteristicChanged(byte[] data) {
+                        if (!BleUtil.checkBle(data)) {
+                            return;
+                        }
                         String result = HexUtil.encodeHexStr(data);
                         Log.e(TAG, "onCharacteristicChanged:" + result);
                         BleResult bleResult = BleResultFactory.getBleResult(result);
@@ -134,22 +136,13 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                                 dispatchOrder02(data);
                                 break;
                             case BleConstants.ORDER_03:
-                                BleResult03 bleResult03 = (BleResult03) bleResult;
-                                sendBle(bleResult03.getResponse());
-                                Log.e(TAG, "发送03: " + bleResult03.getResponse());
+                                dispatchOrder03((BleResult03) bleResult);
                                 break;
                             case BleConstants.ORDER_04:
-                                BleResult04 bleResult04 = (BleResult04) bleResult;
-                                sendBle(bleResult04.getResponse());
-                                Log.e(TAG, "发送04: " + bleResult04.getResponse());
+                                dispatchOrder04(data);
                                 break;
                             case BleConstants.ORDER_05:
-                                BleResult05 bleResult05 = (BleResult05) bleResult;
-                                sendBle(bleResult05.getResponse());
-                                Log.e(TAG, "发送05: " + bleResult05.getResponse());
-                                Log.e(TAG, "异常时间: " + bleResult05.getErrorTime());
-                                Log.e(TAG, "异常信息: " + bleResult05.getErrorMsg());
-                                Log.e(TAG, "异常类型: " + bleResult05.getErrorType());
+                                dispatch05((BleResult05) bleResult);
                                 break;
                             case BleConstants.ORDER_81:
                                 Log.e(TAG, "接收到81: " + result);
@@ -170,25 +163,81 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 });
     }
 
+    private void dispatchOrder03(BleResult03 bleResult) {
+        BleResult03 bleResult03 = bleResult;
+        sendBle(bleResult03.getResponse());
+        Log.e(TAG, "回复03: " + bleResult03.getResponse());
+//        Log.e(TAG, "解析03===========================");
+//        Log.e(TAG, "03sn: " + bleResult03.getSn());
+//        Log.e(TAG, "03开始时间: " + bleResult03.getStartTime());
+//        Log.e(TAG, "03结束时间: " + bleResult03.getEndTime());
+//        Log.e(TAG, "03结束原因: " + bleResult03.getEndReason());
+        ChargeRecord chargeRecord = new ChargeRecord();
+        chargeRecord.setSn(bleResult03.getSn());
+        chargeRecord.setStartTime(bleResult03.getSn());
+        chargeRecord.setEndTime(bleResult03.getEndTime());
+        chargeRecord.setEndReason(bleResult03.getEndReason());
+        DBManager.getInstance(this).insertChargeRecord(chargeRecord);
+    }
+
+    private void dispatchOrder04(byte[] data) {
+        BleResult04 bleResult04 = new BleResult04(data);
+        sendBle(bleResult04.getResponse());
+        Log.e(TAG, "回复04: " + bleResult04.getResponse());
+//        Log.e(TAG, "解析04===========================");
+//        Log.e(TAG, "04sn: " + bleResult04.getSn());
+//        Log.e(TAG, "04充电电压: " + bleResult04.getMaxVoltage());
+//        Log.e(TAG, "04充电电流: " + bleResult04.getMaxEctricity());
+//        Log.e(TAG, "04总电量: " + bleResult04.getTotlePower());
+//        Log.e(TAG, "04环境温度: " + bleResult04.getEnvironmentTemperature());
+//        Log.e(TAG, "04最高电池温度: " + bleResult04.getMaxBatteryTemperature());
+//        Log.e(TAG, "04最高充电器温度: " + bleResult04.getMaxChargerTemperature());
+        ChargeRecord chargeRecord = DBManager.getInstance(this).getChargeRecordById(bleResult04.getSn());
+        if (chargeRecord != null) {
+            chargeRecord.setMaxVoltage(bleResult04.getMaxVoltage());
+            chargeRecord.setMaxElectricity(bleResult04.getMaxEctricity());
+            chargeRecord.setTotlePower(bleResult04.getTotlePower());
+            chargeRecord.setEnvironmentTemperature(bleResult04.getEnvironmentTemperature());
+            chargeRecord.setMaxBatteryTemperature(bleResult04.getMaxBatteryTemperature());
+            chargeRecord.setMaxChargerTemperature(bleResult04.getMaxChargerTemperature());
+            DBManager.getInstance(this).updateChargeRecords(chargeRecord);
+            Log.e(TAG, "插入04成功");
+        }
+
+    }
+
+    private void dispatch05(BleResult05 bleResult) {
+        BleResult05 bleResult05 = bleResult;
+        //发送回复
+        sendBle(bleResult05.getResponse());
+        DBManager.getInstance(this).insertErrorInfo(new ErrorInfo(bleResult05.getSn(), bleResult05.getOrderCode(),
+                bleResult05.getErrorTime(), bleResult05.getErrorMsg(), bleResult05.getErrorType()));
+        Log.e(TAG, "回复: " + bleResult05.getResponse());
+//        Log.e(TAG, "解析05===========================");
+//        Log.e(TAG, "05异常时间: " + bleResult05.getErrorTime());
+//        Log.e(TAG, "05异常信息: " + bleResult05.getErrorMsg());
+//        Log.e(TAG, "05异常类型: " + bleResult05.getErrorType());
+    }
+
     private void dispatchOrder02(byte[] data) {
         BleResult02 bleResult02 = new BleResult02(data);
         sendBle(bleResult02.getResponse());
-        Log.e(TAG, "发送02: " + bleResult02.getResponse());
-        Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
-        Log.e(TAG, "当前充电电压: " + bleResult02.getCurrentChargeVoltage());
-        Log.e(TAG, "当前充电电流: " + bleResult02.getCurrentChargeelEctricity());
-        Log.e(TAG, "累计充电电量: " + bleResult02.getTotlePower());
-        Log.e(TAG, "电池温度: " + bleResult02.getBatteryTemperature());
-        Log.e(TAG, "充电器温度: " + bleResult02.getChargerTemperature());
-        Log.e(TAG, "当前电量: " + bleResult02.getCurrentPower());
-        Log.e(TAG, "充电时间: " + bleResult02.getChargeCost());
-        Log.e(TAG, "剩余充电时间: " + bleResult02.getLeftChargeCost());
+        Log.e(TAG, "回复02: " + bleResult02.getResponse());
+//        Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
+//        Log.e(TAG, "当前充电电压: " + bleResult02.getCurrentChargeVoltage());
+//        Log.e(TAG, "当前充电电流: " + bleResult02.getCurrentChargeelEctricity());
+//        Log.e(TAG, "累计充电电量: " + bleResult02.getTotlePower());
+//        Log.e(TAG, "电池温度: " + bleResult02.getBatteryTemperature());
+//        Log.e(TAG, "充电器温度: " + bleResult02.getChargerTemperature());
+//        Log.e(TAG, "当前电量: " + bleResult02.getCurrentPower());
+//        Log.e(TAG, "充电时间: " + bleResult02.getChargeCost());
+//        Log.e(TAG, "剩余充电时间: " + bleResult02.getLeftChargeCost());
 
         mTvCurrentChargeelEctricity.setText(bleResult02.getCurrentChargeelEctricity());
         mTvCurrentChargeVoltage.setText(bleResult02.getCurrentChargeVoltage());
         mTvChargerTemperature.setText(bleResult02.getChargerTemperature());
         mTvBatteryTemperature.setText(bleResult02.getBatteryTemperature());
-        mTvLeftCost.setText("预计充满电还需" + bleResult02.getLeftChargeCost() + "小时");
+        mTvLeftCost.setText("预计充满电还需" + bleResult02.getLeftChargeCost());
     }
 
     private void connectBle(final String deviceId) {
@@ -214,6 +263,15 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                         sendBle(BleResult81.getContent());
                     }
                 }, 1000);
+
+                //TODO 延时上传
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+//                        sendAlarm();
+//                        sendChargeRecord();
+                    }
+                }, 60000);
             }
         });
     }
@@ -290,9 +348,10 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                             statisticsLoadService.showSuccess();
                             mTvChargeTotleCount.setText(chargeInfo.getCHARGERTIMES() + "次");
                             mTvChargeTotleCost.setText(chargeInfo.getCHANGERTLONG() + "小时");
-                            mTvChargeTotleElectricity.setText(chargeInfo.getELECTRICITY_TOTAL() + "A");
+                            mTvChargeTotleElectricity.setText(chargeInfo.getELECTRICITY_TOTAL() + "KWh");
                         }
                     }
+
                     @Override
                     public void onErrorResult(ErrorResult errorResult) {
                         statisticsLoadService.showCallback(ErrorCallback.class);
@@ -396,14 +455,18 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         context.startActivity(intent);
     }
 
-    private void sendAlarm(String errorMsg, String errorTime, int errorType) {
+    private void sendAlarm() {
+        List<ErrorInfo> errorInfos = DBManager.getInstance(this).getErrorInfos();
+        if (errorInfos == null || errorInfos.size() == 0) {
+            return;
+        }
         List<ChargerAlarm> chargerAlarms = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < errorInfos.size(); i++) {
             ChargerAlarm chargerAlarm = new ChargerAlarm();
             chargerAlarm.setChargerid(chargerId);
-            chargerAlarm.setWarn_msg(errorMsg);
-            chargerAlarm.setWarn_time(errorTime);
-            chargerAlarm.setWarn_type(errorType);
+            chargerAlarm.setWarn_msg(errorInfos.get(i).getErrorMsg());
+            chargerAlarm.setWarn_time(errorInfos.get(i).getErrorTime());
+            chargerAlarm.setWarn_type(errorInfos.get(i).getErrorType());
             chargerAlarms.add(chargerAlarm);
         }
         new ThreadPoolTask.Builder()
@@ -414,7 +477,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 .setCallBack(new WebServiceCallBack<AddChargerWarningInfo>() {
                     @Override
                     public void onSuccess(AddChargerWarningInfo bean) {
-
+                        DBManager.getInstance(ChargerActivity.this).deleteAllErrorInfos();
                     }
 
                     @Override
@@ -424,20 +487,24 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     }
 
     private void sendChargeRecord() {
+        List<ChargeRecord> chargeRecords = DBManager.getInstance(this).getChargeRecords();
+        if (chargeRecords == null || chargeRecords.size() == 0) {
+            return;
+        }
         List<ChargerRecord> chargerRecords = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
+        for (ChargeRecord chargeRecord : chargeRecords) {
             ChargerRecord chargerRecord = new ChargerRecord();
-            chargerRecord.setCharger_starttime("2017-11-23 11:24:0" + i);
-            chargerRecord.setCharger_endtime("2017-11-23 11:24:0" + i);
-            chargerRecord.setCharger_end_reason(i % 2);
-            chargerRecord.setRecordtime("2017-11-23 11:24:0" + i);
+            chargerRecord.setCharger_starttime(chargeRecord.getStartTime());
+            chargerRecord.setCharger_endtime(chargeRecord.getEndTime());
+            chargerRecord.setCharger_end_reason(chargeRecord.getEndReason());
+            chargerRecord.setRecordtime(BleUtil.getNowTime());
             chargerRecord.setChargerid(chargerId);
-            chargerRecord.setVoltage(220);
-            chargerRecord.setCurrents(300);
-            chargerRecord.setElectricity_total(5000);
-            chargerRecord.setAmbient_temperature(20);
-            chargerRecord.setBattery_temperature(50);
-            chargerRecord.setCharger_temperature(i * 2);
+            chargerRecord.setVoltage(chargeRecord.getMaxVoltage());
+            chargerRecord.setCurrents(chargeRecord.getMaxElectricity());
+            chargerRecord.setElectricity_total(chargeRecord.getTotlePower());
+            chargerRecord.setAmbient_temperature(chargeRecord.getEnvironmentTemperature());
+            chargerRecord.setBattery_temperature(chargeRecord.getMaxBatteryTemperature());
+            chargerRecord.setCharger_temperature(chargeRecord.getMaxChargerTemperature());
             chargerRecords.add(chargerRecord);
         }
         new ThreadPoolTask.Builder()

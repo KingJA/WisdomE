@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-
         <TextView
             style="@style/font_3_12"
             android:layout_width="wrap_content"
@@ -18,11 +17,13 @@
             android:text="开始充电时间"/>
 
         <TextView
+            android:id="@+id/tv_startTime"
             style="@style/font_9_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="2017-10-10 08:10:55"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text=""/>
     </RelativeLayout>
 
     <View style="@style/divider_nomal_horizontal"/>
@@ -32,7 +33,6 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="12dp">
-
 
         <TextView
             style="@style/font_3_12"
@@ -41,11 +41,13 @@
             android:text="结束充电时间"/>
 
         <TextView
+            android:id="@+id/tv_endTime"
             style="@style/font_9_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="2017-10-10 08:10:55"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text=""/>
     </RelativeLayout>
 
     <View style="@style/divider_nomal_horizontal"/>
@@ -55,7 +57,6 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="12dp">
-
 
         <TextView
             style="@style/font_3_12"
@@ -64,58 +65,12 @@
             android:text="充电时长"/>
 
         <TextView
+            android:id="@+id/tv_chargeCost"
             style="@style/font_9_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="5小时20分钟"/>
-    </RelativeLayout>
-
-    <View style="@style/divider_nomal_horizontal"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="12dp">
-
-
-        <TextView
-            style="@style/font_3_12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="充电电量"/>
-
-        <TextView
-            style="@style/font_9_12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="300A"/>
-    </RelativeLayout>
-
-    <View style="@style/divider_nomal_horizontal"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="12dp">
-
-
-        <TextView
-            style="@style/font_3_12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="充电器最高温度"/>
-
-        <TextView
-            style="@style/font_9_12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="60℃"
+            android:text=""
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
@@ -127,6 +82,54 @@
         android:background="@color/white"
         android:padding="12dp">
 
+        <TextView
+            style="@style/font_3_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="充电电量"/>
+
+        <TextView
+            android:id="@+id/tv_chargePower"
+            style="@style/font_9_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <View style="@style/divider_nomal_horizontal"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
+
+        <TextView
+            style="@style/font_3_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="充电器最高温度"/>
+
+        <TextView
+            android:id="@+id/tv_chargerTemperature"
+            style="@style/font_9_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text=""/>
+    </RelativeLayout>
+
+    <View style="@style/divider_nomal_horizontal"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="12dp">
 
         <TextView
             style="@style/font_3_12"
@@ -135,11 +138,12 @@
             android:text="电池最高温度"/>
 
         <TextView
+            android:id="@+id/tv_batteryTemperature"
             style="@style/font_9_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="60℃"/>
+            android:text=""/>
     </RelativeLayout>
 
 

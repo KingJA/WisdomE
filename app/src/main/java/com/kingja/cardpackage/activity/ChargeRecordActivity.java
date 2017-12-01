@@ -2,8 +2,8 @@ package com.kingja.cardpackage.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.kingja.cardpackage.adapter.ChargerRecordAdapter;
@@ -31,17 +31,16 @@ import java.util.Map;
  * Author:KingJA
  * Email:kingjavip@gmail.com
  */
-public class ChargeRecordActivity extends BackTitleActivity {
+public class ChargeRecordActivity extends BackTitleActivity implements AdapterView.OnItemClickListener {
     private String chargerId;
     private ListView mLvChargeRecord;
-    private List<GetChargerRecordList.ContentBean.DataBean> chargerRecords=new ArrayList<>();
+    private List<GetChargerRecordList.ContentBean.DataBean> chargerRecords = new ArrayList<>();
     private LoadService loadService;
     private ChargerRecordAdapter mChargerRecordAdapter;
 
     @Override
     protected void initVariables() {
         chargerId = getIntent().getStringExtra("chargerId");
-        Log.e(TAG, "chargerId: " + chargerId);
     }
 
     @Override
@@ -62,6 +61,7 @@ public class ChargeRecordActivity extends BackTitleActivity {
     protected int getBackContentView() {
         return R.layout.activity_charge_record;
     }
+
     @Override
     protected void initNet() {
         loadService.showCallback(LoadingCallback.class);
@@ -96,7 +96,7 @@ public class ChargeRecordActivity extends BackTitleActivity {
 
     @Override
     protected void initData() {
-
+        mLvChargeRecord.setOnItemClickListener(this);
     }
 
     @Override
@@ -108,5 +108,12 @@ public class ChargeRecordActivity extends BackTitleActivity {
         Intent intent = new Intent(context, ChargeRecordActivity.class);
         intent.putExtra("chargerId", chargerId);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        GetChargerRecordList.ContentBean.DataBean chargeRecord = (GetChargerRecordList.ContentBean.DataBean) parent
+                .getItemAtPosition(position);
+        ChargeRecordDetailActivity.goActivity(this, chargeRecord);
     }
 }
