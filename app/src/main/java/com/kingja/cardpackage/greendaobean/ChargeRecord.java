@@ -18,7 +18,6 @@ import org.greenrobot.greendao.annotation.Id;
 public class ChargeRecord {
     /*03*/
     @Id
-    private String orderNo;
     private String sn;
     private String startTime;
     private String endTime;
@@ -30,12 +29,11 @@ public class ChargeRecord {
     private double environmentTemperature;
     private double maxBatteryTemperature;
     private double maxChargerTemperature;
-    @Generated(hash = 599141959)
-    public ChargeRecord(String orderNo, String sn, String startTime, String endTime,
-            int endReason, double maxVoltage, double maxElectricity,
-            double totlePower, double environmentTemperature,
-            double maxBatteryTemperature, double maxChargerTemperature) {
-        this.orderNo = orderNo;
+    @Generated(hash = 717337929)
+    public ChargeRecord(String sn, String startTime, String endTime, int endReason,
+            double maxVoltage, double maxElectricity, double totlePower,
+            double environmentTemperature, double maxBatteryTemperature,
+            double maxChargerTemperature) {
         this.sn = sn;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -49,12 +47,6 @@ public class ChargeRecord {
     }
     @Generated(hash = 1910593479)
     public ChargeRecord() {
-    }
-    public String getOrderNo() {
-        return this.orderNo;
-    }
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
     }
     public String getSn() {
         return this.sn;
@@ -116,6 +108,6 @@ public class ChargeRecord {
     public void setMaxChargerTemperature(double maxChargerTemperature) {
         this.maxChargerTemperature = maxChargerTemperature;
     }
-  
+
 
 }

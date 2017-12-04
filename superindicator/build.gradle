@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'com.novoda.bintray-release'
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
+}
+
+//publish {
+//    artifactId = 'superindicator'
+//    userOrg = 'kingja'
+//    groupId = 'com.kingja.superindicator'
+//    publishVersion = '1.0.0'
+//    desc = 'super indicator.'
+//    website = 'https://github.com/KingJA/SuperIndicator'
+//}

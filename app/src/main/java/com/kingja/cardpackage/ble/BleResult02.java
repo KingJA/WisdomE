@@ -31,8 +31,8 @@ public class BleResult02 extends BleResult {
 //    当前充电电压(2)+当前充电电流(2)+累计充电电量(2)+电池温度(2)+充电器温度(2)+当前电池电量(1,0-100)+充电时间(1,0.1小时)+剩余充电时间(1,0.1小时)
 
     //充电状态（1,0:空闲,1:欠压充电，2：恒流充电，3：恒压充电，4：浮充充电）
-    public String getChargeStatus() {
-        return HexUtil.encodeHexStr(Arrays.copyOfRange(data, 2, 3));
+    public int getChargeStatus() {
+        return Integer.valueOf(BleUtil.hex2Dec(HexUtil.encodeHexStr(Arrays.copyOfRange(data, 2, 3)))) ;
     }
 
     //当前充电电压(2)

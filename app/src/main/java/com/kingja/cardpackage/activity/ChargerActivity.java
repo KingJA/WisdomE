@@ -50,13 +50,18 @@ import com.kingja.cardpackage.util.ToastUtil;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
+import com.kingja.superindicator.SuperIndicator;
 import com.tdr.wisdome.R;
 import com.tdr.wisdome.view.popupwindow.ChargePop;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.tdr.wisdome.R.id.superIndicator;
+import static com.tdr.wisdome.R.id.sw_swich;
 
 /**
  * Description:TODO
@@ -86,6 +91,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     private TextView mTvChargerTemperature;
     private TextView mTvBatteryTemperature;
     private TextView mTvLeftCost;
+    private SuperIndicator mSuperIndicator;
 
     @Override
     protected void initVariables() {
@@ -174,7 +180,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
 //        Log.e(TAG, "03结束原因: " + bleResult03.getEndReason());
         ChargeRecord chargeRecord = new ChargeRecord();
         chargeRecord.setSn(bleResult03.getSn());
-        chargeRecord.setStartTime(bleResult03.getSn());
+        chargeRecord.setStartTime(bleResult03.getStartTime());
         chargeRecord.setEndTime(bleResult03.getEndTime());
         chargeRecord.setEndReason(bleResult03.getEndReason());
         DBManager.getInstance(this).insertChargeRecord(chargeRecord);
@@ -210,8 +216,8 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         BleResult05 bleResult05 = bleResult;
         //发送回复
         sendBle(bleResult05.getResponse());
-        DBManager.getInstance(this).insertErrorInfo(new ErrorInfo(bleResult05.getSn(), bleResult05.getOrderCode(),
-                bleResult05.getErrorTime(), bleResult05.getErrorMsg(), bleResult05.getErrorType()));
+        DBManager.getInstance(this).insertErrorInfo(new ErrorInfo(bleResult05.getSn(), bleResult05.getErrorTime(),
+                bleResult05.getErrorMsg(), bleResult05.getErrorType()));
         Log.e(TAG, "回复: " + bleResult05.getResponse());
 //        Log.e(TAG, "解析05===========================");
 //        Log.e(TAG, "05异常时间: " + bleResult05.getErrorTime());
@@ -223,7 +229,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         BleResult02 bleResult02 = new BleResult02(data);
         sendBle(bleResult02.getResponse());
         Log.e(TAG, "回复02: " + bleResult02.getResponse());
-//        Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
+        Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
 //        Log.e(TAG, "当前充电电压: " + bleResult02.getCurrentChargeVoltage());
 //        Log.e(TAG, "当前充电电流: " + bleResult02.getCurrentChargeelEctricity());
 //        Log.e(TAG, "累计充电电量: " + bleResult02.getTotlePower());
@@ -233,12 +239,37 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
 //        Log.e(TAG, "充电时间: " + bleResult02.getChargeCost());
 //        Log.e(TAG, "剩余充电时间: " + bleResult02.getLeftChargeCost());
 
+        mSuperIndicator.setProgress(getChargeStatusProgress(bleResult02.getChargeStatus()));
         mTvCurrentChargeelEctricity.setText(bleResult02.getCurrentChargeelEctricity());
         mTvCurrentChargeVoltage.setText(bleResult02.getCurrentChargeVoltage());
         mTvChargerTemperature.setText(bleResult02.getChargerTemperature());
         mTvBatteryTemperature.setText(bleResult02.getBatteryTemperature());
         mTvLeftCost.setText("预计充满电还需" + bleResult02.getLeftChargeCost());
     }
+
+    //充电状态（1,0:空闲,01:欠压充电，02：恒流充电，03：恒压充电，04：浮充充电，05：完成充电）
+    public int getChargeStatusProgress(int chargeStatus) {
+        int result = 0;
+        switch (chargeStatus) {
+            case 1:
+            case 2:
+                result = 0;
+                break;
+            case 3:
+                result = 1;
+                break;
+            case 4:
+                result = 2;
+                break;
+            case 5:
+                result = 3;
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+
 
     private void connectBle(final String deviceId) {
         setProgressDialog(true, "蓝牙连接中");
@@ -268,8 +299,8 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-//                        sendAlarm();
-//                        sendChargeRecord();
+                        sendAlarm();
+                        sendChargeRecord();
                     }
                 }, 60000);
             }
@@ -307,6 +338,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         mTvChargeTotleCount = (TextView) findViewById(R.id.tv_chargeTotleCount);
         mTvChargeTotleCost = (TextView) findViewById(R.id.tv_chargeTotleCost);
         mTvChargeTotleElectricity = (TextView) findViewById(R.id.tv_chargeTotleElectricity);
+        mSuperIndicator = (SuperIndicator) findViewById(R.id.superIndicator);
 
         mTvCurrentChargeelEctricity = (TextView) findViewById(R.id.tv_currentChargeelEctricity);
         mTvCurrentChargeVoltage = (TextView) findViewById(R.id.tv_currentChargeVoltage);
@@ -410,7 +442,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 ChargeAlarmActivity.goActivity(ChargerActivity.this, chargerId);
             }
         });
-
+        mSuperIndicator.setTabs(Arrays.asList("快速充电", "连续充电", "涓流充电", "完成充电"));
     }
 
     @Override
@@ -515,7 +547,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 .setCallBack(new WebServiceCallBack<AddChargerRecord>() {
                     @Override
                     public void onSuccess(AddChargerRecord bean) {
-
+                        DBManager.getInstance(ChargerActivity.this).deleteAllChargeRecords();
                     }
 
                     @Override

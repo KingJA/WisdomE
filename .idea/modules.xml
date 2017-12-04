@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/libk-kupdate/libk-kupdate.iml" filepath="$PROJECT_DIR$/libk-kupdate/libk-kupdate.iml" />
       <module fileurl="file://$PROJECT_DIR$/libk-ui/libk-ui.iml" filepath="$PROJECT_DIR$/libk-ui/libk-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/recyclerviewhelper/recyclerviewhelper.iml" filepath="$PROJECT_DIR$/recyclerviewhelper/recyclerviewhelper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/superindicator/superindicator.iml" filepath="$PROJECT_DIR$/superindicator/superindicator.iml" />
     </modules>
   </component>
 </project>

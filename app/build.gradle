@@ -96,9 +96,11 @@ dependencies {
     compile project(':flashlighthelper')
     compile 'lib.kingja.progress:kprogress:1.2.7'
     compile 'com.kingja.loadsir:loadsir:1.3.2'
-        compile 'com.clj.fastble:FastBleLib:2.1.1'
-    compile 'org.greenrobot:greendao:3.2.2' // add library
+    compile 'com.clj.fastble:FastBleLib:2.1.1'
+    compile 'org.greenrobot:greendao:3.2.2'
+    // add library
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
+    compile project(':superindicator')
 }
 
 def releaseTime() {

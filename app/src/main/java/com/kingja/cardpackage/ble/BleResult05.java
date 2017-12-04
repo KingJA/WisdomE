@@ -30,7 +30,7 @@ public class BleResult05 extends BleResult {
 
     //SN(1,用于同步)
     public String getSn() {
-        return result.substring(4, 6);
+        return  result.substring(4, 6);
     }
 
     //异常时间(6)

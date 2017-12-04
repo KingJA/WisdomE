@@ -75,7 +75,7 @@ public class DBManager {
      */
     public void insertChargeRecord(ChargeRecord chargeRecord) {
         ChargeRecordDao chargeRecordDao = getChargeRecordDao();
-        chargeRecordDao.insert(chargeRecord);
+        chargeRecordDao.insertOrReplace(chargeRecord);
     }
 
     /**
@@ -83,7 +83,7 @@ public class DBManager {
      */
     public void insertErrorInfo(ErrorInfo errorInfo) {
         ErrorInfoDao errorInfoDao = getErrorInfoDao();
-        errorInfoDao.insert(errorInfo);
+        errorInfoDao.insertOrReplace(errorInfo);
     }
 
 

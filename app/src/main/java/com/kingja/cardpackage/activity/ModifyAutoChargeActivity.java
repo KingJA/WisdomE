@@ -82,8 +82,8 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
     protected void initData() {
         selectTime = config.getAuto_operate() == 1 ? config.getAuto_start() : config.getAuto_end();
         mTvSelectTime.setText(selectTime);
-        autoOperate=config.getAuto_operate();
-        autoFrequency=config.getAuto_frequency();
+        autoOperate = config.getAuto_operate();
+        autoFrequency = config.getAuto_frequency();
         if (autoOperate == 1) {
             mRbAutoStart.setChecked(true);
         } else {
@@ -152,12 +152,12 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
         }
 
         String currentDate = BleUtil.getCurrentDate();
-        if (autoFrequency == 1) {
+        if (autoOperate == 1) {
+            autoEndTime = currentDate + (selectTime.replace(":", "")) + "00";
+            autoStartTime = "00000000000000";
+        } else {
             autoStartTime = currentDate + (selectTime.replace(":", "")) + "00";
             autoEndTime = "00000000000000";
-        } else {
-            autoStartTime = "00000000000000";
-            autoEndTime = currentDate + (selectTime.replace(":", "")) + "00";
         }
 
 
@@ -180,8 +180,8 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
         setProgressDialog(true);
         Map<String, Object> param = new HashMap<>();
         param.put("auto_start", autoOperate == 1 ? selectTime : "");
-        param.put("auto_end",  autoOperate == 2 ? selectTime : "");
-        param.put("auto_operate",autoOperate);
+        param.put("auto_end", autoOperate == 2 ? selectTime : "");
+        param.put("auto_operate", autoOperate);
         param.put("auto_frequency", autoFrequency);
         param.put("autoid", config.getAutoid());
         new ThreadPoolTask.Builder()

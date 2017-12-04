@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SuperIndicator">
+        <attr name="indicatorPointSize" format="dimension"/>
+        <attr name="indicatorTextSize" format="dimension"/>
+        <attr name="indicatorLineSize" format="dimension"/>
+        <attr name="indicatorMargin" format="dimension"/>
+        <attr name="indicatorNormalColor" format="color|reference"/>
+        <attr name="indicatorActionColor" format="color|reference"/>
+    </declare-styleable>
+
+</resources>

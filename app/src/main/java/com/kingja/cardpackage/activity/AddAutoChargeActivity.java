@@ -137,12 +137,12 @@ public class AddAutoChargeActivity extends BackTitleActivity implements BackTitl
         }
 
         String currentDate = BleUtil.getCurrentDate();
-        if (autoFrequency == 1) {
+        if (autoOperate == 1) {
+            autoEndTime = currentDate + (selectTime.replace(":", "")) + "00";
+            autoStartTime = "00000000000000";
+        } else {
             autoStartTime = currentDate + (selectTime.replace(":", "")) + "00";
             autoEndTime = "00000000000000";
-        } else {
-            autoStartTime = "00000000000000";
-            autoEndTime = currentDate + (selectTime.replace(":", "")) + "00";
         }
 
 
