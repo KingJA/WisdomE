@@ -32,7 +32,7 @@ public class BleResult02 extends BleResult {
 
     //充电状态（1,0:空闲,1:欠压充电，2：恒流充电，3：恒压充电，4：浮充充电）
     public int getChargeStatus() {
-        return Integer.valueOf(BleUtil.hex2Dec(HexUtil.encodeHexStr(Arrays.copyOfRange(data, 2, 3)))) ;
+        return Integer.valueOf(BleUtil.hex2Dec(HexUtil.encodeHexStr(Arrays.copyOfRange(data, 2, 3))));
     }
 
     //当前充电电压(2)
@@ -71,10 +71,10 @@ public class BleResult02 extends BleResult {
     }
 
     //当前电池电量(1,0-100)
-    public String getCurrentPower() {
+    public int getCurrentPower() {
         String chargerCurrentPower = BleUtil.hex2Dec(HexUtil.encodeHexStr(BleUtil.reverseByteArr(Arrays.copyOfRange
                 (data, 13, 14))));
-        return chargerCurrentPower + BleConstants.UNIT_POWER;
+        return Integer.valueOf(chargerCurrentPower);
     }
 
     //充电时间(1,0.1小时)

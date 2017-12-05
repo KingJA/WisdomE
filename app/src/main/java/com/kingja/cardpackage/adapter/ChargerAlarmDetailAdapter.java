@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
+import com.kingja.cardpackage.util.TimeUtil;
 import com.tdr.wisdome.R;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class ChargerAlarmDetailAdapter extends BaseLvAdapter<GetChargerWarningIn
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.v_readTag.setVisibility(list.get(position).getIsread()==1?View.GONE:View.VISIBLE);
-        viewHolder.tv_alarmTime.setText(list.get(position).getWarn_time());
+        viewHolder.tv_alarmTime.setText(TimeUtil.getTimeTip(list.get(position).getWarn_time()));
         viewHolder.tv_alarmType.setText(list.get(position).getWarn_msg() + "");
         viewHolder.tv_alarmMsg.setText("充电器在" + list.get(position).getWarn_time() + list.get(position).getWarn_msg()
                 + "，已经断电，请尽快处理");

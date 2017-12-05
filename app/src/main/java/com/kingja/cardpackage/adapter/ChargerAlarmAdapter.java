@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
+import com.kingja.cardpackage.util.TimeUtil;
 import com.tdr.wisdome.R;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class ChargerAlarmAdapter extends BaseLvAdapter<GetChargerWarningInfoList
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_alarmTime.setText(list.get(position).getWarn_time());
+        viewHolder.tv_alarmTime.setText(TimeUtil.getTimeTip(list.get(position).getWarn_time()));
         viewHolder.tv_alarmMsg.setText("("+list.get(position).getWarn_msg()+")");
         return convertView;
     }

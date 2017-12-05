@@ -126,7 +126,7 @@
             android:layout_height="wrap_content">
 
             <lib.kingja.progress.KJProgressRound
-                android:id="@+id/progress_circle"
+                android:id="@+id/progress_power"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:progress="0"

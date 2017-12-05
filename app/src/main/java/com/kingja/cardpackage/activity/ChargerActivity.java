@@ -60,8 +60,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.tdr.wisdome.R.id.superIndicator;
-import static com.tdr.wisdome.R.id.sw_swich;
+import lib.kingja.progress.KJProgressRound;
+
 
 /**
  * Description:TODO
@@ -92,6 +92,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     private TextView mTvBatteryTemperature;
     private TextView mTvLeftCost;
     private SuperIndicator mSuperIndicator;
+    private KJProgressRound mProgressPower;
 
     @Override
     protected void initVariables() {
@@ -229,7 +230,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         BleResult02 bleResult02 = new BleResult02(data);
         sendBle(bleResult02.getResponse());
         Log.e(TAG, "回复02: " + bleResult02.getResponse());
-        Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
+//        Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
 //        Log.e(TAG, "当前充电电压: " + bleResult02.getCurrentChargeVoltage());
 //        Log.e(TAG, "当前充电电流: " + bleResult02.getCurrentChargeelEctricity());
 //        Log.e(TAG, "累计充电电量: " + bleResult02.getTotlePower());
@@ -245,6 +246,9 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         mTvChargerTemperature.setText(bleResult02.getChargerTemperature());
         mTvBatteryTemperature.setText(bleResult02.getBatteryTemperature());
         mTvLeftCost.setText("预计充满电还需" + bleResult02.getLeftChargeCost());
+        mProgressPower.setProgress(bleResult02.getCurrentPower());
+
+
     }
 
     //充电状态（1,0:空闲,01:欠压充电，02：恒流充电，03：恒压充电，04：浮充充电，05：完成充电）
@@ -332,6 +336,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     @Override
     protected void initContentView() {
         mChargePop = new ChargePop(mRlTopMenu, this);
+        mProgressPower = (KJProgressRound) findViewById(R.id.progress_power);
         mLvArarm = (ListView) findViewById(R.id.lv_ararm);
         mIvBleStatus = (ImageView) findViewById(R.id.iv_ble_status);
         mTvMoreAlarms = (TextView) findViewById(R.id.tv_moreAlarms);
