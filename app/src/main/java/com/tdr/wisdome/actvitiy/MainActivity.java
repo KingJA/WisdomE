@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.kingja.cardpackage.activity.AgentActivity;
+import com.kingja.cardpackage.activity.ChargeListActivity;
+import com.kingja.cardpackage.activity.ChargerActivity;
 import com.kingja.cardpackage.activity.HouseActivity;
 import com.kingja.cardpackage.activity.IntermediaryActivity;
 import com.kingja.cardpackage.activity.LoginActivity;
@@ -92,7 +94,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private String cityCode = "";//城市代码
     private final static int LOCKEY = 2003;
     public static List<String> mCardList = Arrays.asList("1001", "1002", "1003", "1004", "1005", "1006", "1007",
-            "1008", "1009");
+            "1008", "1009", "1010");
     private LocationTask mLocationTask;
     private String cityName = "";
     private RelativeLayout rl_msg;
@@ -240,6 +242,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         break;
                     case "1009"://NFC门禁
                         GoUtil.goActivity(MainActivity.this, NfcRoomActivity.class);
+                        break;
+                    case "1010"://充电器
+                        GoUtil.goActivity(MainActivity.this, ChargeListActivity.class);
                         break;
                 }
             }

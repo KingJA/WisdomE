@@ -136,7 +136,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         param.put(TempConstants.PageIndex, 1);
         param.put(TempConstants.PageSize, 50);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .GetBindChargerList,
                         param)
                 .setBeanType(GetBindChargerList.class)
@@ -191,7 +191,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         Map<String, Object> param = new HashMap<>();
         param.put("binding_objectid", deviceId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants.BindCharger,
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants.BindCharger,
                         param)
                 .setBeanType(BindCharger.class)
                 .setCallBack(new WebServiceCallBack<BindCharger>() {
@@ -215,7 +215,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         param.put("userid", userId);
         param.put("binding_objectid", deviceId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .DelBindCharger,
                         param)
                 .setBeanType(DelBindCharger.class)

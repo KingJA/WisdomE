@@ -44,6 +44,7 @@ import com.kingja.cardpackage.greendaobean.ErrorInfo;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.BleConstants;
+import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.TempConstants;
 import com.kingja.cardpackage.util.ToastUtil;
@@ -373,7 +374,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         Map<String, Object> param = new HashMap<>();
         param.put("ChargerId", chargerId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .GetChargerStatistics,
                         param)
                 .setBeanType(GetChargerStatistics.class)
@@ -415,7 +416,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         param.put("OnlyGetRecord", false);
         param.put("ChargerId", chargerId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .GetChargerWarningInfoList,
                         param)
                 .setBeanType(GetChargerWarningInfoList.class)
@@ -507,7 +508,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
             chargerAlarms.add(chargerAlarm);
         }
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .AddChargerWarningInfo,
                         chargerAlarms)
                 .setBeanType(AddChargerWarningInfo.class)
@@ -545,7 +546,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
             chargerRecords.add(chargerRecord);
         }
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .AddChargerRecord,
                         chargerRecords)
                 .setBeanType(AddChargerRecord.class)

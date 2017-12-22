@@ -17,6 +17,7 @@ import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetChargerSettingList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
+import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.NoDoubleClickListener;
 import com.kingja.cardpackage.util.ToastUtil;
@@ -185,7 +186,7 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
         param.put("auto_frequency", autoFrequency);
         param.put("autoid", config.getAutoid());
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .EditChargerSetting,
                         param)
                 .setBeanType(AddChargerSetting.class)

@@ -13,6 +13,7 @@ public class CarPop extends PopupWindowBaseDown implements View.OnClickListener 
     private LinearLayout ll_preRegistration;
     private LinearLayout ll_insurance;
     private LinearLayout ll_invoice_root;
+    private LinearLayout ll_weiBinding;
 
     public CarPop(View parentView, Activity activity) {
         super(parentView, activity);
@@ -30,6 +31,8 @@ public class CarPop extends PopupWindowBaseDown implements View.OnClickListener 
         ll_invoice_root = (LinearLayout) popupView.findViewById(R.id.ll_invoice_root);
         ll_preRegistration = (LinearLayout) popupView.findViewById(R.id.ll_preRegistration);
         ll_insurance = (LinearLayout) popupView.findViewById(R.id.ll_insurance);
+        ll_weiBinding = (LinearLayout) popupView.findViewById(R.id.ll_weiBinding);
+        ll_weiBinding.setOnClickListener(this);
         ll_invoice_root.setOnClickListener(this);
         ll_carBinding.setOnClickListener(this);
         ll_preRegistration.setOnClickListener(this);
@@ -37,7 +40,7 @@ public class CarPop extends PopupWindowBaseDown implements View.OnClickListener 
     }
 
     public void setInvoiceVisibility(boolean isVisibility) {
-        ll_invoice_root.setVisibility(isVisibility?View.VISIBLE:View.GONE);
+        ll_invoice_root.setVisibility(isVisibility ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -58,6 +61,9 @@ public class CarPop extends PopupWindowBaseDown implements View.OnClickListener 
                 break;
             case R.id.ll_invoice_root:
                 onCarPopClickListener.onCarPop(3);
+                break;
+            case R.id.ll_weiBinding:
+                onCarPopClickListener.onCarPop(4);
                 break;
         }
     }

@@ -74,6 +74,9 @@ public abstract class BaseCardAdapter extends BaseAdapter {
             case "1009":
                 cardName = "NFC门禁卡";
                 break;
+            case "1010":
+                cardName = "智能充电器";
+                break;
             //default:
             //cardName = "未知卡";
             //  break;
@@ -110,6 +113,9 @@ public abstract class BaseCardAdapter extends BaseAdapter {
                 break;
             case "1009":
                 cardImage = R.mipmap.image_nfc;
+                break;
+            case "1010":
+                cardImage = R.mipmap.card_charger;
                 break;
         }
         return cardImage;

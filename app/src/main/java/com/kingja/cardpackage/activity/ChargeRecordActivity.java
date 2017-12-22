@@ -14,6 +14,7 @@ import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetChargerRecordList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
+import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
@@ -71,7 +72,7 @@ public class ChargeRecordActivity extends BackTitleActivity implements AdapterVi
         param.put("OnlyGetRecord", false);
         param.put("ChargerId", chargerId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .GetChargerRecordList,
                         param)
                 .setBeanType(GetChargerRecordList.class)

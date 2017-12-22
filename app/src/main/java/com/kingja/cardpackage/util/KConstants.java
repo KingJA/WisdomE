@@ -240,5 +240,7 @@ public class KConstants {
     public static final String SetAllReadStatus = "SetAllReadStatus";
     /*充电预警已读*/
     public static final String SetReadStatus = "SetReadStatus";
+    /*绑定微信*/
+    public static final String SetBindWechatValidCode = "SetBindWechatValidCode";
 
 }

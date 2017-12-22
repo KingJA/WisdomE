@@ -77,7 +77,7 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
 
     @Override
     protected void initVariables() {
-        Log.e(TAG, "initVariables: " );
+        Log.e(TAG, "initVariables: ");
         mZeusManager.checkPermissions(permissionArr, true);
         autoDeployalbe = FunctionUtil.autoDeployalbe();
         showInvoicealbe = FunctionUtil.showInvoicealbe();
@@ -274,6 +274,11 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
                 break;
             case 3:
                 GoUtil.goActivity(this, InvoiceListActivity.class);
+                break;
+            case 4:
+                GoUtil.goActivity(this, BindCodeActivity.class);
+                break;
+            default:
                 break;
 
         }

@@ -17,6 +17,7 @@ import com.kingja.cardpackage.entiy.SetAllReadStatus;
 import com.kingja.cardpackage.entiy.SetReadStatus;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
+import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.ToastUtil;
 import com.kingja.loadsir.callback.Callback;
@@ -76,7 +77,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
         param.put("OnlyGetRecord", false);
         param.put("ChargerId", chargerId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .GetChargerWarningInfoList,
                         param)
                 .setBeanType(GetChargerWarningInfoList.class)
@@ -116,7 +117,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
         Map<String, Object> param = new HashMap<>();
         param.put("isread", 1);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .SetAllReadStatus,
                         param)
                 .setBeanType(SetAllReadStatus.class)
@@ -153,7 +154,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
         param.put("warnid", warnid);
         param.put("isread", 1);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .SetReadStatus,
                         param)
                 .setBeanType(SetReadStatus.class)

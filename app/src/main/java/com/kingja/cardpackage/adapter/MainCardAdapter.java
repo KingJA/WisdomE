@@ -95,6 +95,9 @@ public class MainCardAdapter extends BaseRvAdaper<String> implements RecyclerVie
             case "1009":
                 cardName = "NFC门禁卡";
                 break;
+            case "1010":
+                cardName = "智能充电器";
+                break;
         }
         return cardName;
     }
@@ -128,6 +131,9 @@ public class MainCardAdapter extends BaseRvAdaper<String> implements RecyclerVie
                 break;
             case "1009":
                 cardImage = R.mipmap.image_nfcdevice;
+                break;
+            case "1010":
+                cardImage = R.mipmap.image_charger;
                 break;
         }
         return cardImage;

@@ -16,6 +16,7 @@ import com.kingja.cardpackage.entiy.AddChargerSetting;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
+import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.NoDoubleClickListener;
 import com.kingja.cardpackage.util.ToastUtil;
@@ -163,7 +164,7 @@ public class AddTopChargeActivity extends BackTitleActivity implements BackTitle
         param.put("chargerid", chargerId);
         param.put("seq", sep);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .AddChargerSetting,
                         param)
                 .setBeanType(AddChargerSetting.class)

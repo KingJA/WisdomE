@@ -58,7 +58,7 @@
 
         <!-- 主界面 -->
         <activity
-            android:name="com.kingja.cardpackage.activity.ChargeListActivity"
+            android:name=".actvitiy.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
@@ -591,9 +591,12 @@
         <activity
             android:name="com.kingja.cardpackage.activity.ChargeRecordDetailActivity"
             android:screenOrientation="portrait"/> <!-- 充电记录详情 -->
-        <!-- <activity
-             android:name="com.kingja.cardpackage.activity.ChargeListActivity"
-             android:screenOrientation="portrait"/> &lt;!&ndash; 充电器列表 &ndash;&gt;-->
+        <activity
+            android:name="com.kingja.cardpackage.activity.ChargeListActivity"
+            android:screenOrientation="portrait"/> <!-- 充电器列表 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.BindCodeActivity"
+            android:screenOrientation="portrait"/> <!-- 微信绑定 -->
         <service android:name="com.kingja.cardpackage.service.JPushDispathService"/> <!-- 推送分发服务 -->
     </application>
 

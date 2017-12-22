@@ -22,6 +22,7 @@ import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetChargerSettingList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
+import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.DialogUtil;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.TempConstants;
@@ -94,7 +95,7 @@ public class TopChargeActivity extends BackTitleActivity implements BackTitleAct
         param.put("ChargerId", chargerId);
         param.put("Auto_Type", 2);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .GetChargerSettingList,
                         param)
                 .setBeanType(GetChargerSettingList.class)
@@ -201,7 +202,7 @@ public class TopChargeActivity extends BackTitleActivity implements BackTitleAct
         Map<String, Object> param = new HashMap<>();
         param.put("autoid", autoid);
         new ThreadPoolTask.Builder()
-                .setGeneralParam("0506b35c7e6248fb84cd2c83afa1b300", KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
                                 .DelChargerSetting,
                         param)
                 .setBeanType(DelChargerSetting.class)

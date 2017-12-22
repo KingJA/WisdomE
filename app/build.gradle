@@ -4,7 +4,6 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
     defaultConfig {
         applicationId "com.tdr.wisdome"
         minSdkVersion rootProject.ext.minSdkVersion
