@@ -1,8 +1,5 @@
 package com.kingja.cardpackage.util;
 
-import android.util.Log;
-import android.view.View;
-
 import com.kingja.cardpackage.db.ECardXutils3;
 import com.kingja.cardpackage.entiy.UpdateFunctions;
 
@@ -21,7 +18,7 @@ public class FunctionUtil {
                 "CityCode", DataManager.getCityCode(), "ColumnValue", "2");
         if (autoDeploys!=null&&autoDeploys.size() > 0) {
             UpdateFunctions function = autoDeploys.get(0);
-            if (function != null && (function.getIsValid() == 1)) {
+            if (function != null && (function.getIsValid() == 1)&& (function.getIsGrant() == 1)) {
                 autoDeployable = true;
             }
         }
@@ -34,7 +31,19 @@ public class FunctionUtil {
                 "CityCode", DataManager.getCityCode(), "ColumnValue", "3");
         if (functionses!=null&&functionses.size() > 0) {
             UpdateFunctions function = functionses.get(0);
-            if (function != null && (function.getIsValid() == 1)) {
+            if (function != null && (function.getIsValid() == 1)&& (function.getIsGrant() == 1)) {
+                showInvoicealbe = true;
+            }
+        }
+        return showInvoicealbe;
+    }
+    public static boolean showWeibind() {
+        boolean showInvoicealbe = false;
+        List<UpdateFunctions> functionses = ECardXutils3.getInstance().selectAllWheres(UpdateFunctions.class,
+                "CityCode", DataManager.getCityCode(), "ColumnValue", "4");
+        if (functionses!=null&&functionses.size() > 0) {
+            UpdateFunctions function = functionses.get(0);
+            if (function != null && (function.getIsValid() == 1)&& (function.getIsGrant() == 1)) {
                 showInvoicealbe = true;
             }
         }

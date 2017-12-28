@@ -109,8 +109,10 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
                         if (chargeConfigs != null && chargeConfigs.size() > 0) {
                             mAutoChargerConfigAdapter.setData(chargeConfigs);
                             loadService.showSuccess();
+                            hideMenu();
                         } else {
                             loadService.showCallback(EmptyCallback.class);
+                            setOnMenuClickListener(AutoChargeActivity.this, R.drawable.bg_add);
                         }
                     }
 
@@ -128,18 +130,19 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     protected void setData() {
-        setTitle("自动充电");
-        setOnMenuClickListener(this, R.drawable.bg_add);
+        setTitle("自动断电");
+
     }
 
     @Override
     public void onMenuClick() {
-        if (mAutoChargerConfigAdapter.getCount() < TempConstants.CHARGER_CONFIG_AUTO.length) {
-            Log.e(TAG, "Sep: " + getSep());
-            AddAutoChargeActivity.goActivity(this, chargerId, getSep());
-        } else {
-            ToastUtil.showToast("配置数量超过上限，请修改或者删除");
-        }
+//        if (mAutoChargerConfigAdapter.getCount() < TempConstants.CHARGER_CONFIG_AUTO.length) {
+//            Log.e(TAG, "Sep: " + getSep());
+//            AddAutoChargeActivity.goActivity(this, chargerId, getSep());
+//        } else {
+//            ToastUtil.showToast("配置数量超过上限，请修改或者删除");
+//        }
+        AddAutoChargeActivity.goActivity(this, chargerId, 1);
     }
 
     public int getSep() {
@@ -216,6 +219,7 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
                         setProgressDialog(false);
                         mAutoChargerConfigAdapter.removeItem(position);
                         ToastUtil.showToast("删除成功");
+                        setOnMenuClickListener(AutoChargeActivity.this, R.drawable.bg_add);
                     }
 
                     @Override

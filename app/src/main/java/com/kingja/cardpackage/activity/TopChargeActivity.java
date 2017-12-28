@@ -106,8 +106,10 @@ public class TopChargeActivity extends BackTitleActivity implements BackTitleAct
                         if (chargeConfigs != null && chargeConfigs.size() > 0) {
                             mTopChargerConfigAdapter.setData(chargeConfigs);
                             loadService.showSuccess();
+                            hideMenu();
                         } else {
                             loadService.showCallback(EmptyCallback.class);
+                            setOnMenuClickListener(TopChargeActivity.this, R.drawable.bg_add);
                         }
                     }
 
@@ -126,17 +128,18 @@ public class TopChargeActivity extends BackTitleActivity implements BackTitleAct
     @Override
     protected void setData() {
         setTitle("峰谷充电");
-        setOnMenuClickListener(this, R.drawable.bg_add);
+
     }
 
     @Override
     public void onMenuClick() {
-        if (mTopChargerConfigAdapter.getCount() < TempConstants.CHARGER_CONFIG_TOP.length) {
-            Log.e(TAG, "Sep: " + getSep());
-            AddTopChargeActivity.goActivity(this, chargerId, getSep());
-        } else {
-            ToastUtil.showToast("配置数量超过上限，请修改或者删除");
-        }
+//        if (mTopChargerConfigAdapter.getCount() < TempConstants.CHARGER_CONFIG_TOP.length) {
+//            Log.e(TAG, "Sep: " + getSep());
+//            AddTopChargeActivity.goActivity(this, chargerId, getSep());
+//        } else {
+//            ToastUtil.showToast("配置数量超过上限，请修改或者删除");
+//        }
+        AddTopChargeActivity.goActivity(this, chargerId, 0);
     }
 
     public int getSep() {
@@ -212,6 +215,7 @@ public class TopChargeActivity extends BackTitleActivity implements BackTitleAct
                         setProgressDialog(false);
                         mTopChargerConfigAdapter.removeItem(position);
                         ToastUtil.showToast("删除成功");
+                        setOnMenuClickListener(TopChargeActivity.this, R.drawable.bg_add);
                     }
 
                     @Override

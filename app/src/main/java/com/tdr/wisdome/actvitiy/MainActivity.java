@@ -143,14 +143,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 .setCallBack(new WebServiceCallBack<UpdateFunctionList_Result>() {
                     @Override
                     public void onSuccess(UpdateFunctionList_Result bean) {
-
                         List<UpdateFunctions> functions = bean.getContent();
                         Log.e(TAG, "更新功能列表: " + functions.size());
                         if (functions.size() > 0) {
                             DataManager.putLastUpdateFunction(TimeUtil.getNowTime());
                             ECardXutils3.getInstance().saveDate(functions);
                         }
-
                     }
 
                     @Override

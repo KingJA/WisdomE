@@ -65,7 +65,7 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
         mRbRepeat = (AppCompatRadioButton) findViewById(R.id.rb_repeat);
         mRbAutoStart = (AppCompatRadioButton) findViewById(R.id.rb_autoStart);
         mRbAutoEnd = (AppCompatRadioButton) findViewById(R.id.rb_autoEnd);
-        mRbAutoStart.setChecked(true);
+        mRbAutoEnd.setChecked(true);
         mRbOnce.setChecked(true);
     }
 
@@ -116,7 +116,7 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
 
     @Override
     protected void setData() {
-        setTitle("自动充电设置");
+        setTitle("自动断电修改");
         setOnRightClickListener(this, "保存");
     }
 

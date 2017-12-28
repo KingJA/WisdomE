@@ -1,6 +1,5 @@
 package com.kingja.cardpackage.activity;
 
-import android.bluetooth.BluetoothGatt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,18 +7,12 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.clj.fastble.BleManager;
-import com.clj.fastble.callback.BleScanAndConnectCallback;
-import com.clj.fastble.data.BleDevice;
-import com.clj.fastble.exception.BleException;
-import com.clj.fastble.scan.BleScanRuleConfig;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.kingja.cardpackage.adapter.ChargersAdapter;
-import com.kingja.cardpackage.ble.BleUtil;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
-import com.kingja.cardpackage.entiy.AlarmList;
 import com.kingja.cardpackage.entiy.BindCharger;
 import com.kingja.cardpackage.entiy.DelBindCharger;
 import com.kingja.cardpackage.entiy.ErrorResult;
@@ -42,9 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.R.id.list;
-import static com.tdr.wisdome.R.drawable.success;
 
 /**
  * Description:TODO
@@ -161,7 +151,12 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     protected void initData() {
-
+        if (!BleManager.getInstance().isBlueEnable()) {
+            ToastUtil.showToast("该设备不支持蓝牙Ble，无法正常连接蓝牙");
+        }else{
+            Log.e(TAG, "支持Ble");
+            BleManager.getInstance().enableBluetooth();
+        }
     }
 
     @Override

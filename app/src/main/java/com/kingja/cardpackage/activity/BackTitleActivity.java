@@ -86,11 +86,15 @@ public abstract class BackTitleActivity extends BaseActivity implements View.OnC
      * @param topColor 颜色枚举:TopColor.WHITE 白色 TopColor.BLUE 蓝色
      */
     public void setTopColor(TopColor topColor) {
-        mRlTopRoot.setBackgroundColor(ContextCompat.getColor(this, topColor == TopColor.WHITE ? R.color.bg_white : R.color.bg_blue));
+        mRlTopRoot.setBackgroundColor(ContextCompat.getColor(this, topColor == TopColor.WHITE ? R.color.bg_white : R
+                .color.bg_blue));
         mIvTopBack.setBackgroundResource(topColor == TopColor.WHITE ? R.drawable.back : R.drawable.top_back_white);
-        mTvTopTitle.setTextColor(ContextCompat.getColor(this, topColor == TopColor.WHITE ? R.color.bg_black : R.color.bg_white));
-        mTvTopRight.setTextColor(ContextCompat.getColor(this, topColor == TopColor.WHITE ? R.color.bg_black : R.color.bg_white));
-        mVDivider.setBackgroundColor(ContextCompat.getColor(this, topColor == TopColor.WHITE ? R.color.bg_divider : R.color.bg_blue));
+        mTvTopTitle.setTextColor(ContextCompat.getColor(this, topColor == TopColor.WHITE ? R.color.bg_black : R.color
+                .bg_white));
+        mTvTopRight.setTextColor(ContextCompat.getColor(this, topColor == TopColor.WHITE ? R.color.bg_black : R.color
+                .bg_white));
+        mVDivider.setBackgroundColor(ContextCompat.getColor(this, topColor == TopColor.WHITE ? R.color.bg_divider : R
+                .color.bg_blue));
     }
 
     /**
@@ -106,7 +110,7 @@ public abstract class BackTitleActivity extends BaseActivity implements View.OnC
     public void setLeftImg(int res) {
         if (res == -1) {
             mRlTopBack.setVisibility(View.GONE);
-        }else{
+        } else {
             mIvTopBack.setBackgroundResource(res);
         }
 
@@ -115,9 +119,10 @@ public abstract class BackTitleActivity extends BaseActivity implements View.OnC
 
     /**
      * 切换按钮
+     *
      * @param swtichList 按钮文字
      */
-    public void setSwitch(SwitchMultiButton.OnSwitchListener onSwitchListener , List<String> swtichList) {
+    public void setSwitch(SwitchMultiButton.OnSwitchListener onSwitchListener, List<String> swtichList) {
         mSbSwitch.setText(swtichList);
         mSbSwitch.setOnSwitchListener(onSwitchListener);
         mSbSwitch.setVisibility(View.VISIBLE);
@@ -125,20 +130,27 @@ public abstract class BackTitleActivity extends BaseActivity implements View.OnC
 
     /**
      * 设置菜单图标点击事件
+     *
      * @param onMenuClickListener 菜单点击监听器
      */
-    public void setOnMenuClickListener(OnMenuClickListener onMenuClickListener,int res) {
+    public void setOnMenuClickListener(OnMenuClickListener onMenuClickListener, int res) {
         mIvTop_menu.setBackgroundResource(res);
         mRlTopMenu.setVisibility(View.VISIBLE);
         this.onMenuClickListener = onMenuClickListener;
     }
 
+    public void hideMenu() {
+        mRlTopMenu.setVisibility(View.GONE);
+    }
+
+
     /**
      * 设置右侧文字点击事件
+     *
      * @param onRightClickListener 右侧文字点击监听器
      */
 
-    public void setOnRightClickListener(OnRightClickListener onRightClickListener,String rightText) {
+    public void setOnRightClickListener(OnRightClickListener onRightClickListener, String rightText) {
         mRlTopRight.setVisibility(View.VISIBLE);
         mTvTopRight.setText(rightText);
         this.onRightClickListener = onRightClickListener;
@@ -147,8 +159,6 @@ public abstract class BackTitleActivity extends BaseActivity implements View.OnC
     public void setOnRightClickGone() {
         mRlTopRight.setVisibility(View.GONE);
     }
-
-
 
 
     /**

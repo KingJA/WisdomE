@@ -73,6 +73,7 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
     private String url;
     private boolean autoDeployalbe;
     private boolean showInvoicealbe;
+    private boolean showWeibind;
 
 
     @Override
@@ -81,6 +82,7 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
         mZeusManager.checkPermissions(permissionArr, true);
         autoDeployalbe = FunctionUtil.autoDeployalbe();
         showInvoicealbe = FunctionUtil.showInvoicealbe();
+        showWeibind = FunctionUtil.showWeibind();
         EventBus.getDefault().register(this);
     }
 
@@ -88,7 +90,7 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
         List<UpdateFunctions> entrustDeploys = ECardXutils3.getInstance().selectAllWheres(UpdateFunctions.class,
                 "CityCode", DataManager.getCityCode(), "ColumnValue", "1");
 
-        if (entrustDeploys.size() > 0) {
+        if (entrustDeploys!=null&&entrustDeploys.size() > 0) {
             UpdateFunctions function = entrustDeploys.get(0);
             if (function != null && (function.getIsValid() == 1)) {
                 Log.e(TAG, function.getCityName() + "支持委托撤布防 ");
@@ -104,6 +106,7 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
         carPop = new CarPop(mRlTopMenu, this);
         carPop.setOnCarPopClickListener(this);
         carPop.setInvoiceVisibility(showInvoicealbe);
+        carPop.setWeibindVisibility(showWeibind);
 
         mSwitchEntrust = (SwitchCompat) findViewById(R.id.switch_entrust);
         mLlEntrustDeploy = (LinearLayout) findViewById(ll_entrustDeploy);

@@ -42,7 +42,9 @@ public class CarPop extends PopupWindowBaseDown implements View.OnClickListener 
     public void setInvoiceVisibility(boolean isVisibility) {
         ll_invoice_root.setVisibility(isVisibility ? View.VISIBLE : View.GONE);
     }
-
+    public void setWeibindVisibility(boolean isVisibility) {
+        ll_weiBinding.setVisibility(isVisibility ? View.VISIBLE : View.GONE);
+    }
     @Override
     public void OnChildClick(View v) {
         if (onCarPopClickListener == null) {

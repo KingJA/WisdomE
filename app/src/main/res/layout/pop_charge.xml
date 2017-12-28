@@ -84,7 +84,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="12dp"
                 android:gravity="center_vertical"
-                android:text="自动充电"/>
+                android:text="自动断电"/>
         </LinearLayout>
 
         <LinearLayout
