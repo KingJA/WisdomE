@@ -42,6 +42,7 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tv_deviceId.setText(list.get(position).getBinding_objectid());
+        viewHolder.tv_carNumber.setText(list.get(position).getBinding_objectid());
         viewHolder.tv_unbind.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
@@ -68,12 +69,14 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
     public class ViewHolder {
         final TextView tv_deviceId;
         final TextView tv_unbind;
+        final TextView tv_carNumber;
         public final DrawHelperLayout drawHelperLayout;
         public final View root;
 
         public ViewHolder(View root) {
             tv_deviceId = (TextView) root.findViewById(R.id.tv_deviceId);
             tv_unbind = (TextView) root.findViewById(R.id.tv_unbind);
+            tv_carNumber = (TextView) root.findViewById(R.id.tv_carNumber);
             drawHelperLayout = (DrawHelperLayout) root.findViewById(R.id.drawHelperLayout);
             this.root = root;
         }

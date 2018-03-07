@@ -1,13 +1,11 @@
 package com.kingja.cardpackage.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kingja.cardpackage.entiy.Basic_Dictionary_Kj;
 import com.kingja.cardpackage.entiy.Weekday;
 import com.tdr.wisdome.R;
 

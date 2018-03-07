@@ -21,7 +21,8 @@ public class Constants {
         public static final String BAThumbData = "showmsg_thumb_data";
     }
 
-    public static final String SAVE_PATH = Environment.getExternalStorageDirectory() + "/Wisdom/com.tdr.wisdome/cardImage/";
+    public static final String SAVE_PATH = Environment.getExternalStorageDirectory() + "/Wisdom/com.tdr" +
+            ".wisdome/cardImage/";
 
     public static final int HANDLER_KEY_GETVERSION_SUCCESS = 0;
     public static final int HANDLER_KEY_GETVERSION_FAIL = HANDLER_KEY_GETVERSION_SUCCESS + 1;
@@ -37,10 +38,12 @@ public class Constants {
     /**
      * Webservice参数
      */
-//    public static final String WEBSERVER_URL = "http://122.228.188.210:20043/WebCardHolder.asmx";// WebServices访问地址，测试，修改前
+//    public static final String WEBSERVER_URL = "http://122.228.188.210:20043/WebCardHolder.asmx";//
+// WebServices访问地址，测试，修改前
     public static final String WEBSERVER_URL = "http://10.130.0.104:1000/WebCardHolder.asmx";// WebServices访问地址，测试，修改后
 //    public static final String WEBSERVER_URL = "http://10.1.6.45:8009/webcardholder.asmx";// WebServices访问地址，测试，充电器
-//    public static final String WEBSERVER_URL = "http://116.255.205.110:10011/webcardholder.asmx";// WebServices访问地址，外网测试，充电器
+//    public static final String WEBSERVER_URL = "http://116.255.205.110:10011/webcardholder.asmx";//
+// WebServices访问地址，外网测试，充电器
 //    public static final String WEBSERVER_URL = "http://116.255.205.110:1001/WEBCARDHOLDER.asmx";// WebServices访问地址，正式
 
     public static final String WEBSERVER_NAMESPACE = "http://tempuri.org/";// 命名空间
@@ -129,7 +132,8 @@ public class Constants {
     }
 
     public static void setUserIdentitycard(String value) {
-        PreferenceManager.getDefaultSharedPreferences(App.getContext()).edit().putString(USERIDENTITYCARD, value).commit();
+        PreferenceManager.getDefaultSharedPreferences(App.getContext()).edit().putString(USERIDENTITYCARD, value)
+                .commit();
     }
 
     public static String getRealName() {
@@ -288,7 +292,8 @@ public class Constants {
     }
 
     public static String getLastUpdateTime() {
-        return PreferenceManager.getDefaultSharedPreferences(App.getContext()).getString(LASTUPDATETIME, "1990-01-01 00:00:01");
+        return PreferenceManager.getDefaultSharedPreferences(App.getContext()).getString(LASTUPDATETIME, "1990-01-01 " +
+                "00:00:01");
     }
 
     public static void setLastUpdateTime(String value) {

@@ -118,7 +118,7 @@ public class BleUtil {
         BleManager.getInstance().write(
                 BleManager.getInstance().getAllConnectedDevice().get(0),
                 TempConstants.BLE_SERVICE_UUID,
-                TempConstants.BLE_OPERATE_UUID,
+                TempConstants.BLE_READ_UUID,
                 HexUtil.hexStringToBytes(hexStr), bleWriteCallback);
     }
 

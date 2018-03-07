@@ -1,6 +1,8 @@
 package com.kingja.cardpackage.activity;
 
 import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -130,7 +132,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         BleManager.getInstance().indicate(
                 bleDevice,
                 TempConstants.BLE_SERVICE_UUID,
-                TempConstants.BLE_OPERATE_UUID, new SimpleBleIndicateCallback() {
+                TempConstants.BLE_READ_UUID, new SimpleBleIndicateCallback() {
                     @Override
                     public void onCharacteristicChanged(byte[] data) {
                         if (!BleUtil.checkBle(data)) {
@@ -287,6 +289,17 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         BleManager.getInstance().scanAndConnect(new SimpleBleScanAndConnectCallback() {
             @Override
             public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
+                List<BluetoothGattService> services = gatt.getServices();
+                Log.e(TAG, "services: " + services.size());
+                for (BluetoothGattService service : services) {
+                    Log.e(TAG, "services uuid: " + service.getUuid());
+                    List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+                    Log.e(TAG, "characteristics size: " + characteristics.size());
+                    for (BluetoothGattCharacteristic characteristic : characteristics) {
+                        Log.e(TAG, "permissions: " + characteristic.getPermissions());
+                        Log.e(TAG, "characteristic: " + characteristic.getUuid());
+                    }
+                }
                 Log.e(TAG, "onConnectSuccess: ");
                 setProgressDialog(false);
                 mIvBleStatus.setVisibility(View.VISIBLE);
@@ -309,6 +322,31 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                     }
                 }, 60000);
             }
+
+            @Override
+            public void onScanStarted(boolean success) {
+                Log.e(TAG, "onScanStarted: " + success);
+            }
+
+            @Override
+            public void onScanFinished(BleDevice scanResult) {
+                Log.e(TAG, "onScanFinished: ");
+            }
+
+            @Override
+            public void onStartConnect() {
+                Log.e(TAG, "onDisConnected: ");
+            }
+
+            @Override
+            public void onConnectFail(BleException exception) {
+                Log.e(TAG, "onConnectFail: ");
+            }
+
+            @Override
+            public void onDisConnected(boolean isActiveDisConnected, BleDevice device, BluetoothGatt gatt, int status) {
+                Log.e(TAG, "onDisConnected: ");
+            }
         });
     }
 
@@ -317,7 +355,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         BleManager.getInstance().write(
                 bleDevice,
                 TempConstants.BLE_SERVICE_UUID,
-                TempConstants.BLE_OPERATE_UUID,
+                TempConstants.BLE_READ_UUID,
                 HexUtil.hexStringToBytes(hexStr),
                 new BleWriteCallback() {
                     @Override

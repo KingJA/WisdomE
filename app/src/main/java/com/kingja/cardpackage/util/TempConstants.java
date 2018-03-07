@@ -8,9 +8,10 @@ package com.kingja.cardpackage.util;
  */
 public class TempConstants {
     public static final String BLE_SERVICE_UUID = "0000ffe0-0000-1000-8000-00805f9b34fb";
+    public static final String BLE_READ_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
     public static final String BLE_OPERATE_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
-
-
+//public static final String BLE_SERVICE_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
+    public static final String BLE_WRITE_UUID = "0000ffe1-0000-1000-8000-00805f9b34fb";
 
     public static final int[] CHARGER_CONFIG_AUTO = {0, 1, 2, 3, 4, 5, 6};
     public static final int[] CHARGER_CONFIG_TOP = {7, 8, 9};
