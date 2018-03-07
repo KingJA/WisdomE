@@ -14,6 +14,7 @@ import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
 import com.kingja.cardpackage.entiy.BindCharger;
+import com.kingja.cardpackage.entiy.BindChargerParam;
 import com.kingja.cardpackage.entiy.DelBindCharger;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetBindChargerList;
@@ -161,7 +162,8 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     public void onMenuClick() {
-        GoUtil.goActivityForResult(this, CaptureActivity.class, RQ_QCODE);
+//        GoUtil.goActivityForResult(this, CaptureActivity.class, RQ_QCODE);
+        GoUtil.goActivity(this,ChargerBindActivity.class);
     }
 
     @Override
@@ -171,14 +173,18 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
             Bundle bundle = data.getExtras();
             String url = bundle.getString("result");
             Log.e(TAG, "url: " + url);
-            showBindDialog(url);
+            ChargerBindActivity.goActivity(this, url);
+//            showBindDialog(url);
         }
     }
 
     protected void bindDevice(String deviceId) {
         setProgressDialog(true);
-        Map<String, Object> param = new HashMap<>();
-        param.put("binding_objectid", deviceId);
+        BindChargerParam param = new BindChargerParam();
+        List<BindChargerParam.PhotoListFileBean> photoListFile = new ArrayList<>();
+        BindChargerParam.PhotoListFileBean photo = new BindChargerParam.PhotoListFileBean();
+
+
         new ThreadPoolTask.Builder()
                 .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants.BindCharger,
                         param)

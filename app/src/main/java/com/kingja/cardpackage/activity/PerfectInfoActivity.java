@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.kingja.cardpackage.util.NoDoubleClickListener;
 import com.kingja.cardpackage.util.TempConstants;
 import com.kingja.cardpackage.util.ToastUtil;
 import com.kingja.supershapeview.SuperShapeTextView;
+import com.kingja.ui.wheelview.ChangeAddressDialog;
 import com.tdr.wisdome.R;
 import com.tdr.wisdome.util.Utils;
 import com.tdr.wisdome.view.material.MaterialEditText;
@@ -52,6 +54,15 @@ public class PerfectInfoActivity extends BackTitleActivity {
     private ImageView mIvOcr;
     private ListPopupWindow genderSelector;
     private ImageView mIvUserinfoSexArrow;
+    private ImageView mIvAddressDetailArrow;
+    private MaterialEditText mMetAddressArea;
+    private MaterialEditText mMetAddressDetail;
+    private ChangeAddressDialog mChangeAddressDialog;
+    private String unitId;
+    private String unitName;
+    private String resideaddress;
+    private String addressDetail;
+    private String provinceCityArea;
 
     @Override
     protected void initVariables() {
@@ -60,6 +71,9 @@ public class PerfectInfoActivity extends BackTitleActivity {
 
     @Override
     protected void initContentView() {
+        mIvAddressDetailArrow = (ImageView) findViewById(R.id.iv_addressDetail_arrow);
+        mMetAddressArea = (MaterialEditText) findViewById(R.id.met_addressArea);
+        mMetAddressDetail = (MaterialEditText) findViewById(R.id.met_addressDetail);
         mMetUserinfoIdcard = (MaterialEditText) findViewById(R.id.met_userinfo_idcard);
         mIvOcr = (ImageView) findViewById(R.id.iv_ocr);
         mMetUserinfoBirthday = (MaterialEditText) findViewById(R.id.met_userinfo_birthday);
@@ -69,6 +83,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
         mStvUserinfoConfirm = (SuperShapeTextView) findViewById(R.id.stv_userinfo_confirm);
         mIvUserinfoSexArrow = (ImageView) findViewById(R.id.iv_userinfo_sex_arrow);
         createGenderSelector();
+
     }
 
     @Override
@@ -89,6 +104,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
 
     @Override
     protected void initData() {
+
         mStvUserinfoConfirm.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
@@ -97,14 +113,35 @@ public class PerfectInfoActivity extends BackTitleActivity {
                 realName = mMetUserinfoRealname.getText().toString().trim();
                 sex = mMetUserinfoSex.getText().toString().trim();
                 address = mMetUserinfoAddress.getText().toString().trim();
+                addressDetail = mMetAddressDetail.getText().toString().trim();
                 if (CheckUtil.checkIdCard(idCard, "身份证号格式错误")
                         && CheckUtil.checkEmpty(birthday, "请输入出生年月")
                         && CheckUtil.checkEmpty(realName, "请输入真实姓名")
+                        && CheckUtil.checkEmpty(unitId, "请选择所在地")
+                        && CheckUtil.checkEmpty(addressDetail, "输入详细地址")
                         && CheckUtil.checkGender(sex)
                         && CheckUtil.checkEmpty(address, "请输入详细地址")) {
                     perfectUserInfo();
                 }
 
+            }
+        });
+        mIvAddressDetailArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mChangeAddressDialog = new ChangeAddressDialog(PerfectInfoActivity.this);
+                mChangeAddressDialog.setAddress("浙江省", "温州市", "鹿城区", "330000", "330300", "330302");
+                mChangeAddressDialog.show();
+                mChangeAddressDialog.setAddresskListener(new ChangeAddressDialog.OnAddressCListener() {
+                    @Override
+                    public void onClick(String province, String city, String area, String provinceId, String cityId,
+                                        String areaId) {
+                        provinceCityArea = province + city + area;
+                        mMetAddressArea.setText(province + city + area);
+                        unitId = areaId;
+                        unitName = area;
+                    }
+                });
             }
         });
         mIvOcr.setOnClickListener(new NoDoubleClickListener() {
@@ -189,6 +226,10 @@ public class PerfectInfoActivity extends BackTitleActivity {
         param.put("UserName", "");
         param.put("FaceBase", "");
 
+        param.put("Resideaddress", provinceCityArea + resideaddress);
+        param.put("unitid", unitId);
+        param.put("unitname", unitName);
+
 
         new ThreadPoolTask.Builder()
                 .setGeneralParam(DataManager.getToken(), "", "AddUserDetails", param)
@@ -210,6 +251,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
     }
 
     private void save2Local() {
+        DataManager.putResideaddress(resideaddress);
         DataManager.putIdCard(idCard);
         DataManager.putRealName(realName);
         DataManager.putSex(sex);
@@ -221,10 +263,12 @@ public class PerfectInfoActivity extends BackTitleActivity {
     protected void setData() {
         setTitle("用户资料");
         if (!editable()) {
+            mMetAddressDetail.setEnabled(false);
             mMetUserinfoIdcard.setEnabled(false);
             mMetUserinfoRealname.setEnabled(false);
             mMetUserinfoAddress.setEnabled(false);
             mIvUserinfoSexArrow.setVisibility(View.GONE);
+            mIvAddressDetailArrow.setVisibility(View.GONE);
             mIvOcr.setVisibility(View.GONE);
         } else {
             mStvUserinfoConfirm.setVisibility(View.VISIBLE);

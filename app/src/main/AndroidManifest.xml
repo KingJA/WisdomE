@@ -599,8 +599,20 @@
         <activity
             android:name="com.kingja.cardpackage.activity.BindCodeActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.kingja.cardpackage.activity.ChargerBindActivity"/> <!-- 微信绑定 -->
+        <activity
+            android:name="com.kingja.cardpackage.activity.ChargerBindActivity"
+            android:screenOrientation="portrait"/> <!-- 微信绑定 -->
         <service android:name="com.kingja.cardpackage.service.JPushDispathService"/> <!-- 推送分发服务 -->
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.tdr.wisdome.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

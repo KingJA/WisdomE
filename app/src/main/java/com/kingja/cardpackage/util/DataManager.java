@@ -25,6 +25,7 @@ public class DataManager {
     private static final String SEX = "sex";
     private static final String CERTIFICATION = "CERTIFICATION";
     private static final String PHONE = "Phone";
+    private static final String RESIDEADDRESS = "Resideaddress";
 
     /*================================GET================================*/
     public static String getToken() {
@@ -87,9 +88,14 @@ public class DataManager {
         return (String) SpUtils.get(BIRTHDAY, EMPTY);
     }
 
+    public static String getResideaddress() {
+        return (String) SpUtils.get(RESIDEADDRESS, EMPTY);
+    }
+
     public static String getCertification() {
         return (String) SpUtils.get(CERTIFICATION, EMPTY);
     }
+
     public static String getPhone() {
         return (String) SpUtils.get(PHONE, EMPTY);
     }
@@ -115,6 +121,10 @@ public class DataManager {
         SpUtils.put(ID_CARD, idCard);
     }
 
+    public static void putResideaddress(String resideaddress) {
+        SpUtils.put(RESIDEADDRESS, resideaddress);
+    }
+
     public static void putCityName(String city) {
         SpUtils.put(CITY_NAME, city);
     }
@@ -138,6 +148,7 @@ public class DataManager {
     public static void putLastUpdateFunction(String lastUpdateFunction) {
         SpUtils.put(LAST_UPDATE_FUNCTION, lastUpdateFunction);
     }
+
     public static void putAddresse(String address) {
         SpUtils.put(ADDRESS, address);
     }
@@ -145,6 +156,7 @@ public class DataManager {
     public static void putBirthday(String birthday) {
         SpUtils.put(BIRTHDAY, birthday);
     }
+
     public static void putPhone(String userPhone) {
         SpUtils.put(PHONE, userPhone);
     }

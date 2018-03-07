@@ -71,7 +71,6 @@
             app:met_singleLineEllipsis="true"/>
 
         <FrameLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -93,13 +92,53 @@
                 android:layout_height="18dp"
                 android:layout_gravity="center_vertical|end"
                 android:background="@drawable/arrow_down"/>
+
+
         </FrameLayout>
 
         <com.tdr.wisdome.view.material.MaterialEditText
+            android:visibility="gone"
             android:id="@+id/met_userinfo_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="户籍地址"
+            app:met_clearButton="true"
+            app:met_floatingLabel="normal"
+            app:met_primaryColor="@color/bg_blue"
+            app:met_singleLineEllipsis="true"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.tdr.wisdome.view.material.MaterialEditText
+                android:id="@+id/met_addressArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:enabled="false"
+                android:hint="所在地区"
+                app:met_clearButton="true"
+                app:met_floatingLabel="normal"
+                app:met_primaryColor="@color/bg_blue"
+                app:met_singleLineEllipsis="true"/>
+
+            <ImageView
+                android:id="@+id/iv_addressDetail_arrow"
+                android:layout_width="24dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center_vertical|end"
+                android:background="@drawable/arrow_right"/>
+
+
+        </FrameLayout>
+
+
+        <com.tdr.wisdome.view.material.MaterialEditText
+            android:id="@+id/met_addressDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="详细地址"
             app:met_clearButton="true"
             app:met_floatingLabel="normal"
             app:met_primaryColor="@color/bg_blue"

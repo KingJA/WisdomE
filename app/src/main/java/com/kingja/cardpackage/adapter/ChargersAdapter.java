@@ -5,10 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kingja.cardpackage.activity.ChargerActivity;
 import com.kingja.cardpackage.entiy.GetBindChargerList;
 import com.kingja.cardpackage.util.NoDoubleClickListener;
-import com.kingja.cardpackage.util.ToastUtil;
 import com.kingja.recyclerviewhelper.DrawHelperLayout;
 import com.tdr.wisdome.R;
 
@@ -41,13 +39,13 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_deviceId.setText(list.get(position).getChargeId());
+        viewHolder.tv_deviceId.setText(list.get(position).getChargerId());
         viewHolder.tv_carNumber.setText(list.get(position).getPlateNumber());
         viewHolder.tv_unbind.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
                 if (onChargeOperListener != null) {
-                    onChargeOperListener.onUnbindDevice(list.get(position).getChargeId(), list.get(position)
+                    onChargeOperListener.onUnbindDevice(list.get(position).getChargerId(), list.get(position)
                             .getEcId());
                 }
             }

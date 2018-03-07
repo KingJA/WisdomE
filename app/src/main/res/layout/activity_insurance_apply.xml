@@ -253,14 +253,14 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/bg_add_pic"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:id="@+id/iv_idCard"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
 
         </LinearLayout>
 

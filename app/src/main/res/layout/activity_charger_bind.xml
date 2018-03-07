@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="none">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,6 +10,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,22 +23,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
-                android:text="车牌号" />
+                android:text="车牌号"/>
 
             <EditText
-                android:enabled="false"
-                android:hint="请输入车牌号"
                 android:id="@+id/et_cardNo"
                 style="@style/edit_cursor_blue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
-                android:layout_weight="3" />
+                android:layout_weight="3"
+                android:enabled="false"
+                android:hint="请输入车牌号"/>
 
         </LinearLayout>
 
-        <View style="@style/divider_nomal_horizontal" />
+        <View style="@style/divider_nomal_horizontal"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,24 +52,24 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
-                android:text="车架号" />
+                android:text="车架号"/>
 
             <EditText
-                android:enabled="false"
-                android:hint="请输入车架号"
                 android:id="@+id/et_shelvesNo"
                 style="@style/edit_cursor_blue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
-                android:layout_weight="3" />
+                android:layout_weight="3"
+                android:enabled="false"
+                android:hint="请输入车架号"/>
 
         </LinearLayout>
 
-        <View style="@style/divider_nomal_horizontal" />
-        <LinearLayout
+        <View style="@style/divider_nomal_horizontal"/>
 
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -79,22 +81,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
-                android:text="电机号" />
+                android:text="电机号"/>
 
             <EditText
-                android:enabled="false"
-                android:hint="请输入车架号"
                 android:id="@+id/et_engineNo"
                 style="@style/edit_cursor_blue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
-                android:layout_weight="3" />
+                android:layout_weight="3"
+                android:enabled="false"
+                android:hint="请输入电机号"/>
 
         </LinearLayout>
 
-        <View style="@style/divider_nomal_horizontal" />
+        <View style="@style/divider_nomal_horizontal"/>
+
         <LinearLayout
             android:id="@+id/ll_carBrand"
             android:layout_width="match_parent"
@@ -108,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
-                android:text="车辆品牌" />
+                android:text="车辆品牌"/>
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -117,26 +120,25 @@
                 android:layout_weight="3">
 
                 <TextView
-                    android:hint="请选择车辆品牌"
                     android:id="@+id/tv_carBrand"
                     style="@style/font_9_15"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:hint="请选择车辆品牌"/>
 
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/arrow_right" />
-
+                    android:background="@drawable/arrow_right"/>
 
             </RelativeLayout>
 
         </LinearLayout>
 
-        <View style="@style/divider_nomal_horizontal" />
+        <View style="@style/divider_nomal_horizontal"/>
 
         <LinearLayout
             android:id="@+id/ll_carColor"
@@ -151,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
-                android:text="车辆主颜色" />
+                android:text="车辆主颜色"/>
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -160,29 +162,126 @@
                 android:layout_weight="3">
 
                 <TextView
-                    android:hint="请选择车辆主颜色"
                     android:id="@+id/tv_carColor"
                     style="@style/font_9_15"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:hint="请选择车辆主颜色"/>
 
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="12dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/arrow_right" />
-
+                    android:background="@drawable/arrow_right"/>
 
             </RelativeLayout>
 
         </LinearLayout>
 
-        <View style="@style/divider_nomal_horizontal" />
+        <View style="@style/divider_nomal_horizontal"/>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
 
+            <com.kingja.ui.RequiredTextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="车辆全身"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3">
+
+                <ImageView
+                    android:scaleType="centerCrop"
+                    android:id="@+id/iv_car"
+                    style="@style/edit_cursor_blue"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@mipmap/image_bodyphoto"/>
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <com.kingja.ui.RequiredTextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="身份证"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3">
+
+                <ImageView
+                    android:scaleType="centerCrop"
+                    android:id="@+id/iv_cardId"
+                    style="@style/edit_cursor_blue"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@mipmap/image_bodyphoto"/>
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <com.kingja.ui.RequiredTextView
+                style="@style/font_3_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="车牌发票"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3">
+
+                <ImageView
+                    android:scaleType="centerCrop"
+                    android:id="@+id/iv_bill"
+                    style="@style/edit_cursor_blue"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@mipmap/image_bodyphoto"/>
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <View style="@style/divider_nomal_horizontal"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -194,23 +293,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
-                android:text="备注" />
+                android:text="备注"/>
 
             <EditText
-                android:enabled="false"
-                android:hint="(可选填)"
                 android:id="@+id/et_Ps"
                 style="@style/edit_cursor_blue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
-                android:layout_weight="3" />
+                android:layout_weight="3"
+                android:enabled="false"
+                android:hint="(可选填)"/>
 
         </LinearLayout>
 
-        <View style="@style/divider_nomal_horizontal" />
-
+        <View style="@style/divider_nomal_horizontal"/>
 
     </LinearLayout>
 

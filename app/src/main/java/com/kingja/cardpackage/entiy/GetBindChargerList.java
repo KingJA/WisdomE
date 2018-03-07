@@ -15,7 +15,7 @@ public class GetBindChargerList {
      * ResultText : 获取充电器绑定信息成功
      * DataTypeCode : null
      * TaskID : null
-     * Content : {"IsError":false,"Count":15,"Data":[{"ChargeId":"21581727-8290-4d84-b7af-06df3527863f",
+     * Content : {"IsError":false,"Count":15,"Data":[{"ChargerId":"21581727-8290-4d84-b7af-06df3527863f",
      * "Charge_Spec":"SDFWERWER","IsValid":"1","CreateTime":"2018-03-06 15:02:12","PlateNumber":"0123456"}],
      * "ErrorMsg":null}
      */
@@ -70,7 +70,7 @@ public class GetBindChargerList {
         /**
          * IsError : false
          * Count : 15
-         * Data : [{"ChargeId":"21581727-8290-4d84-b7af-06df3527863f","Charge_Spec":"SDFWERWER","IsValid":"1",
+         * Data : [{"ChargerId":"21581727-8290-4d84-b7af-06df3527863f","Charge_Spec":"SDFWERWER","IsValid":"1",
          * "CreateTime":"2018-03-06 15:02:12","PlateNumber":"0123456"}]
          * ErrorMsg : null
          */
@@ -114,14 +114,14 @@ public class GetBindChargerList {
 
         public static class DataBean {
             /**
-             * ChargeId : 21581727-8290-4d84-b7af-06df3527863f
+             * ChargerId : 21581727-8290-4d84-b7af-06df3527863f
              * Charge_Spec : SDFWERWER
              * IsValid : 1
              * CreateTime : 2018-03-06 15:02:12
              * PlateNumber : 0123456
              */
 
-            private String ChargeId;
+            private String ChargerId;
 
             public String getEcId() {
                 return EcId;
@@ -137,12 +137,12 @@ public class GetBindChargerList {
             private String CreateTime;
             private String PlateNumber;
 
-            public String getChargeId() {
-                return ChargeId;
+            public String getChargerId() {
+                return ChargerId;
             }
 
-            public void setChargeId(String ChargeId) {
-                this.ChargeId = ChargeId;
+            public void setChargerId(String ChargeId) {
+                this.ChargerId = ChargeId;
             }
 
             public String getCharge_Spec() {
