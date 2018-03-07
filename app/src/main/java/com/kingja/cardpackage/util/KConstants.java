@@ -34,6 +34,7 @@ public class KConstants {
     public static final String CARD_TYPE_INTERMEDIARY = "1008";
     /*NFC*/
     public static final String CARD_TYPE_NFC = "1009";
+    public static final String CARD_TYPE_CHARGER = "1010";
     /*我的车*/
     public static final String CARD_TYPE_CAR = "1003";
     public static final String CARD_TYPE_EMPTY = "";

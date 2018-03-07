@@ -12,11 +12,12 @@ public class GetBindChargerList {
 
     /**
      * ResultCode : 0
-     * ResultText : 获取充电预警信息成功
+     * ResultText : 获取充电器绑定信息成功
      * DataTypeCode : null
      * TaskID : null
-     * Content : {"IsError":false,"Count":15,"Data":[{"userid":"21581727-8290-4d84-b7af-06df3527863f",
-     * "binding_objectid":"d0338f29-0e26-4d51-b087-8030e378b745"}],"ErrorMsg":null}
+     * Content : {"IsError":false,"Count":15,"Data":[{"ChargeId":"21581727-8290-4d84-b7af-06df3527863f",
+     * "Charge_Spec":"SDFWERWER","IsValid":"1","CreateTime":"2018-03-06 15:02:12","PlateNumber":"0123456"}],
+     * "ErrorMsg":null}
      */
 
     private String ResultCode;
@@ -69,8 +70,8 @@ public class GetBindChargerList {
         /**
          * IsError : false
          * Count : 15
-         * Data : [{"userid":"21581727-8290-4d84-b7af-06df3527863f",
-         * "binding_objectid":"d0338f29-0e26-4d51-b087-8030e378b745"}]
+         * Data : [{"ChargeId":"21581727-8290-4d84-b7af-06df3527863f","Charge_Spec":"SDFWERWER","IsValid":"1",
+         * "CreateTime":"2018-03-06 15:02:12","PlateNumber":"0123456"}]
          * ErrorMsg : null
          */
 
@@ -113,27 +114,67 @@ public class GetBindChargerList {
 
         public static class DataBean {
             /**
-             * userid : 21581727-8290-4d84-b7af-06df3527863f
-             * binding_objectid : d0338f29-0e26-4d51-b087-8030e378b745
+             * ChargeId : 21581727-8290-4d84-b7af-06df3527863f
+             * Charge_Spec : SDFWERWER
+             * IsValid : 1
+             * CreateTime : 2018-03-06 15:02:12
+             * PlateNumber : 0123456
              */
 
-            private String userid;
-            private String binding_objectid;
+            private String ChargeId;
 
-            public String getUserid() {
-                return userid;
+            public String getEcId() {
+                return EcId;
             }
 
-            public void setUserid(String userid) {
-                this.userid = userid;
+            public void setEcId(String ecId) {
+                EcId = ecId;
             }
 
-            public String getBinding_objectid() {
-                return binding_objectid;
+            private String EcId;
+            private String Charge_Spec;
+            private String IsValid;
+            private String CreateTime;
+            private String PlateNumber;
+
+            public String getChargeId() {
+                return ChargeId;
             }
 
-            public void setBinding_objectid(String binding_objectid) {
-                this.binding_objectid = binding_objectid;
+            public void setChargeId(String ChargeId) {
+                this.ChargeId = ChargeId;
+            }
+
+            public String getCharge_Spec() {
+                return Charge_Spec;
+            }
+
+            public void setCharge_Spec(String Charge_Spec) {
+                this.Charge_Spec = Charge_Spec;
+            }
+
+            public String getIsValid() {
+                return IsValid;
+            }
+
+            public void setIsValid(String IsValid) {
+                this.IsValid = IsValid;
+            }
+
+            public String getCreateTime() {
+                return CreateTime;
+            }
+
+            public void setCreateTime(String CreateTime) {
+                this.CreateTime = CreateTime;
+            }
+
+            public String getPlateNumber() {
+                return PlateNumber;
+            }
+
+            public void setPlateNumber(String PlateNumber) {
+                this.PlateNumber = PlateNumber;
             }
         }
     }

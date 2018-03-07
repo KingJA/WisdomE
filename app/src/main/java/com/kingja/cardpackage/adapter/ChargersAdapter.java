@@ -41,14 +41,14 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_deviceId.setText(list.get(position).getBinding_objectid());
-        viewHolder.tv_carNumber.setText(list.get(position).getBinding_objectid());
+        viewHolder.tv_deviceId.setText(list.get(position).getChargeId());
+        viewHolder.tv_carNumber.setText(list.get(position).getPlateNumber());
         viewHolder.tv_unbind.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
                 if (onChargeOperListener != null) {
-                    onChargeOperListener.onUnbindDevice(list.get(position).getUserid(), list.get(position)
-                            .getBinding_objectid());
+                    onChargeOperListener.onUnbindDevice(list.get(position).getChargeId(), list.get(position)
+                            .getEcId());
                 }
             }
         });
@@ -57,8 +57,8 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
             public void onRootClick() {
 //                ChargerActivity.goActivity(context,list.get(position).getBinding_objectid());
                 if (onChargeOperListener != null) {
-                    onChargeOperListener.onConnectDevice(list.get(position)
-                            .getBinding_objectid());
+//                    onChargeOperListener.onConnectDevice(list.get(position)
+//                            .getBinding_objectid());
                 }
             }
         });
@@ -83,7 +83,7 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
     }
 
     public interface OnChargeOperListener {
-        void onUnbindDevice(String userId, String deviceId);
+        void onUnbindDevice(String chargeId, String ecId);
         void onConnectDevice(String deviceId);
     }
 

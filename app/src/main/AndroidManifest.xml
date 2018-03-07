@@ -598,7 +598,8 @@
             android:screenOrientation="portrait"/> <!-- 充电器列表 -->
         <activity
             android:name="com.kingja.cardpackage.activity.BindCodeActivity"
-            android:screenOrientation="portrait"/> <!-- 微信绑定 -->
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.kingja.cardpackage.activity.ChargerBindActivity"/> <!-- 微信绑定 -->
         <service android:name="com.kingja.cardpackage.service.JPushDispathService"/> <!-- 推送分发服务 -->
     </application>
 

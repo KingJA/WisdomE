@@ -57,7 +57,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         unbingdDialog = DialogUtil.getDoubleDialog(this, "确定要解绑该设备吗？", "取消", "确定");
     }
 
-    private void showUnbindDialog(final String userId, final String deviceId) {
+    private void showUnbindDialog(final String chargeId, final String ecId) {
         unbingdDialog.setOnBtnClickL(new OnBtnClickL() {
             @Override
             public void onBtnClick() {
@@ -67,7 +67,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
             @Override
             public void onBtnClick() {
                 unbingdDialog.dismiss();
-                unbindDevice(userId, deviceId);
+                unbindDevice(chargeId, ecId);
             }
         });
         unbingdDialog.show();
@@ -102,8 +102,8 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         });
         mChargersAdapter.setOnChargeOperListener(new ChargersAdapter.OnChargeOperListener() {
             @Override
-            public void onUnbindDevice(String userId, String deviceId) {
-                showUnbindDialog(userId, deviceId);
+            public void onUnbindDevice(String chargeId, String ecId) {
+                showUnbindDialog(chargeId, ecId);
             }
 
             @Override
@@ -126,7 +126,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         param.put(TempConstants.PageIndex, 1);
         param.put(TempConstants.PageSize, 50);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .GetBindChargerList,
                         param)
                 .setBeanType(GetBindChargerList.class)
@@ -151,12 +151,6 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     protected void initData() {
-        if (!BleManager.getInstance().isBlueEnable()) {
-            ToastUtil.showToast("该设备不支持蓝牙Ble，无法正常连接蓝牙");
-        }else{
-            Log.e(TAG, "支持Ble");
-            BleManager.getInstance().enableBluetooth();
-        }
     }
 
     @Override
@@ -186,7 +180,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         Map<String, Object> param = new HashMap<>();
         param.put("binding_objectid", deviceId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants.BindCharger,
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants.BindCharger,
                         param)
                 .setBeanType(BindCharger.class)
                 .setCallBack(new WebServiceCallBack<BindCharger>() {
@@ -204,13 +198,13 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                 }).build().execute();
     }
 
-    protected void unbindDevice(String userId, String deviceId) {
+    protected void unbindDevice(String chargeId, String ecId) {
         setProgressDialog(true);
         Map<String, Object> param = new HashMap<>();
-        param.put("userid", userId);
-        param.put("binding_objectid", deviceId);
+        param.put("ChargeId", chargeId);
+        param.put("EcId", ecId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .DelBindCharger,
                         param)
                 .setBeanType(DelBindCharger.class)
