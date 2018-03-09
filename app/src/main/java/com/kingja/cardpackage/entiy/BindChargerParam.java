@@ -11,7 +11,7 @@ import java.util.List;
 public class BindChargerParam {
 
     /**
-     * ChargeId : 86A000000001
+     * ChargerId : 86A000000001
      * Charge_Spec : 86A000000001
      * Remark : 备注
      * VehicleBrand :
@@ -32,7 +32,7 @@ public class BindChargerParam {
      * -A3CF-EB7782EF1BA7","PhotoFile":"base64"}]
      */
 
-    private String ChargeId;
+    private String ChargerId;
     private String Charge_Spec;
     private String Remark;
     private String VehicleBrand;
@@ -48,14 +48,24 @@ public class BindChargerParam {
     private String Phone1;
     private String Phone2;
     private String UnitId;
-    private List<PhotoListFileBean> PhotoListFile;
 
-    public String getChargeId() {
-        return ChargeId;
+    public String getCardType() {
+        return CardType;
     }
 
-    public void setChargeId(String ChargeId) {
-        this.ChargeId = ChargeId;
+    public void setCardType(String cardType) {
+        CardType = cardType;
+    }
+
+    private String CardType;
+    private List<PhotoListFileBean> PhotoListFile;
+
+    public String getChargerId() {
+        return ChargerId;
+    }
+
+    public void setChargerId(String ChargeId) {
+        this.ChargerId = ChargeId;
     }
 
     public String getCharge_Spec() {

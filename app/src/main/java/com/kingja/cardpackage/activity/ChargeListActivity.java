@@ -6,15 +6,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.clj.fastble.BleManager;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.kingja.cardpackage.adapter.ChargersAdapter;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
-import com.kingja.cardpackage.entiy.BindCharger;
-import com.kingja.cardpackage.entiy.BindChargerParam;
 import com.kingja.cardpackage.entiy.DelBindCharger;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetBindChargerList;
@@ -45,6 +42,7 @@ import java.util.Map;
  */
 public class ChargeListActivity extends BackTitleActivity implements BackTitleActivity.OnMenuClickListener {
     private byte RQ_QCODE = 0x01;
+    private byte BIND_DEVICE = 0x02;
     private ListView mLvCharges;
     private ChargersAdapter mChargersAdapter;
     private List<GetBindChargerList.ContentBean.DataBean> chargers = new ArrayList<>();
@@ -58,7 +56,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         unbingdDialog = DialogUtil.getDoubleDialog(this, "确定要解绑该设备吗？", "取消", "确定");
     }
 
-    private void showUnbindDialog(final String chargeId, final String ecId) {
+    private void showUnbindDialog(final String chargeId, final String ecId, final int position) {
         unbingdDialog.setOnBtnClickL(new OnBtnClickL() {
             @Override
             public void onBtnClick() {
@@ -68,26 +66,10 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
             @Override
             public void onBtnClick() {
                 unbingdDialog.dismiss();
-                unbindDevice(chargeId, ecId);
+                unbindDevice(chargeId, ecId, position);
             }
         });
         unbingdDialog.show();
-    }
-
-    private void showBindDialog(final String deviceId) {
-        bingdDialog.setOnBtnClickL(new OnBtnClickL() {
-            @Override
-            public void onBtnClick() {
-                bingdDialog.dismiss();
-            }
-        }, new OnBtnClickL() {
-            @Override
-            public void onBtnClick() {
-                bingdDialog.dismiss();
-                bindDevice(deviceId);
-            }
-        });
-        bingdDialog.show();
     }
 
     @Override
@@ -103,12 +85,12 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         });
         mChargersAdapter.setOnChargeOperListener(new ChargersAdapter.OnChargeOperListener() {
             @Override
-            public void onUnbindDevice(String chargeId, String ecId) {
-                showUnbindDialog(chargeId, ecId);
+            public void onUnbindDevice(String chargeId, String ecId, int position) {
+                showUnbindDialog(chargeId, ecId, position);
             }
 
             @Override
-            public void onConnectDevice(final String deviceId) {
+            public void onBinidDevice(final String deviceId) {
                 ChargerActivity.goActivity(ChargeListActivity.this, deviceId);
             }
         });
@@ -162,52 +144,32 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     public void onMenuClick() {
-//        GoUtil.goActivityForResult(this, CaptureActivity.class, RQ_QCODE);
-        GoUtil.goActivity(this,ChargerBindActivity.class);
+        GoUtil.goActivityForResult(this, CaptureActivity.class, RQ_QCODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null) {
-            Bundle bundle = data.getExtras();
-            String url = bundle.getString("result");
-            Log.e(TAG, "url: " + url);
-            ChargerBindActivity.goActivity(this, url);
-//            showBindDialog(url);
+            if (requestCode == RQ_QCODE) {
+                Bundle bundle = data.getExtras();
+                String url = bundle.getString("result");
+                Log.e(TAG, "url: " + url);
+                ChargerBindActivity.goActivity(this, url);
+            } else if (requestCode == BIND_DEVICE){
+                String chargeId = data.getStringExtra("chargeId");
+                String plateNumber = data.getStringExtra("plateNumber");
+                mChargersAdapter.addItem(chargeId,plateNumber);
+
+            }
+
         }
     }
 
-    protected void bindDevice(String deviceId) {
-        setProgressDialog(true);
-        BindChargerParam param = new BindChargerParam();
-        List<BindChargerParam.PhotoListFileBean> photoListFile = new ArrayList<>();
-        BindChargerParam.PhotoListFileBean photo = new BindChargerParam.PhotoListFileBean();
-
-
-        new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants.BindCharger,
-                        param)
-                .setBeanType(BindCharger.class)
-                .setCallBack(new WebServiceCallBack<BindCharger>() {
-                    @Override
-                    public void onSuccess(BindCharger bean) {
-                        setProgressDialog(false);
-                        ToastUtil.showToast("绑定成功");
-                        initNet();
-                    }
-
-                    @Override
-                    public void onErrorResult(ErrorResult errorResult) {
-                        setProgressDialog(false);
-                    }
-                }).build().execute();
-    }
-
-    protected void unbindDevice(String chargeId, String ecId) {
+    protected void unbindDevice(String chargeId, String ecId, final int position) {
         setProgressDialog(true);
         Map<String, Object> param = new HashMap<>();
-        param.put("ChargeId", chargeId);
+        param.put("ChargerId", chargeId);
         param.put("EcId", ecId);
         new ThreadPoolTask.Builder()
                 .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
@@ -217,9 +179,9 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                 .setCallBack(new WebServiceCallBack<DelBindCharger>() {
                     @Override
                     public void onSuccess(DelBindCharger bean) {
+                        mChargersAdapter.removeItem(position);
                         setProgressDialog(false);
                         ToastUtil.showToast("解绑成功");
-                        initNet();
                     }
 
                     @Override

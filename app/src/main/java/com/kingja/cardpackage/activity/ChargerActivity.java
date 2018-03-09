@@ -1,55 +1,28 @@
 package com.kingja.cardpackage.activity;
 
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.clj.fastble.BleManager;
-import com.clj.fastble.callback.BleWriteCallback;
 import com.clj.fastble.data.BleDevice;
-import com.clj.fastble.exception.BleException;
-import com.clj.fastble.scan.BleScanRuleConfig;
-import com.clj.fastble.utils.HexUtil;
 import com.kingja.cardpackage.adapter.ChargerAlarmAdapter;
-import com.kingja.cardpackage.ble.BleResult;
-import com.kingja.cardpackage.ble.BleResult02;
-import com.kingja.cardpackage.ble.BleResult03;
-import com.kingja.cardpackage.ble.BleResult04;
-import com.kingja.cardpackage.ble.BleResult05;
-import com.kingja.cardpackage.ble.BleResult81;
-import com.kingja.cardpackage.ble.BleResultFactory;
-import com.kingja.cardpackage.ble.BleUtil;
-import com.kingja.cardpackage.ble.SimpleBleIndicateCallback;
-import com.kingja.cardpackage.ble.SimpleBleScanAndConnectCallback;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
-import com.kingja.cardpackage.dao.DBManager;
-import com.kingja.cardpackage.entiy.AddChargerRecord;
-import com.kingja.cardpackage.entiy.AddChargerWarningInfo;
-import com.kingja.cardpackage.entiy.ChargerAlarm;
-import com.kingja.cardpackage.entiy.ChargerRecord;
 import com.kingja.cardpackage.entiy.ErrorResult;
+import com.kingja.cardpackage.entiy.GetChargerHeartPlusByChargerId;
 import com.kingja.cardpackage.entiy.GetChargerStatistics;
 import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
-import com.kingja.cardpackage.greendaobean.ChargeRecord;
-import com.kingja.cardpackage.greendaobean.ErrorInfo;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
-import com.kingja.cardpackage.util.BleConstants;
+import com.kingja.cardpackage.util.AppUtil;
 import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.KConstants;
-import com.kingja.cardpackage.util.TempConstants;
-import com.kingja.cardpackage.util.ToastUtil;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
@@ -81,7 +54,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     private TextView mTvMoreAlarms;
     private List<GetChargerWarningInfoList.ContentBean.DataBean> chargerAlarms = new ArrayList<>();
     private ChargerAlarmAdapter mChargerAlarmAdapter;
-    private LoadService loadService;
+    private LoadService alarmLoadService;
     private TextView mTvChargeTotleElectricity;
     private TextView mTvChargeTotleCost;
     private TextView mTvChargeTotleCount;
@@ -96,163 +69,13 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     private TextView mTvLeftCost;
     private SuperIndicator mSuperIndicator;
     private KJProgressRound mProgressPower;
+    private SwipeRefreshLayout mSwpChargerInfo;
 
     @Override
     protected void initVariables() {
         chargerId = getIntent().getStringExtra("chargerId");
-        if (!(bleDevice != null && BleManager.getInstance().isConnected(bleDevice))) {
-            connectBle(chargerId);
-        }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        if (!(bleDevice != null && BleManager.getInstance().isConnected(bleDevice))) {
-            setTitle("充电器(未连接)");
-            ToastUtil.showToast("蓝牙已断开，请重新连接");
-            mIvBleStatus.setBackgroundResource(R.mipmap.ble_disable);
-            mIvBleStatus.setEnabled(true);
-            mIvBleStatus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    connectBle(chargerId);
-                }
-            });
-            Log.e(TAG, "检测蓝牙: 已经断开");
-        } else {
-            setTitle("充电器(已连接)");
-            mIvBleStatus.setBackgroundResource(R.mipmap.ble_enable);
-            mIvBleStatus.setEnabled(false);
-            Log.e(TAG, "检测蓝牙: 连接");
-        }
-    }
-
-    private void initBleListener() {
-        BleManager.getInstance().indicate(
-                bleDevice,
-                TempConstants.BLE_SERVICE_UUID,
-                TempConstants.BLE_READ_UUID, new SimpleBleIndicateCallback() {
-                    @Override
-                    public void onCharacteristicChanged(byte[] data) {
-                        if (!BleUtil.checkBle(data)) {
-                            return;
-                        }
-                        String result = HexUtil.encodeHexStr(data);
-                        Log.e(TAG, "onCharacteristicChanged:" + result);
-                        BleResult bleResult = BleResultFactory.getBleResult(result);
-                        switch (bleResult.getOrderCode()) {
-                            case BleConstants.ORDER_02:
-                                dispatchOrder02(data);
-                                break;
-                            case BleConstants.ORDER_03:
-                                dispatchOrder03((BleResult03) bleResult);
-                                break;
-                            case BleConstants.ORDER_04:
-                                dispatchOrder04(data);
-                                break;
-                            case BleConstants.ORDER_05:
-                                dispatch05((BleResult05) bleResult);
-                                break;
-                            case BleConstants.ORDER_81:
-                                Log.e(TAG, "接收到81: " + result);
-                                break;
-                            case BleConstants.ORDER_82:
-                                Log.e(TAG, "接收到82: " + result);
-                                break;
-                            case BleConstants.ORDER_83:
-                                Log.e(TAG, "接收到83: " + result);
-                                break;
-                            case BleConstants.ORDER_84:
-                                Log.e(TAG, "接收到84: " + result);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void dispatchOrder03(BleResult03 bleResult) {
-        BleResult03 bleResult03 = bleResult;
-        sendBle(bleResult03.getResponse());
-        Log.e(TAG, "回复03: " + bleResult03.getResponse());
-//        Log.e(TAG, "解析03===========================");
-//        Log.e(TAG, "03sn: " + bleResult03.getSn());
-//        Log.e(TAG, "03开始时间: " + bleResult03.getStartTime());
-//        Log.e(TAG, "03结束时间: " + bleResult03.getEndTime());
-//        Log.e(TAG, "03结束原因: " + bleResult03.getEndReason());
-        ChargeRecord chargeRecord = new ChargeRecord();
-        chargeRecord.setSn(bleResult03.getSn());
-        chargeRecord.setStartTime(bleResult03.getStartTime());
-        chargeRecord.setEndTime(bleResult03.getEndTime());
-        chargeRecord.setEndReason(bleResult03.getEndReason());
-        DBManager.getInstance(this).insertChargeRecord(chargeRecord);
-    }
-
-    private void dispatchOrder04(byte[] data) {
-        BleResult04 bleResult04 = new BleResult04(data);
-        sendBle(bleResult04.getResponse());
-        Log.e(TAG, "回复04: " + bleResult04.getResponse());
-//        Log.e(TAG, "解析04===========================");
-//        Log.e(TAG, "04sn: " + bleResult04.getSn());
-//        Log.e(TAG, "04充电电压: " + bleResult04.getMaxVoltage());
-//        Log.e(TAG, "04充电电流: " + bleResult04.getMaxEctricity());
-//        Log.e(TAG, "04总电量: " + bleResult04.getTotlePower());
-//        Log.e(TAG, "04环境温度: " + bleResult04.getEnvironmentTemperature());
-//        Log.e(TAG, "04最高电池温度: " + bleResult04.getMaxBatteryTemperature());
-//        Log.e(TAG, "04最高充电器温度: " + bleResult04.getMaxChargerTemperature());
-        ChargeRecord chargeRecord = DBManager.getInstance(this).getChargeRecordById(bleResult04.getSn());
-        if (chargeRecord != null) {
-            chargeRecord.setMaxVoltage(bleResult04.getMaxVoltage());
-            chargeRecord.setMaxElectricity(bleResult04.getMaxEctricity());
-            chargeRecord.setTotlePower(bleResult04.getTotlePower());
-            chargeRecord.setEnvironmentTemperature(bleResult04.getEnvironmentTemperature());
-            chargeRecord.setMaxBatteryTemperature(bleResult04.getMaxBatteryTemperature());
-            chargeRecord.setMaxChargerTemperature(bleResult04.getMaxChargerTemperature());
-            DBManager.getInstance(this).updateChargeRecords(chargeRecord);
-            Log.e(TAG, "插入04成功");
-        }
-
-    }
-
-    private void dispatch05(BleResult05 bleResult) {
-        BleResult05 bleResult05 = bleResult;
-        //发送回复
-        sendBle(bleResult05.getResponse());
-        DBManager.getInstance(this).insertErrorInfo(new ErrorInfo(bleResult05.getSn(), bleResult05.getErrorTime(),
-                bleResult05.getErrorMsg(), bleResult05.getErrorType()));
-        Log.e(TAG, "回复: " + bleResult05.getResponse());
-//        Log.e(TAG, "解析05===========================");
-//        Log.e(TAG, "05异常时间: " + bleResult05.getErrorTime());
-//        Log.e(TAG, "05异常信息: " + bleResult05.getErrorMsg());
-//        Log.e(TAG, "05异常类型: " + bleResult05.getErrorType());
-    }
-
-    private void dispatchOrder02(byte[] data) {
-        BleResult02 bleResult02 = new BleResult02(data);
-        sendBle(bleResult02.getResponse());
-        Log.e(TAG, "回复02: " + bleResult02.getResponse());
-//        Log.e(TAG, "充电状态: " + bleResult02.getChargeStatus());
-//        Log.e(TAG, "当前充电电压: " + bleResult02.getCurrentChargeVoltage());
-//        Log.e(TAG, "当前充电电流: " + bleResult02.getCurrentChargeelEctricity());
-//        Log.e(TAG, "累计充电电量: " + bleResult02.getTotlePower());
-//        Log.e(TAG, "电池温度: " + bleResult02.getBatteryTemperature());
-//        Log.e(TAG, "充电器温度: " + bleResult02.getChargerTemperature());
-//        Log.e(TAG, "当前电量: " + bleResult02.getCurrentPower());
-//        Log.e(TAG, "充电时间: " + bleResult02.getChargeCost());
-//        Log.e(TAG, "剩余充电时间: " + bleResult02.getLeftChargeCost());
-
-        mSuperIndicator.setProgress(getChargeStatusProgress(bleResult02.getChargeStatus()));
-        mTvCurrentChargeelEctricity.setText(bleResult02.getCurrentChargeelEctricity());
-        mTvCurrentChargeVoltage.setText(bleResult02.getCurrentChargeVoltage());
-        mTvChargerTemperature.setText(bleResult02.getChargerTemperature());
-        mTvBatteryTemperature.setText(bleResult02.getBatteryTemperature());
-        mTvLeftCost.setText("预计充满电还需" + bleResult02.getLeftChargeCost());
-        mProgressPower.setProgress(bleResult02.getCurrentPower());
-
-
-    }
 
     //充电状态（1,0:空闲,01:欠压充电，02：恒流充电，03：恒压充电，04：浮充充电，05：完成充电）
     public int getChargeStatusProgress(int chargeStatus) {
@@ -278,103 +101,10 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     }
 
 
-    private void connectBle(final String deviceId) {
-        setProgressDialog(true, "蓝牙连接中");
-        Log.e(TAG, "getBleName: " + BleUtil.getBleName(deviceId));
-        BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
-                .setDeviceName(true, BleUtil.getBleName(deviceId))
-                .setAutoConnect(true)
-                .build();
-        BleManager.getInstance().initScanRule(scanRuleConfig);
-        BleManager.getInstance().scanAndConnect(new SimpleBleScanAndConnectCallback() {
-            @Override
-            public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
-                List<BluetoothGattService> services = gatt.getServices();
-                Log.e(TAG, "services: " + services.size());
-                for (BluetoothGattService service : services) {
-                    Log.e(TAG, "services uuid: " + service.getUuid());
-                    List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-                    Log.e(TAG, "characteristics size: " + characteristics.size());
-                    for (BluetoothGattCharacteristic characteristic : characteristics) {
-                        Log.e(TAG, "permissions: " + characteristic.getPermissions());
-                        Log.e(TAG, "characteristic: " + characteristic.getUuid());
-                    }
-                }
-                Log.e(TAG, "onConnectSuccess: ");
-                setProgressDialog(false);
-                mIvBleStatus.setVisibility(View.VISIBLE);
-                setTitle("充电器(已连接)");
-                ChargerActivity.this.bleDevice = bleDevice;
-                initBleListener();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendBle(BleResult81.getContent());
-                    }
-                }, 1000);
-
-                //TODO 延时上传
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendAlarm();
-                        sendChargeRecord();
-                    }
-                }, 60000);
-            }
-
-            @Override
-            public void onScanStarted(boolean success) {
-                Log.e(TAG, "onScanStarted: " + success);
-            }
-
-            @Override
-            public void onScanFinished(BleDevice scanResult) {
-                Log.e(TAG, "onScanFinished: ");
-            }
-
-            @Override
-            public void onStartConnect() {
-                Log.e(TAG, "onDisConnected: ");
-            }
-
-            @Override
-            public void onConnectFail(BleException exception) {
-                Log.e(TAG, "onConnectFail: ");
-            }
-
-            @Override
-            public void onDisConnected(boolean isActiveDisConnected, BleDevice device, BluetoothGatt gatt, int status) {
-                Log.e(TAG, "onDisConnected: ");
-            }
-        });
-    }
-
-
-    private void sendBle(String hexStr) {
-        BleManager.getInstance().write(
-                bleDevice,
-                TempConstants.BLE_SERVICE_UUID,
-                TempConstants.BLE_READ_UUID,
-                HexUtil.hexStringToBytes(hexStr),
-                new BleWriteCallback() {
-                    @Override
-                    public void onWriteSuccess() {
-                        Log.e(TAG, "onWriteSuccess: ");
-                        // 发送数据到设备成功（UI线程）
-                    }
-
-                    @Override
-                    public void onWriteFailure(BleException exception) {
-                        Log.e(TAG, "onWriteFailure: " + exception.toString());
-                        // 发送数据到设备失败（UI线程）
-                    }
-                });
-    }
-
     @Override
     protected void initContentView() {
         mChargePop = new ChargePop(mRlTopMenu, this);
+        mSwpChargerInfo = (SwipeRefreshLayout) findViewById(R.id.swp_charger_info);
         mProgressPower = (KJProgressRound) findViewById(R.id.progress_power);
         mLvArarm = (ListView) findViewById(R.id.lv_ararm);
         mIvBleStatus = (ImageView) findViewById(R.id.iv_ble_status);
@@ -383,17 +113,15 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         mTvChargeTotleCost = (TextView) findViewById(R.id.tv_chargeTotleCost);
         mTvChargeTotleElectricity = (TextView) findViewById(R.id.tv_chargeTotleElectricity);
         mSuperIndicator = (SuperIndicator) findViewById(R.id.superIndicator);
-
         mTvCurrentChargeelEctricity = (TextView) findViewById(R.id.tv_currentChargeelEctricity);
         mTvCurrentChargeVoltage = (TextView) findViewById(R.id.tv_currentChargeVoltage);
         mTvChargerTemperature = (TextView) findViewById(R.id.tv_chargerTemperature);
         mTvBatteryTemperature = (TextView) findViewById(R.id.tv_batteryTemperature);
         mTvLeftCost = (TextView) findViewById(R.id.tv_leftCost);
-
         mLlCharge_statistics = (LinearLayout) findViewById(R.id.ll_charge_statistics);
         mChargerAlarmAdapter = new ChargerAlarmAdapter(this, chargerAlarms);
         mLvArarm.setAdapter(mChargerAlarmAdapter);
-        loadService = LoadSir.getDefault().register(mLvArarm, new Callback.OnReloadListener() {
+        alarmLoadService = LoadSir.getDefault().register(mLvArarm, new Callback.OnReloadListener() {
             @Override
             public void onReload(View v) {
                 loadAlarms();
@@ -405,6 +133,8 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 loadStatistics();
             }
         });
+        mSwpChargerInfo.setColorSchemeResources(R.color.bg_black);
+        mSwpChargerInfo.setProgressViewOffset(false, 0, AppUtil.dp2px(24));
     }
 
     private void loadStatistics() {
@@ -442,12 +172,42 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
 
     @Override
     protected void initNet() {
+        loadChargeHeart();
         loadAlarms();
         loadStatistics();
     }
 
+    private void loadChargeHeart() {
+        mSwpChargerInfo.setRefreshing(true);
+        Map<String, Object> param = new HashMap<>();
+        param.put("ChargerId", chargerId);
+        new ThreadPoolTask.Builder()
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
+                                .GetChargerHeartPlusByChargerId,
+                        param)
+                .setBeanType(GetChargerHeartPlusByChargerId.class)
+                .setCallBack(new WebServiceCallBack<GetChargerHeartPlusByChargerId>() {
+                    @Override
+                    public void onSuccess(GetChargerHeartPlusByChargerId bean) {
+                        mSwpChargerInfo.setRefreshing(false);
+                        GetChargerHeartPlusByChargerId.ContentBean chargerHeart = bean.getContent();
+                        mSuperIndicator.setProgress(getChargeStatusProgress(chargerHeart.getCharge_Status()));
+                        mTvCurrentChargeelEctricity.setText(chargerHeart.getCurrent_Electricity()+"A");
+                        mTvCurrentChargeVoltage.setText(chargerHeart.getCurrent_Voltage()+"V");
+                        mTvChargerTemperature.setText(chargerHeart.getCharger_Temperature()+"℃");
+                        mTvBatteryTemperature.setText(chargerHeart.getBattery_Temperature()+"℃");
+//                        mTvLeftCost.setText("预计充满电还需" + chargerHeart.get());
+                    }
+
+                    @Override
+                    public void onErrorResult(ErrorResult errorResult) {
+                        mSwpChargerInfo.setRefreshing(false);
+                    }
+                }).build().execute();
+    }
+
     private void loadAlarms() {
-        loadService.showCallback(LoadingCallback.class);
+        alarmLoadService.showCallback(LoadingCallback.class);
         Map<String, Object> param = new HashMap<>();
         param.put("PageIndex", "1");
         param.put("PageSize", "3");
@@ -464,15 +224,15 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                         chargerAlarms = bean.getContent().getData();
                         if (chargerAlarms != null && chargerAlarms.size() > 0) {
                             mChargerAlarmAdapter.setData(chargerAlarms);
-                            loadService.showSuccess();
+                            alarmLoadService.showSuccess();
                         } else {
-                            loadService.showCallback(EmptyCallback.class);
+                            alarmLoadService.showCallback(EmptyCallback.class);
                         }
                     }
 
                     @Override
                     public void onErrorResult(ErrorResult errorResult) {
-                        loadService.showCallback(ErrorCallback.class);
+                        alarmLoadService.showCallback(ErrorCallback.class);
                     }
                 }).build().execute();
     }
@@ -487,11 +247,17 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
             }
         });
         mSuperIndicator.setTabs(Arrays.asList("快速充电", "连续充电", "涓流充电", "完成充电"));
+        mSwpChargerInfo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadChargeHeart();
+            }
+        });
     }
 
     @Override
     protected void setData() {
-        setTitle("充电器(未连接)");
+        setTitle("充电器");
         setOnMenuClickListener(this, R.drawable.bg_add);
     }
 
@@ -503,13 +269,6 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     @Override
     public void onPopItemClick(int position) {
         switch (position) {
-            case 0:
-                if (!(bleDevice != null && BleManager.getInstance().isConnected(bleDevice))) {
-                    connectBle(chargerId);
-                } else {
-                    ToastUtil.showToast("蓝牙已连接");
-                }
-                break;
             case 1:
                 ChargeRecordActivity.goActivity(this, chargerId);
                 break;
@@ -519,7 +278,6 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
             case 3:
                 TopChargeActivity.goActivity(this, chargerId);
                 break;
-
             default:
                 break;
         }
@@ -531,78 +289,4 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         context.startActivity(intent);
     }
 
-    private void sendAlarm() {
-        List<ErrorInfo> errorInfos = DBManager.getInstance(this).getErrorInfos();
-        if (errorInfos == null || errorInfos.size() == 0) {
-            return;
-        }
-        List<ChargerAlarm> chargerAlarms = new ArrayList<>();
-        for (int i = 0; i < errorInfos.size(); i++) {
-            ChargerAlarm chargerAlarm = new ChargerAlarm();
-            chargerAlarm.setChargerid(chargerId);
-            chargerAlarm.setWarn_msg(errorInfos.get(i).getErrorMsg());
-            chargerAlarm.setWarn_time(errorInfos.get(i).getErrorTime());
-            chargerAlarm.setWarn_type(errorInfos.get(i).getErrorType());
-            chargerAlarms.add(chargerAlarm);
-        }
-        new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
-                                .AddChargerWarningInfo,
-                        chargerAlarms)
-                .setBeanType(AddChargerWarningInfo.class)
-                .setCallBack(new WebServiceCallBack<AddChargerWarningInfo>() {
-                    @Override
-                    public void onSuccess(AddChargerWarningInfo bean) {
-                        DBManager.getInstance(ChargerActivity.this).deleteAllErrorInfos();
-                    }
-
-                    @Override
-                    public void onErrorResult(ErrorResult errorResult) {
-                    }
-                }).build().execute();
-    }
-
-    private void sendChargeRecord() {
-        List<ChargeRecord> chargeRecords = DBManager.getInstance(this).getChargeRecords();
-        if (chargeRecords == null || chargeRecords.size() == 0) {
-            return;
-        }
-        List<ChargerRecord> chargerRecords = new ArrayList<>();
-        for (ChargeRecord chargeRecord : chargeRecords) {
-            ChargerRecord chargerRecord = new ChargerRecord();
-            chargerRecord.setCharger_starttime(chargeRecord.getStartTime());
-            chargerRecord.setCharger_endtime(chargeRecord.getEndTime());
-            chargerRecord.setCharger_end_reason(chargeRecord.getEndReason());
-            chargerRecord.setRecordtime(BleUtil.getNowTime());
-            chargerRecord.setChargerid(chargerId);
-            chargerRecord.setVoltage(chargeRecord.getMaxVoltage());
-            chargerRecord.setCurrents(chargeRecord.getMaxElectricity());
-            chargerRecord.setElectricity_total(chargeRecord.getTotlePower());
-            chargerRecord.setAmbient_temperature(chargeRecord.getEnvironmentTemperature());
-            chargerRecord.setBattery_temperature(chargeRecord.getMaxBatteryTemperature());
-            chargerRecord.setCharger_temperature(chargeRecord.getMaxChargerTemperature());
-            chargerRecords.add(chargerRecord);
-        }
-        new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
-                                .AddChargerRecord,
-                        chargerRecords)
-                .setBeanType(AddChargerRecord.class)
-                .setCallBack(new WebServiceCallBack<AddChargerRecord>() {
-                    @Override
-                    public void onSuccess(AddChargerRecord bean) {
-                        DBManager.getInstance(ChargerActivity.this).deleteAllChargeRecords();
-                    }
-
-                    @Override
-                    public void onErrorResult(ErrorResult errorResult) {
-                    }
-                }).build().execute();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        BleManager.getInstance().disconnectAllDevice();
-    }
 }

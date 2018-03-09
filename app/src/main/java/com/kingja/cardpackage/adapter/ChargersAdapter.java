@@ -46,7 +46,7 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
             public void onNoDoubleClick(View v) {
                 if (onChargeOperListener != null) {
                     onChargeOperListener.onUnbindDevice(list.get(position).getChargerId(), list.get(position)
-                            .getEcId());
+                            .getEcId(), position);
                 }
             }
         });
@@ -55,8 +55,8 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
             public void onRootClick() {
 //                ChargerActivity.goActivity(context,list.get(position).getBinding_objectid());
                 if (onChargeOperListener != null) {
-//                    onChargeOperListener.onConnectDevice(list.get(position)
-//                            .getBinding_objectid());
+                    onChargeOperListener.onBinidDevice(list.get(position)
+                            .getChargerId());
                 }
             }
         });
@@ -81,11 +81,20 @@ public class ChargersAdapter extends BaseLvAdapter<GetBindChargerList.ContentBea
     }
 
     public interface OnChargeOperListener {
-        void onUnbindDevice(String chargeId, String ecId);
-        void onConnectDevice(String deviceId);
+        void onUnbindDevice(String chargeId, String ecId, int position);
+
+        void onBinidDevice(String deviceId);
     }
 
     public void setOnChargeOperListener(OnChargeOperListener onChargeOperListener) {
         this.onChargeOperListener = onChargeOperListener;
+    }
+
+    public void addItem(String chargeId, String plateNumber) {
+        GetBindChargerList.ContentBean.DataBean dataBean = new GetBindChargerList.ContentBean.DataBean();
+        dataBean.setChargerId(chargeId);
+        dataBean.setPlateNumber(plateNumber);
+        list.add(0, dataBean);
+        notifyDataSetChanged();
     }
 }

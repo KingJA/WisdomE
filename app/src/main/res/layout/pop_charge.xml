@@ -7,18 +7,19 @@
         android:id="@+id/linearLayout"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_lnull_bwhite_r8"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentTop="true"
+        android:background="@drawable/shape_lnull_bwhite_r8"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/ll_bluetooth"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="18dp"
@@ -36,7 +37,9 @@
                 android:text="蓝牙连接"/>
         </LinearLayout>
 
-        <View style="@style/divider_nomal_horizontal"/>
+        <View
+            style="@style/divider_nomal_horizontal"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/ll_chargeRecord"

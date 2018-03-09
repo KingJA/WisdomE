@@ -26,10 +26,15 @@ public class DataManager {
     private static final String CERTIFICATION = "CERTIFICATION";
     private static final String PHONE = "Phone";
     private static final String RESIDEADDRESS = "Resideaddress";
+    private static final String UNITID = "UnitId";
 
     /*================================GET================================*/
     public static String getToken() {
         return (String) SpUtils.get(TOKEN, EMPTY);
+    }
+
+    public static String getUnitId() {
+        return (String) SpUtils.get(UNITID, EMPTY);
     }
 
     public static String getLastUpdateFunction() {
@@ -103,6 +108,10 @@ public class DataManager {
 
     public static void putToken(String token) {
         SpUtils.put(TOKEN, token);
+    }
+
+    public static void putUnitId(String unitId) {
+        SpUtils.put(UNITID, unitId);
     }
 
     public static void putUserId(String userId) {

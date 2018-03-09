@@ -33,7 +33,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="3"
-                android:enabled="false"
                 android:hint="请输入车牌号"/>
 
         </LinearLayout>
@@ -62,7 +61,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="3"
-                android:enabled="false"
                 android:hint="请输入车架号"/>
 
         </LinearLayout>
@@ -91,7 +89,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="3"
-                android:enabled="false"
                 android:hint="请输入电机号"/>
 
         </LinearLayout>
@@ -303,7 +300,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="3"
-                android:enabled="false"
                 android:hint="(可选填)"/>
 
         </LinearLayout>

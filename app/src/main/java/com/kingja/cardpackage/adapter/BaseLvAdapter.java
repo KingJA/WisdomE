@@ -75,4 +75,6 @@ public abstract class BaseLvAdapter<T> extends BaseAdapter {
         list.remove(position);
         this.notifyDataSetChanged();
     }
+
+
 }

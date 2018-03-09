@@ -252,6 +252,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
 
     private void save2Local() {
         DataManager.putResideaddress(resideaddress);
+        DataManager.putUnitId(unitId);
         DataManager.putIdCard(idCard);
         DataManager.putRealName(realName);
         DataManager.putSex(sex);
