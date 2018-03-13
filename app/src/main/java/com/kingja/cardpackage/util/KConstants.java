@@ -245,5 +245,7 @@ public class KConstants {
     public static final String SetBindWechatValidCode = "SetBindWechatValidCode";
     /*绑定微信*/
     public static final String GetChargerHeartPlusByChargerId = "GetChargerHeartPlusByChargerId";
+    /*禁用充电设置*/
+    public static final String DisableChargerSetting = "DisableChargerSetting";
 
 }

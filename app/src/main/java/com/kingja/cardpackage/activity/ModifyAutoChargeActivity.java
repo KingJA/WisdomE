@@ -151,30 +151,7 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
             ToastUtil.showToast("请选择充电频率");
             return;
         }
-
-        String currentDate = BleUtil.getCurrentDate();
-        if (autoOperate == 1) {
-            autoEndTime = currentDate + (selectTime.replace(":", "")) + "00";
-            autoStartTime = "00000000000000";
-        } else {
-            autoStartTime = currentDate + (selectTime.replace(":", "")) + "00";
-            autoEndTime = "00000000000000";
-        }
-
-
-        String content = BleResult82.getContent(sep, autoStartTime, autoEndTime, bleAutoFrequency);
-        Log.e(TAG, "设置自动充电: " + content);
-        BleUtil.sendBle(content, new BleWriteCallback() {
-            @Override
-            public void onWriteSuccess() {
-                uploadConfig();
-            }
-
-            @Override
-            public void onWriteFailure(BleException exception) {
-                ToastUtil.showToast("蓝牙设置失败");
-            }
-        });
+        uploadConfig();
     }
 
     private void uploadConfig() {
@@ -186,7 +163,7 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
         param.put("auto_frequency", autoFrequency);
         param.put("autoid", config.getAutoid());
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .EditChargerSetting,
                         param)
                 .setBeanType(AddChargerSetting.class)

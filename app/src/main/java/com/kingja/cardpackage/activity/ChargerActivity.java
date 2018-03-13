@@ -142,7 +142,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         Map<String, Object> param = new HashMap<>();
         param.put("ChargerId", chargerId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .GetChargerStatistics,
                         param)
                 .setBeanType(GetChargerStatistics.class)
@@ -192,10 +192,11 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                         mSwpChargerInfo.setRefreshing(false);
                         GetChargerHeartPlusByChargerId.ContentBean chargerHeart = bean.getContent();
                         mSuperIndicator.setProgress(getChargeStatusProgress(chargerHeart.getCharge_Status()));
-                        mTvCurrentChargeelEctricity.setText(chargerHeart.getCurrent_Electricity()+"A");
+                        mTvCurrentChargeelEctricity.setText(chargerHeart.getCurrent_Current()+"A");
                         mTvCurrentChargeVoltage.setText(chargerHeart.getCurrent_Voltage()+"V");
                         mTvChargerTemperature.setText(chargerHeart.getCharger_Temperature()+"℃");
                         mTvBatteryTemperature.setText(chargerHeart.getBattery_Temperature()+"℃");
+                        mProgressPower.setProgress(Integer.valueOf(chargerHeart.getCurrent_Electricity()));
 //                        mTvLeftCost.setText("预计充满电还需" + chargerHeart.get());
                     }
 
@@ -214,7 +215,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
         param.put("OnlyGetRecord", false);
         param.put("ChargerId", chargerId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .GetChargerWarningInfoList,
                         param)
                 .setBeanType(GetChargerWarningInfoList.class)

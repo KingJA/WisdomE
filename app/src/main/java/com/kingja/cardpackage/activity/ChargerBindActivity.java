@@ -1,5 +1,6 @@
 package com.kingja.cardpackage.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -105,45 +106,6 @@ public class ChargerBindActivity extends BackTitleActivity {
 
     @Override
     protected void initNet() {
-        setProgressDialog(true, "检测品牌数据更新");
-        String updateTime;
-        if (TextUtils.isEmpty(DataManager.getLastCity()) || !(DataManager.getCityName().equals(DataManager
-                .getLastCity()))) {
-            updateTime = "1990-01-01 00:00:01";
-            DataManager.putLastCity(DataManager.getCityName());
-        } else {
-            updateTime = DataManager.getLastUpdateCarBrand();
-        }
-        Map<String, Object> param = new HashMap<>();
-        param.put("updatetime", updateTime);
-        new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CAR, KConstants.GetCodeList, param)
-                .setBeanType(GetCodeList.class)
-                .setCallBack(new WebServiceCallBack<GetCodeList>() {
-                    @Override
-                    public void onSuccess(final GetCodeList bean) {
-                        List<KJBikeCode> carInfoList = bean.getContent();
-                        Log.e(TAG, "更新车辆品牌数据: " + carInfoList.size());
-                        if (carInfoList.size() > 0) {
-                            ECardXutils3.getInstance().deleteAll(KJBikeCode.class);
-                            ECardXutils3.getInstance().saveDate(carInfoList);
-                            DataManager.putLastUpdateCarBrand(TimeUtil.getNowTime());
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    setProgressDialog(false);
-                                }
-                            }, 10000);
-                        } else {
-                            setProgressDialog(false);
-                        }
-                    }
-
-                    @Override
-                    public void onErrorResult(ErrorResult errorResult) {
-                        setProgressDialog(false);
-                    }
-                }).build().execute();
     }
 
     protected void bindDevice() {
@@ -213,7 +175,9 @@ public class ChargerBindActivity extends BackTitleActivity {
                         Intent intent = new Intent();
                         intent.putExtra("chargeId", chargeId);
                         intent.putExtra("plateNumber", cardNo);
+                        setResult(Activity.RESULT_OK,intent);
                         ToastUtil.showToast("绑定成功");
+                        finish();
 
                     }
 
@@ -271,10 +235,10 @@ public class ChargerBindActivity extends BackTitleActivity {
         setTitle(chargeId);
     }
 
-    public static void goActivity(Context context, String chargeId) {
+    public static void goActivity(Activity context, String chargeId, int bindDeviceCode) {
         Intent intent = new Intent(context, ChargerBindActivity.class);
         intent.putExtra("chargeId", chargeId);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,bindDeviceCode);
     }
 
     @Override

@@ -108,7 +108,7 @@ public class Login {
         private String Birthday;
         private Object Nationality;
         private String Address;
-        private Object Resideaddress;
+        private String Resideaddress;
         private Object Phone2;
         private Object Remark;
         private Object IDCardPhoto;
@@ -123,6 +123,25 @@ public class Login {
         private String CreateTime;
         private String LastLoginTime;
         private String CityCode;
+
+        public String getUnitName() {
+            return UnitName;
+        }
+
+        public void setUnitName(String unitName) {
+            UnitName = unitName;
+        }
+
+        public String getUnitId() {
+            return UnitId;
+        }
+
+        public void setUnitId(String unitId) {
+            UnitId = unitId;
+        }
+
+        private String UnitName;
+        private String UnitId;
         /**
          * CityCode : 3303
          * CityName : 温州市
@@ -199,11 +218,11 @@ public class Login {
             this.Address = Address;
         }
 
-        public Object getResideaddress() {
+        public String getResideaddress() {
             return Resideaddress;
         }
 
-        public void setResideaddress(Object Resideaddress) {
+        public void setResideaddress(String Resideaddress) {
             this.Resideaddress = Resideaddress;
         }
 

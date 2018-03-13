@@ -151,19 +151,21 @@ public class LoginActivity extends BackTitleActivity implements BackTitleActivit
         com.tdr.wisdome.util.Constants.setRealName(Utils.initNullStr(content.getRealname()));
         com.tdr.wisdome.util.Constants.setPermanentAddr(Utils.initNullStr(content.getAddress()));
 
-        DataManager.putToken(content.getToken());
-        DataManager.putIdCard(content.getIDCard());
-        DataManager.putRealName(content.getRealname());
-        DataManager.putSex(content.getSex());
-        DataManager.putBirthday(content.getBirthday());
-        DataManager.putPhone(content.getPhone());
-        DataManager.putUserId(content.getUserID());
-        DataManager.putAddresse(content.getAddress());
-        DataManager.putCertification(content.getCertification()+"");
+        DataManager.putResideaddress(Utils.initNullStr(content.getResideaddress()));
+        DataManager.putProvinceCityArea(Utils.initNullStr(content.getUnitName()));
+        DataManager.putToken(Utils.initNullStr(content.getToken()));
+        DataManager.putIdCard(Utils.initNullStr(content.getIDCard()));
+        DataManager.putRealName(Utils.initNullStr(content.getRealname()));
+        DataManager.putSex(Utils.initNullStr(content.getSex()));
+        DataManager.putBirthday(Utils.initNullStr(content.getBirthday()));
+        DataManager.putPhone(Utils.initNullStr(content.getPhone()));
+        DataManager.putUserId(Utils.initNullStr(content.getUserID()));
+        DataManager.putAddresse(Utils.initNullStr(content.getAddress()));
+        DataManager.putCertification(Utils.initNullStr(content.getCertification() + ""));
 
         if (content.getCity() != null) {
-            DataManager.putCityName(content.getCity().getCityName());
-            DataManager.putCityCode(content.getCity().getCityCode());
+            DataManager.putCityName(Utils.initNullStr(content.getCity().getCityName()));
+            DataManager.putCityCode(Utils.initNullStr(content.getCity().getCityCode()));
         }
 
     }

@@ -77,7 +77,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
         param.put("OnlyGetRecord", false);
         param.put("ChargerId", chargerId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .GetChargerWarningInfoList,
                         param)
                 .setBeanType(GetChargerWarningInfoList.class)
@@ -86,6 +86,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
                     public void onSuccess(GetChargerWarningInfoList bean) {
                         chargerAlarms = bean.getContent().getData();
                         if (chargerAlarms != null && chargerAlarms.size() > 0) {
+                            setOnRightClickListener(ChargeAlarmActivity.this, "全部已读");
                             mChargerAlarmDetailAdapter.setData(chargerAlarms);
                             loadService.showSuccess();
                         } else {
@@ -108,7 +109,6 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
     @Override
     protected void setData() {
         setTitle("充电器预警");
-        setOnRightClickListener(this, "全部已读");
     }
 
     @Override
@@ -117,7 +117,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
         Map<String, Object> param = new HashMap<>();
         param.put("isread", 1);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .SetAllReadStatus,
                         param)
                 .setBeanType(SetAllReadStatus.class)
@@ -154,7 +154,7 @@ public class ChargeAlarmActivity extends BackTitleActivity implements BackTitleA
         param.put("warnid", warnid);
         param.put("isread", 1);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .SetReadStatus,
                         param)
                 .setBeanType(SetReadStatus.class)

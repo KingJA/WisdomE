@@ -145,21 +145,7 @@ public class AddAutoChargeActivity extends BackTitleActivity implements BackTitl
             autoStartTime = currentDate + (selectTime.replace(":", "")) + "00";
             autoEndTime = "00000000000000";
         }
-
-
-        String content = BleResult82.getContent(sep, autoStartTime, autoEndTime, bleAutoFrequency);
-        Log.e(TAG, "设置自动充电: " + content);
-        BleUtil.sendBle(content, new BleWriteCallback() {
-            @Override
-            public void onWriteSuccess() {
-                uploadConfig();
-            }
-
-            @Override
-            public void onWriteFailure(BleException exception) {
-                ToastUtil.showToast("蓝牙设置失败");
-            }
-        });
+        uploadConfig();
     }
 
     private void uploadConfig() {
@@ -173,7 +159,7 @@ public class AddAutoChargeActivity extends BackTitleActivity implements BackTitl
         param.put("chargerid", chargerId);
         param.put("seq", sep);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .AddChargerSetting,
                         param)
                 .setBeanType(AddChargerSetting.class)

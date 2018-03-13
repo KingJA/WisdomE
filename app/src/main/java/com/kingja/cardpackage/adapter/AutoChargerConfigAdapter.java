@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.entiy.GetChargerSettingList;
@@ -59,7 +60,23 @@ public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingLis
                 }
             }
         });
+        viewHolder.sw_swich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!buttonView.isPressed()) {
+                    return;
+                }
+                if (onConfigOperListener != null) {
+                    onConfigOperListener.onConfigDisable(position,isChecked?0:1,list.get(position).getAutoid());
+                }
+            }
+        });
         return convertView;
+    }
+
+    public  void setIsdisable(int position, int isdisable) {
+        list.get(position).setIsdisable(isdisable);
+        notifyDataSetInvalidated();
     }
 
 
@@ -83,6 +100,7 @@ public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingLis
     public interface OnConfigOperListener {
         void onConfigEdit(int position,GetChargerSettingList.ContentBean.DataBean config);
         void onConfigDelete(int position,GetChargerSettingList.ContentBean.DataBean config);
+        void onConfigDisable(int position,int isdisable ,String autoid);
     }
 
     public void setOnConfigOperListener(OnConfigOperListener onConfigOperListener) {

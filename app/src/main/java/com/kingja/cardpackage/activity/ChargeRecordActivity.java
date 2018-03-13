@@ -72,7 +72,7 @@ public class ChargeRecordActivity extends BackTitleActivity implements AdapterVi
         param.put("OnlyGetRecord", false);
         param.put("ChargerId", chargerId);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .GetChargerRecordList,
                         param)
                 .setBeanType(GetChargerRecordList.class)

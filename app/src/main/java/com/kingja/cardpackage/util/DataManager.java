@@ -27,6 +27,8 @@ public class DataManager {
     private static final String PHONE = "Phone";
     private static final String RESIDEADDRESS = "Resideaddress";
     private static final String UNITID = "UnitId";
+    private static final String PROVINCECITYAREA = "provinceCityArea";
+
 
     /*================================GET================================*/
     public static String getToken() {
@@ -101,6 +103,10 @@ public class DataManager {
         return (String) SpUtils.get(CERTIFICATION, EMPTY);
     }
 
+    public static String getProvinceCityArea() {
+        return (String) SpUtils.get(PROVINCECITYAREA, EMPTY);
+    }
+
     public static String getPhone() {
         return (String) SpUtils.get(PHONE, EMPTY);
     }
@@ -133,6 +139,11 @@ public class DataManager {
     public static void putResideaddress(String resideaddress) {
         SpUtils.put(RESIDEADDRESS, resideaddress);
     }
+
+    public static void putProvinceCityArea(String provinceCityArea) {
+        SpUtils.put(PROVINCECITYAREA, provinceCityArea);
+    }
+
 
     public static void putCityName(String city) {
         SpUtils.put(CITY_NAME, city);

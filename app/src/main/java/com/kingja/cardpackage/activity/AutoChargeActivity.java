@@ -98,7 +98,7 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
         param.put("ChargerId", chargerId);
         param.put("Auto_Type", 1);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .GetChargerSettingList,
                         param)
                 .setBeanType(GetChargerSettingList.class)
@@ -181,26 +181,36 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
             @Override
             public void onBtnClick() {
                 deleteConfigDialog.dismiss();
-                onDeleteFromBle(position, config);
+                onDelete(position, config.getAutoid());
             }
         });
         deleteConfigDialog.show();
     }
 
-    private void onDeleteFromBle(final int position, final GetChargerSettingList.ContentBean.DataBean config) {
-        String content = BleResult83.getContent(config.getSeq());
-        Log.e(TAG, "删除指定配置: " + content);
-        BleUtil.sendBle(content, new BleWriteCallback() {
-            @Override
-            public void onWriteSuccess() {
-                onDelete(position, config.getAutoid());
-            }
+    @Override
+    public void onConfigDisable(final int position, final int isdisable, String autoid) {
+        setProgressDialog(true);
+        Map<String, Object> param = new HashMap<>();
+        param.put("isdisable", isdisable);
+        param.put("autoid", autoid);
+        new ThreadPoolTask.Builder()
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
+                                .DisableChargerSetting,
+                        param)
+                .setBeanType(DelChargerSetting.class)
+                .setCallBack(new WebServiceCallBack<DelChargerSetting>() {
+                    @Override
+                    public void onSuccess(DelChargerSetting bean) {
+                        setProgressDialog(false);
+                        ToastUtil.showToast("设置成功");
+                    }
 
-            @Override
-            public void onWriteFailure(BleException exception) {
-                ToastUtil.showToast("蓝牙设置失败");
-            }
-        });
+                    @Override
+                    public void onErrorResult(ErrorResult errorResult) {
+                        setProgressDialog(false);
+                        mAutoChargerConfigAdapter.setIsdisable(position,isdisable==1?0:1);
+                    }
+                }).build().execute();
     }
 
 
@@ -209,7 +219,7 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
         Map<String, Object> param = new HashMap<>();
         param.put("autoid", autoid);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .DelChargerSetting,
                         param)
                 .setBeanType(DelChargerSetting.class)

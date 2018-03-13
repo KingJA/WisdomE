@@ -2,6 +2,8 @@ package com.kingja.cardpackage.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -12,9 +14,12 @@ import com.kingja.cardpackage.adapter.ChargersAdapter;
 import com.kingja.cardpackage.callback.EmptyCallback;
 import com.kingja.cardpackage.callback.ErrorCallback;
 import com.kingja.cardpackage.callback.LoadingCallback;
+import com.kingja.cardpackage.db.ECardXutils3;
 import com.kingja.cardpackage.entiy.DelBindCharger;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetBindChargerList;
+import com.kingja.cardpackage.entiy.GetCodeList;
+import com.kingja.cardpackage.entiy.KJBikeCode;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.DataManager;
@@ -22,6 +27,7 @@ import com.kingja.cardpackage.util.DialogUtil;
 import com.kingja.cardpackage.util.GoUtil;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.TempConstants;
+import com.kingja.cardpackage.util.TimeUtil;
 import com.kingja.cardpackage.util.ToastUtil;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
@@ -42,7 +48,7 @@ import java.util.Map;
  */
 public class ChargeListActivity extends BackTitleActivity implements BackTitleActivity.OnMenuClickListener {
     private byte RQ_QCODE = 0x01;
-    private byte BIND_DEVICE = 0x02;
+    public static byte BIND_DEVICE = 0x02;
     private ListView mLvCharges;
     private ChargersAdapter mChargersAdapter;
     private List<GetBindChargerList.ContentBean.DataBean> chargers = new ArrayList<>();
@@ -120,6 +126,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                         if (chargers != null && chargers.size() > 0) {
                             mChargersAdapter.setData(chargers);
                             loadService.showSuccess();
+                            downloadDB();
                         } else {
                             loadService.showCallback(EmptyCallback.class);
                         }
@@ -132,6 +139,47 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                 }).build().execute();
     }
 
+    protected void downloadDB() {
+        setProgressDialog(true, "检测电动车数据更新");
+        String updateTime;
+        if (TextUtils.isEmpty(DataManager.getLastCity()) || !(DataManager.getCityName().equals(DataManager
+                .getLastCity()))) {
+            updateTime = "1990-01-01 00:00:01";
+            DataManager.putLastCity(DataManager.getCityName());
+        } else {
+            updateTime = DataManager.getLastUpdateCarBrand();
+        }
+        Map<String, Object> param = new HashMap<>();
+        param.put("updatetime", updateTime);
+        new ThreadPoolTask.Builder()
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CAR, KConstants.GetCodeList, param)
+                .setBeanType(GetCodeList.class)
+                .setCallBack(new WebServiceCallBack<GetCodeList>() {
+                    @Override
+                    public void onSuccess(final GetCodeList bean) {
+                        List<KJBikeCode> carInfoList = bean.getContent();
+                        Log.e(TAG, "更新车辆品牌数据: " + carInfoList.size());
+                        if (carInfoList.size() > 0) {
+                            ECardXutils3.getInstance().deleteAll(KJBikeCode.class);
+                            ECardXutils3.getInstance().saveDate(carInfoList);
+                            DataManager.putLastUpdateCarBrand(TimeUtil.getNowTime());
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setProgressDialog(false);
+                                }
+                            }, 10000);
+                        } else {
+                            setProgressDialog(false);
+                        }
+                    }
+
+                    @Override
+                    public void onErrorResult(ErrorResult errorResult) {
+                        setProgressDialog(false);
+                    }
+                }).build().execute();
+    }
     @Override
     protected void initData() {
     }
@@ -155,7 +203,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                 Bundle bundle = data.getExtras();
                 String url = bundle.getString("result");
                 Log.e(TAG, "url: " + url);
-                ChargerBindActivity.goActivity(this, url);
+                ChargerBindActivity.goActivity(this, url,BIND_DEVICE);
             } else if (requestCode == BIND_DEVICE){
                 String chargeId = data.getStringExtra("chargeId");
                 String plateNumber = data.getStringExtra("plateNumber");

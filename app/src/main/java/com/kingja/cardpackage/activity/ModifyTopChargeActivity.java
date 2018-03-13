@@ -143,22 +143,7 @@ public class ModifyTopChargeActivity extends BackTitleActivity implements BackTi
             ToastUtil.showToast("请选择充电频率");
             return;
         }
-
-        String currentDate = BleUtil.getCurrentDate();
-        String content = BleResult82.getContent(config.getSeq(), currentDate + (startTime.replace(":", "")) + "00", currentDate +
-                (endTime.replace(":", "")) + "00", bleAutoFrequency);
-        Log.e(TAG, "设置内容: " + content);
-        BleUtil.sendBle(content, new BleWriteCallback() {
-            @Override
-            public void onWriteSuccess() {
-                uploadConfig();
-            }
-
-            @Override
-            public void onWriteFailure(BleException exception) {
-                ToastUtil.showToast("蓝牙设置失败");
-            }
-        });
+        uploadConfig();
     }
 
     private void uploadConfig() {
@@ -170,7 +155,7 @@ public class ModifyTopChargeActivity extends BackTitleActivity implements BackTi
         param.put("auto_frequency", autoFrequency);
         param.put("autoid", config.getAutoid());
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .EditChargerSetting,
                         param)
                 .setBeanType(EditChargerSetting.class)

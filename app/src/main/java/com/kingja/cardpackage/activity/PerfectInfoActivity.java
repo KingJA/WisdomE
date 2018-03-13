@@ -97,14 +97,15 @@ public class PerfectInfoActivity extends BackTitleActivity {
             mMetUserinfoIdcard.setText(DataManager.getIdCard());
             mMetUserinfoSex.setText(DataManager.getSex());
             mMetUserinfoRealname.setText(DataManager.getRealName());
-            mMetUserinfoAddress.setText(DataManager.getAddress());
+//            mMetUserinfoAddress.setText(DataManager.getAddress());
             mMetUserinfoBirthday.setText(DataManager.getBirthday());
+            mMetAddressDetail.setText(DataManager.getResideaddress());
+            mMetAddressArea.setText(DataManager.getProvinceCityArea());
         }
     }
 
     @Override
     protected void initData() {
-
         mStvUserinfoConfirm.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View v) {
@@ -112,15 +113,13 @@ public class PerfectInfoActivity extends BackTitleActivity {
                 birthday = mMetUserinfoBirthday.getText().toString().trim();
                 realName = mMetUserinfoRealname.getText().toString().trim();
                 sex = mMetUserinfoSex.getText().toString().trim();
-                address = mMetUserinfoAddress.getText().toString().trim();
                 addressDetail = mMetAddressDetail.getText().toString().trim();
                 if (CheckUtil.checkIdCard(idCard, "身份证号格式错误")
                         && CheckUtil.checkEmpty(birthday, "请输入出生年月")
                         && CheckUtil.checkEmpty(realName, "请输入真实姓名")
                         && CheckUtil.checkEmpty(unitId, "请选择所在地")
                         && CheckUtil.checkEmpty(addressDetail, "输入详细地址")
-                        && CheckUtil.checkGender(sex)
-                        && CheckUtil.checkEmpty(address, "请输入详细地址")) {
+                        && CheckUtil.checkGender(sex)) {
                     perfectUserInfo();
                 }
 
@@ -207,9 +206,10 @@ public class PerfectInfoActivity extends BackTitleActivity {
                     }
                 }
                 break;
+            default:
+                break;
         }
     }
-
 
     private void perfectUserInfo() {
         setProgressDialog(true);
@@ -225,8 +225,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
         param.put("Remark", "");
         param.put("UserName", "");
         param.put("FaceBase", "");
-
-        param.put("Resideaddress", provinceCityArea + resideaddress);
+        param.put("Resideaddress", provinceCityArea + addressDetail);
         param.put("unitid", unitId);
         param.put("unitname", unitName);
 
@@ -251,13 +250,14 @@ public class PerfectInfoActivity extends BackTitleActivity {
     }
 
     private void save2Local() {
-        DataManager.putResideaddress(resideaddress);
+        DataManager.putProvinceCityArea(provinceCityArea);
+        DataManager.putResideaddress(addressDetail);
         DataManager.putUnitId(unitId);
         DataManager.putIdCard(idCard);
         DataManager.putRealName(realName);
         DataManager.putSex(sex);
         DataManager.putBirthday(birthday);
-        DataManager.putAddresse(address);
+//        DataManager.putAddresse(address);
     }
 
     @Override

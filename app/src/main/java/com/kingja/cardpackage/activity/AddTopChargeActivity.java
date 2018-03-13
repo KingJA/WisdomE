@@ -136,21 +136,7 @@ public class AddTopChargeActivity extends BackTitleActivity implements BackTitle
             ToastUtil.showToast("请选择充电频率");
             return;
         }
-        String currentDate = BleUtil.getCurrentDate();
-        String content = BleResult82.getContent(sep, currentDate + (startTime.replace(":", "")) + "00", currentDate +
-                (endTime.replace(":", "")) + "00", bleAutoFrequency);
-        Log.e(TAG, "设置内容: " + content);
-        BleUtil.sendBle(content, new BleWriteCallback() {
-            @Override
-            public void onWriteSuccess() {
-                uploadConfig();
-            }
-
-            @Override
-            public void onWriteFailure(BleException exception) {
-                ToastUtil.showToast("蓝牙设置失败");
-            }
-        });
+        uploadConfig();
     }
 
     private void uploadConfig() {
@@ -164,7 +150,7 @@ public class AddTopChargeActivity extends BackTitleActivity implements BackTitle
         param.put("chargerid", chargerId);
         param.put("seq", sep);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_EMPTY, KConstants
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants
                                 .AddChargerSetting,
                         param)
                 .setBeanType(AddChargerSetting.class)
