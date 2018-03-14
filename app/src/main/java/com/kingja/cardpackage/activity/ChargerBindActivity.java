@@ -23,6 +23,7 @@ import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.CheckUtil;
 import com.kingja.cardpackage.util.DataManager;
+import com.kingja.cardpackage.util.GoUtil;
 import com.kingja.cardpackage.util.KConstants;
 import com.kingja.cardpackage.util.TimeUtil;
 import com.kingja.cardpackage.util.ToastUtil;
@@ -31,6 +32,7 @@ import com.pizidea.imagepicker.AndroidImagePicker;
 import com.pizidea.imagepicker.ImageUtil;
 import com.pizidea.imagepicker.bean.ImageItem;
 import com.tdr.wisdome.R;
+import com.tdr.wisdome.actvitiy.BrandActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,20 +52,15 @@ public class ChargerBindActivity extends BackTitleActivity {
     private EditText mEtCardNo;
     private EditText mEtShelvesNo;
     private EditText mEtEngineNo;
-    private LinearLayout mLlCarBrand;
     private TextView mTvCarBrand;
-    private LinearLayout mLlCarColor;
     private TextView mTvCarColor;
     private ImageView mIvCar;
     private ImageView mIvCardId;
     private ImageView mIvBill;
     private EditText mEtRemark;
     private List<KJBikeCode> colorList;
-    private List<KJBikeCode> cardTypeList;
     private Map<String, String> colorMap = new HashMap<>();
-    private Map<String, String> cardTypeMap = new HashMap<>();
     private BaseListDialog carColorDialog;
-    private BaseListDialog carBrandDialog;
     private String carColor;
     private String cardBrand;
     private String basePhotoCar;
@@ -77,12 +74,8 @@ public class ChargerBindActivity extends BackTitleActivity {
     protected void initVariables() {
         chargeId = getIntent().getStringExtra("chargeId");
         colorList = ECardXutils3.getInstance().selectAllWhere(KJBikeCode.class, "type", "4");
-        cardTypeList = ECardXutils3.getInstance().selectAllWhere(KJBikeCode.class, "type", "6");
         for (KJBikeCode color : colorList) {
             colorMap.put(color.getCODE(), color.getNAME());
-        }
-        for (KJBikeCode cardType : cardTypeList) {
-            cardTypeMap.put(cardType.getCODE(), cardType.getNAME());
         }
     }
 
@@ -175,7 +168,7 @@ public class ChargerBindActivity extends BackTitleActivity {
                         Intent intent = new Intent();
                         intent.putExtra("chargeId", chargeId);
                         intent.putExtra("plateNumber", cardNo);
-                        setResult(Activity.RESULT_OK,intent);
+                        setResult(Activity.RESULT_OK, intent);
                         ToastUtil.showToast("绑定成功");
                         finish();
 
@@ -216,18 +209,6 @@ public class ChargerBindActivity extends BackTitleActivity {
             }
         };
 
-        carBrandDialog = new BaseListDialog<KJBikeCode>(this, cardTypeList) {
-            @Override
-            protected void fillLvData(List<KJBikeCode> list, int position, TextView tv) {
-                tv.setText(list.get(position).getNAME());
-            }
-
-            @Override
-            protected void onItemSelect(KJBikeCode cardTypeBean) {
-                mTvCarBrand.setText(cardTypeBean.getNAME());
-                cardBrand = cardTypeBean.getCODE() + "";
-            }
-        };
     }
 
     @Override
@@ -238,8 +219,10 @@ public class ChargerBindActivity extends BackTitleActivity {
     public static void goActivity(Activity context, String chargeId, int bindDeviceCode) {
         Intent intent = new Intent(context, ChargerBindActivity.class);
         intent.putExtra("chargeId", chargeId);
-        context.startActivityForResult(intent,bindDeviceCode);
+        context.startActivityForResult(intent, bindDeviceCode);
     }
+
+    public static int REQUEST_CAR_BRAND = 3;
 
     @Override
     public void onClick(View v) {
@@ -255,7 +238,7 @@ public class ChargerBindActivity extends BackTitleActivity {
                 getPhoto(PHOTO_CARD);
                 break;
             case R.id.tv_carBrand:
-                carBrandDialog.show();
+                GoUtil.goActivityForResult(this, BrandActivity.class, REQUEST_CAR_BRAND);
                 break;
             case R.id.tv_carColor:
                 carColorDialog.show();
@@ -263,6 +246,16 @@ public class ChargerBindActivity extends BackTitleActivity {
             default:
                 break;
 
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == REQUEST_CAR_BRAND) {
+                cardBrand = data.getStringExtra("brandCode");
+                mTvCarBrand.setText(data.getStringExtra("brandName"));
+            }
         }
     }
 
