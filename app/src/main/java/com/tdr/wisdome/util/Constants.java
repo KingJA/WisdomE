@@ -45,7 +45,8 @@ public class Constants {
 //    public static final String WEBSERVER_URL = "http://116.255.205.110:10011/webcardholder.asmx";//
 // WebServices访问地址，外网测试，充电器
 //    public static final String WEBSERVER_URL = "http://116.255.205.110:1001/WEBCARDHOLDER.asmx";// WebServices访问地址，正式
-    public static final String WEBSERVER_URL = "http://test.iotone.cn:11503/WebCardHolder.asmx";// 外网测试
+//    public static final String WEBSERVER_URL = "http://test.iotone.cn:11503/WebCardHolder.asmx";// 外网测试
+    public static final String WEBSERVER_URL = "http://10.130.0.100:11503/WebCardHolder.asmx";//20180320
     public static final String WEBSERVER_NAMESPACE = "http://tempuri.org/";// 命名空间
 
     public static final String WEBSERVER_CARDHOLDER = "CardHolder";//智慧e点通服务

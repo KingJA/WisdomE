@@ -1,5 +1,6 @@
 package com.kingja.cardpackage.util;
 
+
 /**
  * Description：TODO
  * Create Time：2016/8/15 13:51
@@ -29,6 +30,9 @@ public class DataManager {
     private static final String UNITID = "UnitId";
     private static final String PROVINCECITYAREA = "provinceCityArea";
 
+    private static final String PROVINCE = "PROVINCE";
+    private static final String CITY = "CITY";
+    private static final String DISTRICT = "DISTRICT";
 
     /*================================GET================================*/
     public static String getToken() {
@@ -110,6 +114,16 @@ public class DataManager {
     public static String getPhone() {
         return (String) SpUtils.get(PHONE, EMPTY);
     }
+
+    public static String getProvince() {
+        return (String) SpUtils.get(PROVINCE, EMPTY);
+    }
+    public static String getCity() {
+        return (String) SpUtils.get(CITY, EMPTY);
+    }
+    public static String getDistrict() {
+        return (String) SpUtils.get(DISTRICT, EMPTY);
+    }
     /*================================PUT================================*/
 
     public static void putToken(String token) {
@@ -144,6 +158,17 @@ public class DataManager {
         SpUtils.put(PROVINCECITYAREA, provinceCityArea);
     }
 
+    public static void putProvince(String province) {
+        SpUtils.put(PROVINCE, province);
+    }
+
+    public static void putCity(String city) {
+        SpUtils.put(CITY, city);
+    }
+
+    public static void putDistrict(String district) {
+        SpUtils.put(DISTRICT, district);
+    }
 
     public static void putCityName(String city) {
         SpUtils.put(CITY_NAME, city);

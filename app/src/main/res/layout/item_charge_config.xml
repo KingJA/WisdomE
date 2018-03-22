@@ -62,6 +62,7 @@
             android:text="编辑"/>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_cconfig_delete"
             style="@style/font_f_15"
             android:layout_width="wrap_content"

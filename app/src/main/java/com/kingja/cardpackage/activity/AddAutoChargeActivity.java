@@ -100,7 +100,7 @@ public class AddAutoChargeActivity extends BackTitleActivity implements BackTitl
 
     @Override
     protected void setData() {
-        setTitle("自动断电设置");
+        setTitle("自动充电设置");
         setOnRightClickListener(this, "保存");
     }
 

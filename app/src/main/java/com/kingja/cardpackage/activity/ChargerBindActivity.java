@@ -113,8 +113,7 @@ public class ChargerBindActivity extends BackTitleActivity {
                 && CheckUtil.checkEmpty(cardBrand, "请选择车辆品牌")
                 && CheckUtil.checkEmpty(carColor, "请选择车辆颜色")
                 && CheckUtil.checkEmpty(basePhotoCar, "请上传车辆全身照片")
-                && CheckUtil.checkEmpty(basePhotoCardId, "请上传身份证照片")
-                && CheckUtil.checkEmpty(basePhotoBill, "请上传车辆发票照片")) {
+                && CheckUtil.checkEmpty(basePhotoCardId, "请上传身份证照片")) {
             doBindDevice(cardNo, shelvesNo, engineNo, remark);
         }
     }

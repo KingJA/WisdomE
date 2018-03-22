@@ -57,9 +57,13 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
     private AddressTextAdapter provinceAdapter;
     private AddressTextAdapter cityAdapter;
     private AddressTextAdapter areaAdapter;
-    private String strProvinceId = "330000";
-    private String strCityId = "330300";
-    private String strAreaId = "330302";
+//    private String strProvinceId = "330000";
+//    private String strCityId = "330300";
+//    private String strAreaId = "330302";
+
+    private String strProvinceId = "strProvinceId";
+    private String strCityId = "strCityId";
+    private String strAreaId = "strAreaId";
     private OnAddressCListener onAddressCListener;
     private int maxsize = 24;
     private int minsize = 14;

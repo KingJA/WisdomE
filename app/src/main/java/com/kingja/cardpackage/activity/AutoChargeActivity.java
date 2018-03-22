@@ -130,7 +130,7 @@ public class AutoChargeActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     protected void setData() {
-        setTitle("自动断电");
+        setTitle("自动充电");
 
     }
 

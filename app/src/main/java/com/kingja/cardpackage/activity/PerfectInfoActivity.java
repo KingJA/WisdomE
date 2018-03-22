@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.AdapterView;
@@ -129,7 +130,16 @@ public class PerfectInfoActivity extends BackTitleActivity {
             @Override
             public void onClick(View v) {
                 mChangeAddressDialog = new ChangeAddressDialog(PerfectInfoActivity.this);
-                mChangeAddressDialog.setAddress("浙江省", "温州市", "鹿城区", "330000", "330300", "330302");
+                if (!TextUtils.isEmpty(DataManager.getProvince()) && !TextUtils.isEmpty(DataManager.getProvince()) &&
+                        !TextUtils.isEmpty(DataManager.getProvince())) {
+                    mChangeAddressDialog.setAddress(DataManager.getProvince(), DataManager.getCity(), DataManager
+                            .getDistrict(), "", "", "");
+                    Log.e(TAG, "getProvince: "+DataManager.getProvince() +"getCity: "+DataManager.getCity()+"getDistrict: "+DataManager.getDistrict());
+                }else{
+                    mChangeAddressDialog.setAddress("浙江省", "温州市", "鹿城区", "330000", "330300", "330302");
+                    Log.e(TAG, "默认: ");
+                }
+
                 mChangeAddressDialog.show();
                 mChangeAddressDialog.setAddresskListener(new ChangeAddressDialog.OnAddressCListener() {
                     @Override
@@ -137,6 +147,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
                                         String areaId) {
                         provinceCityArea = province + city + area;
                         mMetAddressArea.setText(province + city + area);
+                        Log.e(TAG, "province: "+province+ " city: "+city+" area: "+area+" provinceId: "+provinceId+" cityId: "+cityId+" areaId: "+areaId);
                         unitId = areaId;
                         unitName = area;
                     }

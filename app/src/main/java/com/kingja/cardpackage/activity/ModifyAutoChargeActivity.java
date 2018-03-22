@@ -116,7 +116,7 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
 
     @Override
     protected void setData() {
-        setTitle("自动断电修改");
+        setTitle("自动充电修改");
         setOnRightClickListener(this, "保存");
     }
 
