@@ -242,7 +242,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         GoUtil.goActivity(MainActivity.this, NfcRoomActivity.class);
                         break;
                     case "1010"://充电器
-                        GoUtil.goActivity(MainActivity.this, ChargeListActivity.class);
+                        if (!TextUtils.isEmpty(DataManager.getUnitId())) {
+                            GoUtil.goActivity(MainActivity.this, ChargeListActivity.class);
+                        }else{
+                        ToastUtil.showToast("请先在完善用户资料选择所在区");
+                        }
+
+                        break;
+                    default:
                         break;
                 }
             }
