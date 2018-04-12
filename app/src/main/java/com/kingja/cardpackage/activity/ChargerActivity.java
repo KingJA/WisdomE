@@ -3,6 +3,7 @@ package com.kingja.cardpackage.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -81,18 +82,21 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     public int getChargeStatusProgress(int chargeStatus) {
         int result = 0;
         switch (chargeStatus) {
-            case 1:
-            case 2:
+            case 0:
                 result = 0;
                 break;
-            case 3:
+            case 1:
+            case 2:
                 result = 1;
                 break;
-            case 4:
+            case 3:
                 result = 2;
                 break;
-            case 5:
+            case 4:
                 result = 3;
+                break;
+            case 5:
+                result = 4;
                 break;
             default:
                 break;
@@ -196,7 +200,8 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                         mTvCurrentChargeVoltage.setText(chargerHeart.getCurrent_Voltage()+"V");
                         mTvChargerTemperature.setText(chargerHeart.getCharger_Temperature()+"℃");
                         mTvBatteryTemperature.setText(chargerHeart.getBattery_Temperature()+"℃");
-                        mProgressPower.setProgress(Integer.valueOf(chargerHeart.getCurrent_Electricity()));
+                        String current_electricity = chargerHeart.getCurrent_Electricity();
+                        mProgressPower.setProgress(TextUtils.isEmpty(current_electricity)?0:Integer.valueOf(current_electricity));
 //                        mTvLeftCost.setText("预计充满电还需" + chargerHeart.get());
                     }
 
@@ -247,7 +252,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 ChargeAlarmActivity.goActivity(ChargerActivity.this, chargerId);
             }
         });
-        mSuperIndicator.setTabs(Arrays.asList("快速充电", "连续充电", "涓流充电", "完成充电"));
+        mSuperIndicator.setTabs(Arrays.asList("空闲","快速充电", "连续充电", "涓流充电", "完成充电"));
         mSwpChargerInfo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

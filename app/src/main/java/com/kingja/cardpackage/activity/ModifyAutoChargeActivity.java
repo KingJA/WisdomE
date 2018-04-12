@@ -157,8 +157,11 @@ public class ModifyAutoChargeActivity extends BackTitleActivity implements BackT
     private void uploadConfig() {
         setProgressDialog(true);
         Map<String, Object> param = new HashMap<>();
-        param.put("auto_start", autoOperate == 1 ? selectTime : "");
-        param.put("auto_end", autoOperate == 2 ? selectTime : "");
+//        param.put("auto_start", autoOperate == 1 ? selectTime : "");
+//        param.put("auto_end", autoOperate == 2 ? selectTime : "");
+
+        param.put("auto_start", selectTime);
+        param.put("auto_end",  "");
         param.put("auto_operate", autoOperate);
         param.put("auto_frequency", autoFrequency);
         param.put("autoid", config.getAutoid());

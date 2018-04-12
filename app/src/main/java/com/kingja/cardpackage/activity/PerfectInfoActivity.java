@@ -7,9 +7,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.TextureView;
 import android.view.View;
-import android.view.WindowInsets;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -23,8 +21,9 @@ import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.NoDoubleClickListener;
 import com.kingja.cardpackage.util.TempConstants;
 import com.kingja.cardpackage.util.ToastUtil;
+import com.kingja.selectorsir.AddressInfo;
+import com.kingja.selectorsir.AddressSelector;
 import com.kingja.supershapeview.SuperShapeTextView;
-import com.kingja.ui.wheelview.ChangeAddressDialog;
 import com.tdr.wisdome.R;
 import com.tdr.wisdome.util.Utils;
 import com.tdr.wisdome.view.material.MaterialEditText;
@@ -58,12 +57,13 @@ public class PerfectInfoActivity extends BackTitleActivity {
     private ImageView mIvAddressDetailArrow;
     private MaterialEditText mMetAddressArea;
     private MaterialEditText mMetAddressDetail;
-    private ChangeAddressDialog mChangeAddressDialog;
     private String unitId;
     private String unitName;
     private String resideaddress;
     private String addressDetail;
     private String provinceCityArea;
+    private String addressAres;
+    private AddressSelector addressSelector;
 
     @Override
     protected void initVariables() {
@@ -84,7 +84,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
         mStvUserinfoConfirm = (SuperShapeTextView) findViewById(R.id.stv_userinfo_confirm);
         mIvUserinfoSexArrow = (ImageView) findViewById(R.id.iv_userinfo_sex_arrow);
         createGenderSelector();
-
+        addressSelector = new AddressSelector(this);
     }
 
     @Override
@@ -102,6 +102,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
             mMetUserinfoBirthday.setText(DataManager.getBirthday());
             mMetAddressDetail.setText(DataManager.getResideaddress());
             mMetAddressArea.setText(DataManager.getProvinceCityArea());
+            unitId = DataManager.getUnitId();
         }
     }
 
@@ -115,6 +116,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
                 realName = mMetUserinfoRealname.getText().toString().trim();
                 sex = mMetUserinfoSex.getText().toString().trim();
                 addressDetail = mMetAddressDetail.getText().toString().trim();
+                addressAres = mMetAddressArea.getText().toString().trim();
                 if (CheckUtil.checkIdCard(idCard, "身份证号格式错误")
                         && CheckUtil.checkEmpty(birthday, "请输入出生年月")
                         && CheckUtil.checkEmpty(realName, "请输入真实姓名")
@@ -129,30 +131,9 @@ public class PerfectInfoActivity extends BackTitleActivity {
         mIvAddressDetailArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mChangeAddressDialog = new ChangeAddressDialog(PerfectInfoActivity.this);
-                if (!TextUtils.isEmpty(DataManager.getProvince()) && !TextUtils.isEmpty(DataManager.getProvince()) &&
-                        !TextUtils.isEmpty(DataManager.getProvince())) {
-                    mChangeAddressDialog.setAddress(DataManager.getProvince(), DataManager.getCity(), DataManager
-                            .getDistrict(), "", "", "");
-                    Log.e(TAG, "getProvince: "+DataManager.getProvince() +"getCity: "+DataManager.getCity()+"getDistrict: "+DataManager.getDistrict());
-                }else{
-                    mChangeAddressDialog.setAddress("浙江省", "温州市", "鹿城区", "330000", "330300", "330302");
-                    Log.e(TAG, "默认: ");
-                }
-
-                mChangeAddressDialog.show();
-                mChangeAddressDialog.setAddresskListener(new ChangeAddressDialog.OnAddressCListener() {
-                    @Override
-                    public void onClick(String province, String city, String area, String provinceId, String cityId,
-                                        String areaId) {
-                        provinceCityArea = province + city + area;
-                        mMetAddressArea.setText(province + city + area);
-                        Log.e(TAG, "province: "+province+ " city: "+city+" area: "+area+" provinceId: "+provinceId+" cityId: "+cityId+" areaId: "+areaId);
-                        unitId = areaId;
-                        unitName = area;
-                    }
-                });
+                showAddressSelector();
             }
+
         });
         mIvOcr.setOnClickListener(new NoDoubleClickListener() {
             @Override
@@ -188,6 +169,32 @@ public class PerfectInfoActivity extends BackTitleActivity {
                 genderSelector.show();
             }
         });
+    }
+
+    private void showAddressSelector() {
+        String province = "浙江省";
+        String city = "温州市";
+        String district = "龙湾区";
+        if (!TextUtils.isEmpty(DataManager.getUnitId())) {
+            addressSelector.setDistrictId(DataManager.getUnitId());
+        } else if (!TextUtils.isEmpty(DataManager.getCity())) {
+            addressSelector.setDistrictId(DataManager.getCity());
+        }else{
+            addressSelector = new AddressSelector(this,province,city,district);
+        }
+        addressSelector.setOnAddressSelectedListener(new AddressSelector.OnAddressSelectedListener() {
+            @Override
+            public void onAddressSelected(AddressInfo provinceInfo, AddressInfo cityInfo, AddressInfo
+                    districtInfo) {
+                provinceCityArea = provinceInfo.getAddressName() + cityInfo.getAddressName() + districtInfo
+                        .getAddressName();
+                mMetAddressArea.setText(provinceInfo.getAddressName() + cityInfo.getAddressName() + districtInfo
+                        .getAddressName());
+                unitId = districtInfo.getAddressId();
+                unitName = districtInfo.getAddressName();
+            }
+        });
+        addressSelector.show();
     }
 
     @Override
@@ -261,7 +268,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
     }
 
     private void save2Local() {
-        DataManager.putProvinceCityArea(provinceCityArea);
+        DataManager.putProvinceCityArea(addressAres);
         DataManager.putResideaddress(addressDetail);
         DataManager.putUnitId(unitId);
         DataManager.putIdCard(idCard);
@@ -279,12 +286,15 @@ public class PerfectInfoActivity extends BackTitleActivity {
             mMetUserinfoIdcard.setEnabled(false);
             mMetUserinfoRealname.setEnabled(false);
             mMetUserinfoAddress.setEnabled(false);
+            mMetUserinfoBirthday.setEnabled(false);
             mIvUserinfoSexArrow.setVisibility(View.GONE);
             mIvAddressDetailArrow.setVisibility(View.GONE);
             mIvOcr.setVisibility(View.GONE);
         } else {
             mStvUserinfoConfirm.setVisibility(View.VISIBLE);
         }
+        mMetAddressArea.setEnabled(false);
+        mMetUserinfoSex.setEnabled(false);
     }
 
 

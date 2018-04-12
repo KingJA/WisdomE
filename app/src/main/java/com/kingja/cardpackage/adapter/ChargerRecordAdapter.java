@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.kingja.cardpackage.entiy.GetChargerRecordList;
 import com.kingja.cardpackage.entiy.GetChargerWarningInfoList;
+import com.kingja.cardpackage.util.TimeUtil;
 import com.tdr.wisdome.R;
 
 import java.util.List;
@@ -37,8 +38,9 @@ public class ChargerRecordAdapter extends BaseLvAdapter<GetChargerRecordList.Con
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_chargerTime.setText(list.get(position).getCharger_starttime() + "-"+list.get(position).getCharger_endtime());
-        viewHolder.tv_chargerTotle.setText(list.get(position).getElectricity_total()+"A");
+        viewHolder.tv_chargerTime.setText(list.get(position).getCharger_starttime());
+        viewHolder.tv_cost.setText(TimeUtil.getDuringTime(list.get(position).getCharger_starttime(),list.get(position).getCharger_endtime()));
+        viewHolder.tv_chargerTotle.setText(list.get(position).getElectricity_total()+"千瓦时");
         return convertView;
     }
 
@@ -46,11 +48,13 @@ public class ChargerRecordAdapter extends BaseLvAdapter<GetChargerRecordList.Con
     public class ViewHolder {
         final TextView tv_chargerTime;
         final TextView tv_chargerTotle;
+        final TextView tv_cost;
         public final View root;
 
         public ViewHolder(View root) {
             tv_chargerTime = (TextView) root.findViewById(R.id.tv_chargerTime);
             tv_chargerTotle = (TextView) root.findViewById(R.id.tv_chargerTotle);
+            tv_cost = (TextView) root.findViewById(R.id.tv_cost);
             this.root = root;
         }
     }

@@ -61,6 +61,7 @@
 </LinearLayout>
 
     <TextView
+        android:padding="12dp"
         android:id="@+id/tv_changeUser"
         style="@style/font_9_12"
       android:layout_centerHorizontal="true"

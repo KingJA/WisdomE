@@ -5,8 +5,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.entiy.Basic_Dictionary_Kj;
@@ -119,7 +117,7 @@ public class CarSelectorPop extends PopupWindowBaseDown<List<IndexData.ContentBe
         List<IndexData.ContentBean.BindingListBean> list;
 
         protected CarSelectorAdapter(Context context, List<IndexData.ContentBean.BindingListBean> list, int currentItem, int maxsize, int minsize) {
-            super(context, com.kingja.ui.R.layout.item_birth_year, NO_RESOURCE, currentItem, maxsize, minsize);
+            super(context, com.kingja.ui.R.layout.item_birth, NO_RESOURCE, currentItem, maxsize, minsize);
             this.list = list;
             setItemTextResource(com.kingja.ui.R.id.tempValue);
         }

@@ -172,7 +172,7 @@ public class DeadlineSelector extends Dialog implements View.OnClickListener {
         List<String> list;
 
         protected CalendarTextAdapter(Context context, List<String> list, int currentItem, int maxsize, int minsize) {
-            super(context, R.layout.item_birth_year, NO_RESOURCE, currentItem, maxsize, minsize);
+            super(context, R.layout.item_birth, NO_RESOURCE, currentItem, maxsize, minsize);
             this.list = list;
             setItemTextResource(R.id.tempValue);
         }

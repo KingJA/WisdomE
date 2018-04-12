@@ -152,6 +152,7 @@ public class LoginActivity extends BackTitleActivity implements BackTitleActivit
         com.tdr.wisdome.util.Constants.setPermanentAddr(Utils.initNullStr(content.getAddress()));
 
         DataManager.putResideaddress(Utils.initNullStr(content.getResideaddress()));
+        DataManager.putUnitId(Utils.initNullStr(content.getUnitId()));
         DataManager.putProvinceCityArea(Utils.initNullStr(content.getUnitName()));
         DataManager.putToken(Utils.initNullStr(content.getToken()));
         DataManager.putIdCard(Utils.initNullStr(content.getIDCard()));

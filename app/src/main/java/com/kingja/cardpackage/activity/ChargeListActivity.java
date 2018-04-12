@@ -203,6 +203,10 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                 Bundle bundle = data.getExtras();
                 String url = bundle.getString("result");
                 Log.e(TAG, "url: " + url);
+                if (!"8681".equals(url)) {
+                    ToastUtil.showToast("不是指定类型的二维码");
+                    return;
+                }
                 ChargerBindActivity.goActivity(this, url,BIND_DEVICE);
             } else if (requestCode == BIND_DEVICE){
                 String chargeId = data.getStringExtra("chargeId");

@@ -7,8 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static android.R.attr.x;
-
 /**
  * 项目名称：物联网城市防控(警用版)
  * 类描述：TODO
@@ -109,9 +107,32 @@ public class TimeUtil {
      * @return
      * @throws Exception
      */
-    public static Date String2Date(String strDate, String timeFormat) throws Exception {
+    public static Date string2Date(String strDate, String timeFormat) throws Exception {
         SimpleDateFormat df = new SimpleDateFormat(timeFormat);
         return df.parse(strDate);
+    }
+
+    public static long getDuringMills(String startTime, String endTime) {
+        long duringMills = 0;
+        try {
+            long startMills = string2Date(startTime, "yyyy-MM-dd HH:mm:ss").getTime();
+            long endMills = string2Date(endTime, "yyyy-MM-dd HH:mm:ss").getTime();
+            duringMills = endMills - startMills;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return duringMills;
+    }
+
+    public static String getDuringTime(String startTime, String endTime) {
+        String result;
+        long duringMills = getDuringMills(startTime, endTime);
+        if (duringMills / 1000 / 60 / 60 > 0) {
+            result = (duringMills / 1000 / 60 / 60) + "小时";
+        } else {
+            result = (duringMills / 1000 / 60) + "分钟";
+        }
+        return result;
     }
 
     public static String get2015Date(long minutes) {

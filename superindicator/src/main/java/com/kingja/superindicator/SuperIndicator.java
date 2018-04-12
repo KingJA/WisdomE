@@ -86,6 +86,9 @@ public class SuperIndicator extends View {
     }
 
     public void setProgress(int progress) {
+        if (progress == -1) {
+            return;
+        }
         this.progress = progress;
         invalidate();
     }

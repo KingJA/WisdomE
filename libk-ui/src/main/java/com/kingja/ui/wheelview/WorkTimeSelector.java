@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -247,7 +246,7 @@ public class WorkTimeSelector extends Dialog implements View.OnClickListener {
         List<String> list;
 
         protected TimeAdapter(Context context, List<String> list, int currentItem, int maxsize, int minsize) {
-            super(context, R.layout.item_birth_year, NO_RESOURCE, currentItem, maxsize, minsize);
+            super(context, R.layout.item_birth, NO_RESOURCE, currentItem, maxsize, minsize);
             this.list = list;
             setItemTextResource(R.id.tempValue);
         }

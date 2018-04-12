@@ -82,7 +82,7 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_myinfo_changeaddress);
+        setContentView(R.layout.dialog_changeaddress);
 
         wvProvince = (WheelView) findViewById(R.id.wv_address_province);
         wvCitys = (WheelView) findViewById(R.id.wv_address_city);
@@ -222,6 +222,10 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
                 setTextviewSize(currentText, areaAdapter);
             }
         });
+
+        strProvinceId = arrProvinceIds.get(getProvinceItem(strProvince));
+        strCityId = arrCityIds.get(getCityItem(strCity));
+        strAreaId = arrAreaIds.get(getAresItem(strArea));
     }
 
 
@@ -229,7 +233,7 @@ public class ChangeAddressDialog extends Dialog implements View.OnClickListener 
         ArrayList<String> list;
 
         protected AddressTextAdapter(Context context, ArrayList<String> list, int currentItem, int maxsize, int minsize) {
-            super(context, R.layout.item_birth_year, NO_RESOURCE, currentItem, maxsize, minsize);
+            super(context, R.layout.item_birth, NO_RESOURCE, currentItem, maxsize, minsize);
             this.list = list;
             setItemTextResource(R.id.tempValue);
         }

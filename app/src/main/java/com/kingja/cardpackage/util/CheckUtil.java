@@ -109,7 +109,7 @@ public class CheckUtil {
 
         // 判断手机号格式
         if (!Pattern.matches(
-                "^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\\d{8}$", phone)) {
+                "^(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9]|19[0-9])\\d{8}$", phone)) {
             ToastUtil.showToast("手机号码格式不对");
             return false;
         }
