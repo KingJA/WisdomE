@@ -20,6 +20,7 @@ import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetBindChargerList;
 import com.kingja.cardpackage.entiy.GetCodeList;
 import com.kingja.cardpackage.entiy.KJBikeCode;
+import com.kingja.cardpackage.entiy.RefleshChargeList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.DataManager;
@@ -34,6 +35,9 @@ import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.tdr.wisdome.R;
 import com.tdr.wisdome.zbar.CaptureActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +62,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
 
     @Override
     protected void initVariables() {
+        EventBus.getDefault().register(this);
         bingdDialog = DialogUtil.getDoubleDialog(this, "确定要绑定该设备吗？", "取消", "确定");
         unbingdDialog = DialogUtil.getDoubleDialog(this, "确定要解绑该设备吗？", "取消", "确定");
     }
@@ -152,7 +157,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
         Map<String, Object> param = new HashMap<>();
         param.put("updatetime", updateTime);
         new ThreadPoolTask.Builder()
-                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CAR, KConstants.GetCodeList, param)
+                .setGeneralParam(DataManager.getToken(), KConstants.CARD_TYPE_CHARGER, KConstants.GetCodeList, param)
                 .setBeanType(GetCodeList.class)
                 .setCallBack(new WebServiceCallBack<GetCodeList>() {
                     @Override
@@ -180,6 +185,7 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                     }
                 }).build().execute();
     }
+
     @Override
     protected void initData() {
     }
@@ -203,15 +209,15 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                 Bundle bundle = data.getExtras();
                 String url = bundle.getString("result");
                 Log.e(TAG, "url: " + url);
-                if (!"8681".equals(url)) {
+                if (!url.startsWith("8681")) {
                     ToastUtil.showToast("不是指定类型的二维码");
                     return;
                 }
-                ChargerBindActivity.goActivity(this, url,BIND_DEVICE);
-            } else if (requestCode == BIND_DEVICE){
+                ChargerBindActivity.goActivity(this, url, BIND_DEVICE);
+            } else if (requestCode == BIND_DEVICE) {
                 String chargeId = data.getStringExtra("chargeId");
                 String plateNumber = data.getStringExtra("plateNumber");
-                mChargersAdapter.addItem(chargeId,plateNumber);
+                mChargersAdapter.addItem(chargeId, plateNumber);
 
             }
 
@@ -241,5 +247,10 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                         setProgressDialog(false);
                     }
                 }).build().execute();
+    }
+
+    @Subscribe
+    public void refleshChargeList(RefleshChargeList event) {
+        initNet();
     }
 }

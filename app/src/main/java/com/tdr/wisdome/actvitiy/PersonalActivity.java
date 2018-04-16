@@ -1,5 +1,6 @@
 package com.tdr.wisdome.actvitiy;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -209,7 +210,7 @@ public class PersonalActivity extends BackTitleActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (Constants.getRealName().equals("")) {
+        if (TextUtils.isEmpty(DataManager.getIdCard())) {
             //弹出对话框，完善资料
             showPerfectDialog();
         }

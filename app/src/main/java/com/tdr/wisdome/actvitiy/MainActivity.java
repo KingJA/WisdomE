@@ -210,6 +210,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     return;
                 }
                 if (TextUtils.isEmpty(DataManager.getIdCard())) {
+                    ToastUtil.showToast("请先完善用户资料");
                     GoUtil.goActivity(MainActivity.this, PerfectInfoActivity.class);
                     return;
                 }
@@ -244,8 +245,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     case "1010"://充电器
                         if (!TextUtils.isEmpty(DataManager.getUnitId())) {
                             GoUtil.goActivity(MainActivity.this, ChargeListActivity.class);
-                        }else{
-                        ToastUtil.showToast("请先在完善用户资料选择所在区");
+                        } else {
+                            ToastUtil.showToast("请先在完善用户资料选择所在区");
                         }
 
                         break;

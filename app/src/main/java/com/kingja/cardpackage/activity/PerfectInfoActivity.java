@@ -178,7 +178,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
         if (!TextUtils.isEmpty(DataManager.getUnitId())) {
             addressSelector.setDistrictId(DataManager.getUnitId());
         } else if (!TextUtils.isEmpty(DataManager.getCity())) {
-            addressSelector.setDistrictId(DataManager.getCity());
+            addressSelector.setCityName(DataManager.getCity());
         }else{
             addressSelector = new AddressSelector(this,province,city,district);
         }
@@ -243,7 +243,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
         param.put("Remark", "");
         param.put("UserName", "");
         param.put("FaceBase", "");
-        param.put("Resideaddress", provinceCityArea + addressDetail);
+        param.put("Resideaddress", addressDetail);
         param.put("unitid", unitId);
         param.put("unitname", unitName);
 

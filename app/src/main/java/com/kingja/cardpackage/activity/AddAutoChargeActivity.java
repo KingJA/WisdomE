@@ -155,7 +155,7 @@ public class AddAutoChargeActivity extends BackTitleActivity implements BackTitl
 //        param.put("auto_end", autoOperate == 2 ? selectTime : "");
         param.put("auto_start", selectTime);
         param.put("auto_end",  "");
-        param.put("auto_operate", autoOperate);
+        param.put("auto_operate", 1);
         param.put("auto_frequency", autoFrequency);
         param.put("auto_type", "1");
         param.put("chargerid", chargerId);

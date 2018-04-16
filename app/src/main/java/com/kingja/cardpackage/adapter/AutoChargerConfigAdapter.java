@@ -24,6 +24,7 @@ import java.util.List;
 public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingList.ContentBean.DataBean> {
 
     private OnConfigOperListener onConfigOperListener;
+
     public AutoChargerConfigAdapter(Context context, List<GetChargerSettingList.ContentBean.DataBean> list) {
         super(context, list);
     }
@@ -39,8 +40,7 @@ public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingLis
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_configTime.setText(list.get(position).getAuto_operate() == 1 ? list.get(position).getAuto_start
-                () : list.get(position).getAuto_end());
+        viewHolder.tv_configTime.setText(list.get(position).getAuto_operate() == 1 ? list.get(position).getAuto_start() : list.get(position).getAuto_end());
         viewHolder.tv_configContent.setText((list.get(position).getAuto_operate() == 1 ? "自动开始，" : "自动结束，") + (list
                 .get(position).getAuto_frequency() == 1 ? "一次" : "重复"));
         viewHolder.sw_swich.setChecked(list.get(position).getIsdisable() == 0);
@@ -48,7 +48,7 @@ public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingLis
             @Override
             public void onNoDoubleClick(View v) {
                 if (onConfigOperListener != null) {
-                    onConfigOperListener.onConfigEdit(position,list.get(position));
+                    onConfigOperListener.onConfigEdit(position, list.get(position));
                 }
             }
         });
@@ -56,7 +56,7 @@ public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingLis
             @Override
             public void onNoDoubleClick(View v) {
                 if (onConfigOperListener != null) {
-                    onConfigOperListener.onConfigDelete(position,list.get(position));
+                    onConfigOperListener.onConfigDelete(position, list.get(position));
                 }
             }
         });
@@ -67,14 +67,14 @@ public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingLis
                     return;
                 }
                 if (onConfigOperListener != null) {
-                    onConfigOperListener.onConfigDisable(position,isChecked?0:1,list.get(position).getAutoid());
+                    onConfigOperListener.onConfigDisable(position, isChecked ? 0 : 1, list.get(position).getAutoid());
                 }
             }
         });
         return convertView;
     }
 
-    public  void setIsdisable(int position, int isdisable) {
+    public void setIsdisable(int position, int isdisable) {
         list.get(position).setIsdisable(isdisable);
         notifyDataSetInvalidated();
     }
@@ -97,10 +97,13 @@ public class AutoChargerConfigAdapter extends BaseLvAdapter<GetChargerSettingLis
             this.root = root;
         }
     }
+
     public interface OnConfigOperListener {
-        void onConfigEdit(int position,GetChargerSettingList.ContentBean.DataBean config);
-        void onConfigDelete(int position,GetChargerSettingList.ContentBean.DataBean config);
-        void onConfigDisable(int position,int isdisable ,String autoid);
+        void onConfigEdit(int position, GetChargerSettingList.ContentBean.DataBean config);
+
+        void onConfigDelete(int position, GetChargerSettingList.ContentBean.DataBean config);
+
+        void onConfigDisable(int position, int isdisable, String autoid);
     }
 
     public void setOnConfigOperListener(OnConfigOperListener onConfigOperListener) {

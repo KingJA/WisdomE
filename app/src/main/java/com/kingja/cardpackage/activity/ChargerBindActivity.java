@@ -1,31 +1,25 @@
 package com.kingja.cardpackage.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kingja.cardpackage.db.ECardXutils3;
 import com.kingja.cardpackage.entiy.BindCharger;
 import com.kingja.cardpackage.entiy.BindChargerParam;
 import com.kingja.cardpackage.entiy.ErrorResult;
-import com.kingja.cardpackage.entiy.GetCodeList;
 import com.kingja.cardpackage.entiy.KJBikeCode;
+import com.kingja.cardpackage.entiy.RefleshChargeList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
 import com.kingja.cardpackage.util.CheckUtil;
 import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.GoUtil;
 import com.kingja.cardpackage.util.KConstants;
-import com.kingja.cardpackage.util.TimeUtil;
 import com.kingja.cardpackage.util.ToastUtil;
 import com.kingja.ui.dialog.BaseListDialog;
 import com.pizidea.imagepicker.AndroidImagePicker;
@@ -33,6 +27,8 @@ import com.pizidea.imagepicker.ImageUtil;
 import com.pizidea.imagepicker.bean.ImageItem;
 import com.tdr.wisdome.R;
 import com.tdr.wisdome.actvitiy.BrandActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,6 +70,10 @@ public class ChargerBindActivity extends BackTitleActivity {
     protected void initVariables() {
         chargeId = getIntent().getStringExtra("chargeId");
         colorList = ECardXutils3.getInstance().selectAllWhere(KJBikeCode.class, "type", "4");
+        if (colorList == null || colorList.size() == 0) {
+            ToastUtil.showToast("数据库信息获取失败");
+            return;
+        }
         for (KJBikeCode color : colorList) {
             colorMap.put(color.getCODE(), color.getNAME());
         }
@@ -142,14 +142,17 @@ public class ChargerBindActivity extends BackTitleActivity {
         carPhoto.setINDEX(5);
         carPhoto.setPhoto(UUID.randomUUID().toString());
         carPhoto.setPhotoFile(basePhotoCar);
+
         BindChargerParam.PhotoListFileBean cardIdPhoto = new BindChargerParam.PhotoListFileBean();
         cardIdPhoto.setINDEX(6);
         cardIdPhoto.setPhoto(UUID.randomUUID().toString());
-        carPhoto.setPhotoFile(basePhotoCardId);
+        cardIdPhoto.setPhotoFile(basePhotoCardId);
+
         BindChargerParam.PhotoListFileBean billdPhoto = new BindChargerParam.PhotoListFileBean();
         billdPhoto.setINDEX(3);
         billdPhoto.setPhoto(UUID.randomUUID().toString());
         billdPhoto.setPhotoFile(basePhotoBill);
+
         photoListFile.add(carPhoto);
         photoListFile.add(cardIdPhoto);
         photoListFile.add(billdPhoto);
@@ -163,6 +166,7 @@ public class ChargerBindActivity extends BackTitleActivity {
                     @Override
                     public void onSuccess(BindCharger bean) {
                         //更新充电器列表
+                        EventBus.getDefault().post(new RefleshChargeList());
                         setProgressDialog(false);
                         Intent intent = new Intent();
                         intent.putExtra("chargeId", chargeId);

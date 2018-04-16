@@ -78,7 +78,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
     }
 
 
-    //充电状态（1,0:空闲,01:欠压充电，02：恒流充电，03：恒压充电，04：浮充充电，05：完成充电）
+    //充电状态（1,0:空闲,01:快速充电，02：浮充充电，03：完成充电）
     public int getChargeStatusProgress(int chargeStatus) {
         int result = 0;
         switch (chargeStatus) {
@@ -86,17 +86,13 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 result = 0;
                 break;
             case 1:
-            case 2:
                 result = 1;
                 break;
-            case 3:
+            case 2:
                 result = 2;
                 break;
-            case 4:
+            case 3:
                 result = 3;
-                break;
-            case 5:
-                result = 4;
                 break;
             default:
                 break;
@@ -196,12 +192,13 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                         mSwpChargerInfo.setRefreshing(false);
                         GetChargerHeartPlusByChargerId.ContentBean chargerHeart = bean.getContent();
                         mSuperIndicator.setProgress(getChargeStatusProgress(chargerHeart.getCharge_Status()));
-                        mTvCurrentChargeelEctricity.setText(chargerHeart.getCurrent_Current()+"A");
-                        mTvCurrentChargeVoltage.setText(chargerHeart.getCurrent_Voltage()+"V");
-                        mTvChargerTemperature.setText(chargerHeart.getCharger_Temperature()+"℃");
-                        mTvBatteryTemperature.setText(chargerHeart.getBattery_Temperature()+"℃");
+                        mTvCurrentChargeelEctricity.setText(chargerHeart.getCurrent_Current() + "A");
+                        mTvCurrentChargeVoltage.setText(chargerHeart.getCurrent_Voltage() + "V");
+                        mTvChargerTemperature.setText(chargerHeart.getCharger_Temperature() + "℃");
+                        mTvBatteryTemperature.setText(chargerHeart.getBattery_Temperature() + "℃");
                         String current_electricity = chargerHeart.getCurrent_Electricity();
-                        mProgressPower.setProgress(TextUtils.isEmpty(current_electricity)?0:Integer.valueOf(current_electricity));
+                        mProgressPower.setProgress(TextUtils.isEmpty(current_electricity) ? 0 : Integer.valueOf
+                                (current_electricity));
 //                        mTvLeftCost.setText("预计充满电还需" + chargerHeart.get());
                     }
 
@@ -252,7 +249,7 @@ public class ChargerActivity extends BackTitleActivity implements BackTitleActiv
                 ChargeAlarmActivity.goActivity(ChargerActivity.this, chargerId);
             }
         });
-        mSuperIndicator.setTabs(Arrays.asList("空闲","快速充电", "连续充电", "涓流充电", "完成充电"));
+        mSuperIndicator.setTabs(Arrays.asList("空闲", "快速充电", "浮充充电", "完成充电"));
         mSwpChargerInfo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

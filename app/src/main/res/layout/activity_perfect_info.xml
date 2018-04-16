@@ -69,11 +69,18 @@
             app:met_primaryColor="@color/bg_blue"
             app:met_singleLineEllipsis="true"/>
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:id="@+id/iv_userinfo_sex_arrow"
+                android:layout_width="24dp"
+                android:layout_height="18dp"
+                android:background="@drawable/arrow_down"/>
             <com.tdr.wisdome.view.material.MaterialEditText
+                android:layout_toLeftOf="@id/iv_userinfo_sex_arrow"
                 android:id="@+id/met_userinfo_sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,15 +89,10 @@
                 app:met_primaryColor="@color/bg_blue"
                 app:met_singleLineEllipsis="true"/>
 
-            <ImageView
-                android:id="@+id/iv_userinfo_sex_arrow"
-                android:layout_width="24dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center_vertical|end"
-                android:background="@drawable/arrow_down"/>
 
 
-        </FrameLayout>
+
+        </RelativeLayout>
 
         <com.tdr.wisdome.view.material.MaterialEditText
             android:visibility="gone"
@@ -103,28 +105,30 @@
             app:met_primaryColor="@color/bg_blue"
             app:met_singleLineEllipsis="true"/>
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/iv_addressDetail_arrow"
+                android:layout_width="24dp"
+                android:layout_height="18dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/arrow_down"/>
             <com.tdr.wisdome.view.material.MaterialEditText
+                android:layout_toLeftOf="@id/iv_addressDetail_arrow"
                 android:id="@+id/met_addressArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="所在地区"
+                android:maxLines="2"
                 app:met_floatingLabel="normal"
-                app:met_primaryColor="@color/bg_blue"
-                app:met_singleLineEllipsis="true"/>
-
-            <ImageView
-                android:id="@+id/iv_addressDetail_arrow"
-                android:layout_width="24dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center_vertical|end"
-                android:background="@drawable/arrow_right"/>
+                app:met_primaryColor="@color/bg_blue"/>
 
 
-        </FrameLayout>
+
+
+        </RelativeLayout>
 
 
         <com.tdr.wisdome.view.material.MaterialEditText
