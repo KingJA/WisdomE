@@ -28,6 +28,7 @@ public class DataManager {
     private static final String PHONE = "Phone";
     private static final String RESIDEADDRESS = "Resideaddress";
     private static final String UNITID = "UnitId";
+    private static final String UNITNAME = "UnitName";
     private static final String PROVINCECITYAREA = "provinceCityArea";
 
     private static final String PROVINCE = "PROVINCE";
@@ -86,7 +87,9 @@ public class DataManager {
     public static String getLastUpdateCarBrand() {
         return (String) SpUtils.get(LAST_UPDATE_CAR_BRAND, "1990-01-01 00:00:01");
     }
-
+    public static String getUnitName() {
+        return (String) SpUtils.get(UNITNAME, EMPTY);
+    }
     public static String getAddress() {
         return (String) SpUtils.get(ADDRESS, EMPTY);
     }
@@ -132,6 +135,9 @@ public class DataManager {
 
     public static void putUnitId(String unitId) {
         SpUtils.put(UNITID, unitId);
+    }
+    public static void putUnitName(String unitName) {
+        SpUtils.put(UNITNAME, unitName);
     }
 
     public static void putUserId(String userId) {

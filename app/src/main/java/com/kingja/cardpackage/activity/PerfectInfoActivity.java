@@ -101,7 +101,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
 //            mMetUserinfoAddress.setText(DataManager.getAddress());
             mMetUserinfoBirthday.setText(DataManager.getBirthday());
             mMetAddressDetail.setText(DataManager.getResideaddress());
-            mMetAddressArea.setText(DataManager.getProvinceCityArea());
+            mMetAddressArea.setText(DataManager.getUnitName());
             unitId = DataManager.getUnitId();
         }
     }
@@ -179,8 +179,8 @@ public class PerfectInfoActivity extends BackTitleActivity {
             addressSelector.setDistrictId(DataManager.getUnitId());
         } else if (!TextUtils.isEmpty(DataManager.getCity())) {
             addressSelector.setCityName(DataManager.getCity());
-        }else{
-            addressSelector = new AddressSelector(this,province,city,district);
+        } else {
+            addressSelector = new AddressSelector(this, province, city, district);
         }
         addressSelector.setOnAddressSelectedListener(new AddressSelector.OnAddressSelectedListener() {
             @Override
@@ -191,7 +191,11 @@ public class PerfectInfoActivity extends BackTitleActivity {
                 mMetAddressArea.setText(provinceInfo.getAddressName() + cityInfo.getAddressName() + districtInfo
                         .getAddressName());
                 unitId = districtInfo.getAddressId();
-                unitName = districtInfo.getAddressName();
+                unitName = provinceInfo.getAddressName() + cityInfo.getAddressName() + districtInfo
+                        .getAddressName();
+                if (TextUtils.isEmpty(districtInfo .getAddressId())) {
+                    unitId=cityInfo.getAddressId();
+                }
             }
         });
         addressSelector.show();
@@ -268,7 +272,7 @@ public class PerfectInfoActivity extends BackTitleActivity {
     }
 
     private void save2Local() {
-        DataManager.putProvinceCityArea(addressAres);
+        DataManager.putUnitName(unitName);
         DataManager.putResideaddress(addressDetail);
         DataManager.putUnitId(unitId);
         DataManager.putIdCard(idCard);

@@ -164,7 +164,8 @@ public class LoginReActivity extends BackTitleActivity implements BackTitleActiv
 
 
         DataManager.putResideaddress(Utils.initNullStr(content.getResideaddress()));
-        DataManager.putProvinceCityArea(Utils.initNullStr(content.getUnitName()));
+        DataManager.putUnitId(Utils.initNullStr(content.getUnitId()));
+        DataManager.putUnitName(Utils.initNullStr(content.getUnitName()));
 
         DataManager.putToken(Utils.initNullStr(content.getToken()));
         DataManager.putIdCard(Utils.initNullStr(content.getIDCard()));

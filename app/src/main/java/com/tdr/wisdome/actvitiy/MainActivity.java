@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -104,8 +105,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private LinearLayout ll_personal;
     private LinearLayout ll_city;
     private TextView tv_cityName;
+    private LinearLayout ll_empty;
+    private TextView tv_add_card;
     private boolean neetGetUserCard = true;
     private List<String> cardCodes = new ArrayList<>();
+    private SwipeRefreshLayout sl_main;
+    private LinearLayout ll_eror_net;
+    private TextView tv_reload;
 
 
     @Override
@@ -117,20 +123,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 .setUpdateContent("智慧e点通新版上线啦~")
                 .build()
                 .checkUpdate();
-        Log.e(TAG, "getToken " + TextUtils.isEmpty(DataManager.getToken()));
-        if (!TextUtils.isEmpty(DataManager.getToken())) {
-
-            downFunctionDb();
-        }
-
         copyPoliceDb();
         PermissionUtils.checkPermissionArray(MainActivity.this, permissionArray, PermissionUtils
                 .PERMISSION_REQUEST_CODE);
         EventBus.getDefault().register(this);
         mLocationTask = new LocationTask(getApplicationContext());
         mLocationTask.setOnLocationGetListener(this);
-
-
     }
 
     private void downFunctionDb() {
@@ -176,32 +174,46 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initView() {
+        sl_main = (SwipeRefreshLayout) findViewById(R.id.sl_main);
         ll_personal = (LinearLayout) findViewById(R.id.ll_personal);
         rv = (RecyclerView) findViewById(R.id.rv);
         rl_msg = (RelativeLayout) findViewById(R.id.rl_msg);
         tv_msgCount = (TextView) findViewById(R.id.tv_msgCount);
         ll_city = (LinearLayout) findViewById(R.id.ll_city);
+        ll_empty = (LinearLayout) findViewById(R.id.ll_empty);
+        ll_eror_net = (LinearLayout) findViewById(R.id.ll_eror_net);
+        tv_reload = (TextView) findViewById(R.id.tv_reload);
         tv_cityName = (TextView) findViewById(R.id.tv_cityName);
+        tv_add_card = (TextView) findViewById(R.id.tv_add_card);
         mMainCardAdapter = new MainCardAdapter(this, mCardList);
     }
 
     @Override
     protected void initNet() {
-
-    }
-
-    @Override
-    protected void initData() {
+        if (!TextUtils.isEmpty(DataManager.getToken())) {
+            downFunctionDb();
+        }
         if (TextUtils.isEmpty(DataManager.getCityCode())) {
             mLocationTask.startSingleLocate();
         } else {
             tv_cityName.setText(DataManager.getCityName());
             getUserCard();
-
         }
+    }
+
+    @Override
+    protected void initData() {
         ll_personal.setOnClickListener(this);
         rl_msg.setOnClickListener(this);
         ll_city.setOnClickListener(this);
+        tv_reload.setOnClickListener(this);
+        tv_add_card.setOnClickListener(this);
+        sl_main.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initNet();
+            }
+        });
         mMainCardAdapter.setOnItemClickListener(new BaseRvAdaper.OnItemClickListener<String>() {
             @Override
             public void onItemClick(String cardCode, int position) {
@@ -293,6 +305,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 startActivityForResult(intent, LOCKEY);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 break;
+            case R.id.tv_add_card:
+                GoUtil.goActivity(this, CardManagerActivity.class);
+                break;
+            case R.id.tv_reload:
+               initNet();
+                break;
+            default:
+                break;
         }
     }
 
@@ -343,7 +363,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     neetGetUserCard = true;
                     getUserCard();
                 }
-
+                break;
+            default:
                 break;
         }
     }
@@ -391,10 +412,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void getUserCard() {
-        if (!neetGetUserCard) {
+        ll_empty.setVisibility(View.GONE);
+//        if (!neetGetUserCard) {
 //            ToastUtil.showToast("不需要重新定位");
-            return;
-        }
+//            return;
+//        }
         if (TextUtils.isEmpty(DataManager.getToken())) {
             ToastUtil.showToast("未登录");
             return;
@@ -404,7 +426,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             return;
         }
         neetGetUserCard = false;
-        setProgressDialog(true, "更新卡列表...");
         Map<String, Object> param = new HashMap<>();
         param.put("citycode", DataManager.getCityCode());
         new ThreadPoolTask.Builder()
@@ -413,18 +434,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 .setCallBack(new WebServiceCallBack<GetUserCards>() {
                     @Override
                     public void onSuccess(final GetUserCards bean) {
+                        sl_main.setRefreshing(false);
+                        ll_eror_net.setVisibility(View.GONE);
                         getMsgCount();
                         DataManager.putCardCodes("");
-                        setProgressDialog(false);
                         final List<UserCard> cardlist = bean.getContent().getCardlist();
                         Log.e(TAG, "更新卡列表: " + cardlist.size());
                         if (cardlist.size() > 0) {
+                            ll_empty.setVisibility(View.GONE);
                             ECardXutils3.getInstance().saveDate(cardlist);
                             StringBuffer sb = new StringBuffer();
                             for (UserCard city : cardlist) {
                                 sb.append(city.getCardCode() + "#");
                             }
                             DataManager.putCardCodes(sb.toString());
+                        } else {
+                            ll_empty.setVisibility(View.VISIBLE);
+                            //如果没有卡片
                         }
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -440,7 +466,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
                     @Override
                     public void onErrorResult(ErrorResult errorResult) {
-                        setProgressDialog(false);
+                        sl_main.setRefreshing(false);
+                        ll_eror_net.setVisibility(View.VISIBLE);
                     }
                 }).build().execute();
     }
@@ -512,6 +539,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             case Constants.HANDLER_KEY_GETVERSION_SUCCESS:
                 break;
             case Constants.HANDLER_KEY_GETVERSION_FAIL:
+                break;
+            default:
                 break;
         }
         return false;

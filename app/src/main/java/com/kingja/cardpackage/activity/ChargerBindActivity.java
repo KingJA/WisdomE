@@ -166,13 +166,13 @@ public class ChargerBindActivity extends BackTitleActivity {
                     @Override
                     public void onSuccess(BindCharger bean) {
                         //更新充电器列表
-                        EventBus.getDefault().post(new RefleshChargeList());
                         setProgressDialog(false);
+                        ToastUtil.showToast("绑定成功");
+//                        EventBus.getDefault().post(new RefleshChargeList());
                         Intent intent = new Intent();
                         intent.putExtra("chargeId", chargeId);
                         intent.putExtra("plateNumber", cardNo);
                         setResult(Activity.RESULT_OK, intent);
-                        ToastUtil.showToast("绑定成功");
                         finish();
 
                     }
