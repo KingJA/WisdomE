@@ -1,5 +1,6 @@
 package com.kingja.cardpackage.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.text.ParseException;
@@ -126,9 +127,9 @@ public class TimeUtil {
 
     public static String getDuringTime(String startTime, String endTime) {
         long duringMills = getDuringMills(startTime, endTime);
-        String hours = (duringMills / 1000 / 60 / 60) + "小时";
-        String minites = (duringMills / 1000 / 60) + "分钟";
-        return hours+minites;
+        int hours = (int) (duringMills / 1000 / 60 / 60);
+        int minites = (int) (duringMills / 1000 / 60);
+        return (hours == 0 ? "" : hours + "小时") + minites + "分钟";
     }
 
     public static String get2015Date(long minutes) {
