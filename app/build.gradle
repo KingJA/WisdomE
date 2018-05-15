@@ -110,9 +110,10 @@ def buildApk() {
     android.applicationVariants.all { variant ->
         variant.getPackageApplication().outputScope.apkDatas.forEach { apkData ->
             def versionName = variant.versionName
+            def appName = variant.name
             def buildDate = releaseTime()
             def buildType = variant.buildType.name
-            apkData.outputFileName = rootProject.ext.appName + "_" +versionName + "_" + buildDate + "_" + buildType + ".apk"
+            apkData.outputFileName =appName + "_" +versionName + "_" + buildDate + "_" + buildType + ".apk"
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.kingja.cardpackage.activity;
 
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.kingja.cardpackage.entiy.UnBinding;
 import com.kingja.cardpackage.entiy.UpdateFunctions;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
+import com.kingja.cardpackage.ui.DbProgressDialog;
 import com.kingja.cardpackage.ui.PullToBottomRecyclerView;
 import com.kingja.cardpackage.util.AppUtil;
 import com.kingja.cardpackage.util.DataManager;
@@ -39,18 +41,21 @@ import com.kingja.recyclerviewhelper.LayoutHelper;
 import com.kingja.recyclerviewhelper.RecyclerViewHelper;
 import com.tdr.wisdome.R;
 import com.tdr.wisdome.actvitiy.CarBindingActivity;
+import com.tdr.wisdome.actvitiy.MainActivity;
 import com.tdr.wisdome.view.popupwindow.CarPop;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.tdr.wisdome.R.id.ll_entrustDeploy;
+import static com.tdr.wisdome.R.id.sw_swich;
 
 /**
  * Description：我的车
@@ -59,7 +64,7 @@ import static com.tdr.wisdome.R.id.ll_entrustDeploy;
  * Email:kingjavip@gmail.com
  */
 public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPopClickListener, NewCarAdapter
-        .OnSetDeployListener {
+        .OnSetDeployListener, ECardXutils3.DbProgressListener {
     private CarPop carPop;
     private NewCarAdapter mNewCarAdapter;
     private LinearLayout mLlEmpty;
@@ -75,11 +80,53 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
     private boolean showInvoicealbe;
     private boolean showWeibind;
 
+    public static final int DB_UPDATE_START = 0;
+    public static final int DB_UPDATE_PROGRESS = 1;
+    public static final int DB_UPDATE_END = 2;
+
+    private DbProgressDialog dbProgressDialog;
+
+    @Override
+    public void onProgressStart(final int totleProgress) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e(TAG, "【数据库下载】 开始" );
+                dbProgressDialog = new DbProgressDialog(NewCarActivity.this, totleProgress);
+                dbProgressDialog.show();
+            }
+        });
+    }
+
+    @Override
+    public void onProgressProgress(final int progress) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e(TAG, "【数据库下载】 更新" +progress);
+                dbProgressDialog.setProgress(progress);
+            }
+        });
+    }
+
+    @Override
+    public void onProgressEnd() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e(TAG, "【数据库下载】 结束" );
+                dbProgressDialog.dismiss();
+                checkEntrustDeployAble();
+                getBindCar();
+            }
+        });
+    }
+
+
 
     @Override
     protected void initVariables() {
         Log.e(TAG, "initVariables: ");
-        mZeusManager.checkPermissions(permissionArr, true);
         autoDeployalbe = FunctionUtil.autoDeployalbe();
         showInvoicealbe = FunctionUtil.showInvoicealbe();
         showWeibind = FunctionUtil.showWeibind();
@@ -90,7 +137,7 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
         List<UpdateFunctions> entrustDeploys = ECardXutils3.getInstance().selectAllWheres(UpdateFunctions.class,
                 "CityCode", DataManager.getCityCode(), "ColumnValue", "1");
 
-        if (entrustDeploys!=null&&entrustDeploys.size() > 0) {
+        if (entrustDeploys != null && entrustDeploys.size() > 0) {
             UpdateFunctions function = entrustDeploys.get(0);
             if (function != null && (function.getIsValid() == 1)) {
                 Log.e(TAG, function.getCityName() + "支持委托撤布防 ");
@@ -134,6 +181,7 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
 
     @Override
     protected void initNet() {
+
         setProgressDialog(true, "检测品牌数据更新");
         String updateTime = "1990-01-01 00:00:01";
         if (TextUtils.isEmpty(DataManager.getLastCity()) || !(DataManager.getCityName().equals(DataManager
@@ -152,24 +200,15 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
                 .setCallBack(new WebServiceCallBack<GetCodeList>() {
                     @Override
                     public void onSuccess(final GetCodeList bean) {
+                        setProgressDialog(false);
                         List<KJBikeCode> carInfoList = bean.getContent();
                         Log.e(TAG, "更新车辆品牌数据: " + carInfoList.size());
                         if (carInfoList.size() > 0) {
                             ECardXutils3.getInstance().deleteAll(KJBikeCode.class);
-                            ECardXutils3.getInstance().saveDate(carInfoList);
+                            ECardXutils3.getInstance().saveDate(carInfoList, NewCarActivity.this);
                             DataManager.putLastUpdateCarBrand(TimeUtil.getNowTime());
-                            new Handler().postDelayed(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    checkEntrustDeployAble();
-                                    setProgressDialog(false);
-                                    getBindCar();
-                                }
-                            }, 10000);
                         } else {
                             checkEntrustDeployAble();
-                            setProgressDialog(false);
                             getBindCar();
                         }
                     }

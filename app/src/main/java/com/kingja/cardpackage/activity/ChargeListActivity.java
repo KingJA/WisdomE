@@ -23,6 +23,7 @@ import com.kingja.cardpackage.entiy.KJBikeCode;
 import com.kingja.cardpackage.entiy.RefleshChargeList;
 import com.kingja.cardpackage.net.ThreadPoolTask;
 import com.kingja.cardpackage.net.WebServiceCallBack;
+import com.kingja.cardpackage.ui.DbProgressDialog;
 import com.kingja.cardpackage.util.DataManager;
 import com.kingja.cardpackage.util.DialogUtil;
 import com.kingja.cardpackage.util.GoUtil;
@@ -50,7 +51,7 @@ import java.util.Map;
  * Author:KingJA
  * Email:kingjavip@gmail.com
  */
-public class ChargeListActivity extends BackTitleActivity implements BackTitleActivity.OnMenuClickListener {
+public class ChargeListActivity extends BackTitleActivity implements BackTitleActivity.OnMenuClickListener, ECardXutils3.DbProgressListener {
     private byte RQ_QCODE = 0x01;
     public static byte BIND_DEVICE = 0x02;
     private ListView mLvCharges;
@@ -59,6 +60,43 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
     private LoadService loadService;
     private NormalDialog bingdDialog;
     private NormalDialog unbingdDialog;
+    private DbProgressDialog dbProgressDialog;
+
+    @Override
+    public void onProgressStart(final int totleProgress) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e(TAG, "【数据库下载】 开始" );
+                dbProgressDialog = new DbProgressDialog(ChargeListActivity.this, totleProgress);
+                dbProgressDialog.show();
+            }
+        });
+    }
+
+    @Override
+    public void onProgressProgress(final int progress) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e(TAG, "【数据库下载】 更新" +progress);
+                dbProgressDialog.setProgress(progress);
+            }
+        });
+    }
+
+    @Override
+    public void onProgressEnd() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e(TAG, "【数据库下载】 结束" );
+                dbProgressDialog.dismiss();
+            }
+        });
+    }
+
+
 
     @Override
     protected void initVariables() {
@@ -162,20 +200,13 @@ public class ChargeListActivity extends BackTitleActivity implements BackTitleAc
                 .setCallBack(new WebServiceCallBack<GetCodeList>() {
                     @Override
                     public void onSuccess(final GetCodeList bean) {
+                        setProgressDialog(false);
                         List<KJBikeCode> carInfoList = bean.getContent();
                         Log.e(TAG, "更新车辆品牌数据: " + carInfoList.size());
                         if (carInfoList.size() > 0) {
                             ECardXutils3.getInstance().deleteAll(KJBikeCode.class);
-                            ECardXutils3.getInstance().saveDate(carInfoList);
+                            ECardXutils3.getInstance().saveDate(carInfoList, ChargeListActivity.this);
                             DataManager.putLastUpdateCarBrand(TimeUtil.getNowTime());
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    setProgressDialog(false);
-                                }
-                            }, 10000);
-                        } else {
-                            setProgressDialog(false);
                         }
                     }
 

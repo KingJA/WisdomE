@@ -125,14 +125,10 @@ public class TimeUtil {
     }
 
     public static String getDuringTime(String startTime, String endTime) {
-        String result;
         long duringMills = getDuringMills(startTime, endTime);
-        if (duringMills / 1000 / 60 / 60 > 0) {
-            result = (duringMills / 1000 / 60 / 60) + "小时";
-        } else {
-            result = (duringMills / 1000 / 60) + "分钟";
-        }
-        return result;
+        String hours = (duringMills / 1000 / 60 / 60) + "小时";
+        String minites = (duringMills / 1000 / 60) + "分钟";
+        return hours+minites;
     }
 
     public static String get2015Date(long minutes) {

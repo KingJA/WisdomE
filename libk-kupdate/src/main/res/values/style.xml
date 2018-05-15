@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="CustomAlertDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/shape_lnull_bwhite_r8</item>
         <item name="android:windowNoTitle">true</item>
@@ -24,16 +25,23 @@
     </style>
 
 
-  <style name="font_blue_12">
+    <style name="font_blue_12">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/font_blue</item>
     </style>
+
     <style name="font_blue_30">
         <item name="android:textSize">30sp</item>
         <item name="android:textColor">@color/font_blue</item>
     </style>
+
     <style name="font_blue_14">
         <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/font_blue</item>
+    </style>
+
+    <style name="font_blue_18">
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/font_blue</item>
     </style>
 
@@ -45,7 +53,9 @@
     <style name="font_content_16">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/font_content</item>
-    </style>  <style name="font_content_14">
+    </style>
+
+    <style name="font_content_14">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/font_content</item>
     </style>

@@ -2,10 +2,12 @@ package com.kingja.cardpackage.db;
 
 
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.kingja.cardpackage.activity.NewCarActivity;
 import com.kingja.cardpackage.entiy.City;
 import com.kingja.cardpackage.entiy.ErrorResult;
 import com.kingja.cardpackage.entiy.GetCityList;
@@ -263,5 +265,55 @@ public class ECardXutils3 implements DbDao {
                 }
             }
         });
+    }
+//
+//    public <T> void saveDate(final List<T> list, final Handler handler) {
+//        final Message message = handler.obtainMessage();
+//        message.what = NewCarActivity.DB_UPDATE_START;
+//        message.obj = list.size();
+//        handler.sendMessage(message);
+//        x.task().run(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i = 0; i < list.size(); i++) {
+//                    try {
+//                        dbManager.saveOrUpdate(list.get(i));
+//                        message.what = NewCarActivity.DB_UPDATE_PROGRESS;
+//                        message.obj = i;
+//                        handler.sendMessage(message);
+//                    } catch (DbException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//            }
+//        });
+//        handler.sendEmptyMessage(NewCarActivity.DB_UPDATE_END);
+//    }
+
+    public <T> void saveDate(final List<T> list, final DbProgressListener dbProgressListener ) {
+
+        x.task().run(new Runnable() {
+            @Override
+            public void run() {
+                dbProgressListener.onProgressStart(list.size());
+                for (int i = 0; i < list.size(); i++) {
+                    try {
+                        dbManager.saveOrUpdate(list.get(i));
+                        dbProgressListener.onProgressProgress(i+1);
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                }
+                dbProgressListener.onProgressEnd();
+            }
+        });
+
+    }
+
+   public interface DbProgressListener{
+        void onProgressStart(int totleProgress);
+        void onProgressProgress(int progress);
+        void onProgressEnd();
     }
 }
