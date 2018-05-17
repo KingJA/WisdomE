@@ -113,7 +113,7 @@ def buildApk() {
             def appName = variant.name
             def buildDate = releaseTime()
             def buildType = variant.buildType.name
-            apkData.outputFileName =appName + "_" +versionName + "_" + buildDate + "_" + buildType + ".apk"
+            apkData.outputFileName ="智慧E点通" + "_" +versionName + "_" + buildDate + "_" + buildType + ".apk"
         }
     }
 }

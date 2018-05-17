@@ -173,6 +173,7 @@ public class CarMsgActivity extends BackTitleActivity implements AdapterView.OnI
                 .setCallBack(new WebServiceCallBack<KB_IsRead>() {
                     @Override
                     public void onSuccess(KB_IsRead bean) {
+                        ifRefreshMsgCount=true;
                         mSrl.setRefreshing(false);
                         mCarMsgAdapter.setReadedStatus(position);
                     }
@@ -185,11 +186,15 @@ public class CarMsgActivity extends BackTitleActivity implements AdapterView.OnI
     }
 
 
+    private boolean ifRefreshMsgCount=false;
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().post(new GetMsgCountEvent());
-        EventBus.getDefault().post(new GetCarDataEvent());
+        if (ifRefreshMsgCount) {
+            EventBus.getDefault().post(new GetMsgCountEvent());
+        }
+
+//        EventBus.getDefault().post(new GetCarDataEvent());
     }
 
     public static void goAcivity(Context context, String platenumber) {

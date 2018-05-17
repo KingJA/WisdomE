@@ -18,7 +18,7 @@ import com.tdr.wisdome.view.ZProgressHUD;
  * Email:kingjavip@gmail.com
  */
 public abstract class BaseFragment extends Fragment {
-
+    protected  final String TAG = this.getClass().getSimpleName();
     protected BaseActivity mActivity;
     private ProgressDialog mProgressDialog;
 

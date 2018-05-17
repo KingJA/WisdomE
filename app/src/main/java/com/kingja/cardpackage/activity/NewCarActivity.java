@@ -170,8 +170,6 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
                 .setLayoutStyle(LayoutHelper.LayoutStyle.VERTICAL_LIST)
                 .build()
                 .attachToRecyclerView(mRv);
-
-
     }
 
     @Override
@@ -192,6 +190,7 @@ public class NewCarActivity extends BackTitleActivity implements CarPop.OnCarPop
         } else {
             updateTime = DataManager.getLastUpdateCarBrand();
         }
+
         Map<String, Object> param = new HashMap<>();
         param.put("updatetime", updateTime);
         new ThreadPoolTask.Builder()

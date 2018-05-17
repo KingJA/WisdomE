@@ -3,6 +3,7 @@ package com.kingja.cardpackage.fragment;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -47,6 +48,7 @@ import static android.app.Activity.RESULT_OK;
  */
 public class PreRegisterFragment extends BaseFragment implements PreRegisterActivity.OnSaveClickListener, View
         .OnClickListener {
+
     private LinearLayout mLlCarBrand;
     private TextView mTvCarBrand;
     private LinearLayout mLlCarColor;
@@ -118,7 +120,11 @@ public class PreRegisterFragment extends BaseFragment implements PreRegisterActi
     @Override
     public void initFragmentVariables() {
         colorList = ECardXutils3.getInstance().selectAllWhere(KJBikeCode.class, "type", "4");
+
         cardTypeList = ECardXutils3.getInstance().selectAllWhere(KJBikeCode.class, "type", "6");
+
+        Log.e(TAG, "colorList: "+colorList.size() );
+        Log.e(TAG, "cardTypeList: "+cardTypeList.size() );
     }
 
     @Override
