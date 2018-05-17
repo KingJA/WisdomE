@@ -1,7 +1,5 @@
 package com.kingja.cardpackage.activity;
 
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -41,21 +39,18 @@ import com.kingja.recyclerviewhelper.LayoutHelper;
 import com.kingja.recyclerviewhelper.RecyclerViewHelper;
 import com.tdr.wisdome.R;
 import com.tdr.wisdome.actvitiy.CarBindingActivity;
-import com.tdr.wisdome.actvitiy.MainActivity;
 import com.tdr.wisdome.view.popupwindow.CarPop;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.tdr.wisdome.R.id.ll_entrustDeploy;
-import static com.tdr.wisdome.R.id.sw_swich;
 
 /**
  * Description：我的车
