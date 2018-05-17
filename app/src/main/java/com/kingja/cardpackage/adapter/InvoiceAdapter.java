@@ -44,12 +44,13 @@ public class InvoiceAdapter extends BaseRvAdaper<GetInvoiceInfoList.ContentBean>
         final ViewHolder holder = (ViewHolder) baseHolder;
         holder.tv_plateNumber.setText(bean.getPLATENUMBER());
         holder.tv_invoiceCode.setText("发票代码: " + bean.getFPDM());
-        Log.e(TAG, "url: "+StringUtil.getWholeUrl(bean.getJPG_URL()) );
+        final String realUrl = StringUtil.getWholeUrl(bean.getJPG_URL());
+        Log.e(TAG, "realUrl: "+realUrl );
         holder.ll_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                DetailInvoiceActivity.goActivity(context,StringUtil.getWholeUrl( bean.getJPG_URL()));
+                DetailInvoiceActivity.goActivity(context,realUrl);
             }
         });
     }

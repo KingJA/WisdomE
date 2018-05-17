@@ -3,8 +3,12 @@ package com.kingja.cardpackage.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.http.SslError;
+import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.webkit.DownloadListener;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -51,14 +55,12 @@ public class DetailInvoiceActivity extends BackTitleActivity {
     protected void initData() {
         WebSettings settings = mWebview.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setBlockNetworkImage(false);//解决图片加载不出来的问题
         settings.setAppCacheEnabled(false);
-        mWebview.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
+        settings.setDomStorageEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         mWebview.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -66,6 +68,24 @@ public class DetailInvoiceActivity extends BackTitleActivity {
                 mProgress.setVisibility(newProgress == 100 ? View.GONE : View.VISIBLE);
             }
         });
+
+
+        mWebview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                Log.e(TAG, "shouldOverrideUrlLoading: "+url );
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
+                Log.e(TAG, "onReceivedSslError: " );
+                handler.proceed(); // 接受网站证书
+            }
+        });
+
         mWebview.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype,
@@ -74,7 +94,10 @@ public class DetailInvoiceActivity extends BackTitleActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }
-        });
+        }
+
+        );
+        Log.e(TAG, "显示url: " + url);
         mWebview.loadUrl(url);
     }
 

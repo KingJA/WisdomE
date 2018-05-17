@@ -42,7 +42,7 @@ public class StringUtil {
     public static String getWholeUrl(String url) {
         String result = url;
         if (!TextUtils.isEmpty(url)&&!url.startsWith("http")) {
-            result = "http://" + url;
+            result = "https://" + url;
         }
         return result;
     }
