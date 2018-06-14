@@ -221,38 +221,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     showDialogAndGoActivity("请先登录账号", LoginActivity.class);
                     return;
                 }
-                if (TextUtils.isEmpty(DataManager.getIdCard())) {
-                    ToastUtil.showToast("请先完善用户资料");
-                    GoUtil.goActivity(MainActivity.this, PerfectInfoActivity.class);
-                    return;
-                }
+
                 switch (cardCode) {
                     case "1003"://我的车
                         GoUtil.goActivity(MainActivity.this, NewCarActivity.class);
                         break;
                     case "1005"://亲情关爱
-                        GoUtil.goActivity(MainActivity.this, MainCareActivity.class);
+                        if (checkIdCard()) {
+                            GoUtil.goActivity(MainActivity.this, MainCareActivity.class);
+                        }
                         break;
                     case "1006"://服务商城
                         ToastUtil.showToast("当前地区暂未开通此项服务");
                         break;
                     case "1001"://我的住房
-                        GoUtil.goActivity(MainActivity.this, HouseActivity.class);
+                        if (checkIdCard()) {
+                            GoUtil.goActivity(MainActivity.this, HouseActivity.class);
+                        }
                         break;
                     case "1002"://我家出租房
-                        GoUtil.goActivity(MainActivity.this, RentActivity.class);
+                        if (checkIdCard()) {
+                            GoUtil.goActivity(MainActivity.this, RentActivity.class);
+                        }
                         break;
                     case "1004"://我的店
-                        GoUtil.goActivity(MainActivity.this, ShopActivity.class);
+                        if (checkIdCard()) {
+                            GoUtil.goActivity(MainActivity.this, ShopActivity.class);
+                        }
                         break;
                     case "1007"://出租房代管
-                        GoUtil.goActivity(MainActivity.this, AgentActivity.class);
+                        if (checkIdCard()) {
+                            GoUtil.goActivity(MainActivity.this, AgentActivity.class);
+                        }
                         break;
                     case "1008"://出租房中介
-                        GoUtil.goActivity(MainActivity.this, IntermediaryActivity.class);
+                        if (checkIdCard()) {
+                            GoUtil.goActivity(MainActivity.this, IntermediaryActivity.class);
+                        }
                         break;
                     case "1009"://NFC门禁
-                        GoUtil.goActivity(MainActivity.this, NfcRoomActivity.class);
+                        if (checkIdCard()) {
+                            GoUtil.goActivity(MainActivity.this, NfcRoomActivity.class);
+                        }
                         break;
                     case "1010"://充电器
                         if (!TextUtils.isEmpty(DataManager.getUnitId())) {
@@ -267,6 +277,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 }
             }
         });
+    }
+
+    private boolean checkIdCard() {
+        if (TextUtils.isEmpty(DataManager.getIdCard())) {
+            ToastUtil.showToast("请先完善用户资料");
+            GoUtil.goActivity(MainActivity.this, PerfectInfoActivity.class);
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -309,7 +329,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 GoUtil.goActivity(this, CardManagerActivity.class);
                 break;
             case R.id.tv_reload:
-               initNet();
+                initNet();
                 break;
             default:
                 break;

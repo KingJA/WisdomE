@@ -16,6 +16,9 @@ public class SpUtils {
      * @param object
      */
     public static void put(String key, Object object) {
+        if (object == null) {
+            return;
+        }
 
         String type = object.getClass().getSimpleName();
         SharedPreferences.Editor editor = sharedPreferences.edit();
